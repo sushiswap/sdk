@@ -306,7 +306,12 @@ export class ConstantProductPool {
 
     if (JSBI.equal(totalSupply.quotient, ZERO)) {
       liquidity = JSBI.subtract(
-        sqrt(JSBI.multiply(tokenAmounts[0].quotient, tokenAmounts[1].quotient)),
+        sqrt(
+          JSBI.multiply(
+            JSBI.subtract(tokenAmounts[0].quotient, fee0),
+            JSBI.subtract(tokenAmounts[1].quotient, fee1)
+          )
+        ),
         MINIMUM_LIQUIDITY
       );
     } else {
