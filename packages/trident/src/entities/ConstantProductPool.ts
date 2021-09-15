@@ -26,6 +26,8 @@ export class ConstantProductPool {
   public readonly twap: boolean;
   private readonly tokenAmounts: [CurrencyAmount<Token>, CurrencyAmount<Token>];
 
+  private readonly MAX_FEE = 10000;
+
   public static getAddress(
     tokenA: Token,
     tokenB: Token,
@@ -223,6 +225,49 @@ export class ConstantProductPool {
     ];
   }
 
+  private getNonOptimalMintFee(
+    amount0: JSBI,
+    amount1: JSBI,
+    reserve0: JSBI,
+    reserve1: JSBI
+  ): [JSBI, JSBI] {
+    if (JSBI.equal(reserve0, ZERO) || JSBI.equal(reserve1, ZERO)) {
+      return [ZERO, ZERO];
+    }
+    const amount1Optimal = JSBI.divide(
+      JSBI.multiply(amount0, reserve1),
+      reserve0
+    );
+
+    if (JSBI.lessThanOrEqual(amount1Optimal, amount1)) {
+      return [
+        ZERO,
+        JSBI.divide(
+          JSBI.multiply(
+            JSBI.BigInt(this.fee),
+            JSBI.subtract(amount1, amount1Optimal)
+          ),
+          JSBI.multiply(JSBI.BigInt(2), JSBI.BigInt(10000))
+        ),
+      ];
+    } else {
+      const amount0Optimal = JSBI.divide(
+        JSBI.multiply(amount1, reserve0),
+        reserve1
+      );
+      return [
+        JSBI.divide(
+          JSBI.multiply(
+            JSBI.BigInt(this.fee),
+            JSBI.subtract(amount0, amount0Optimal)
+          ),
+          JSBI.multiply(JSBI.BigInt(2), JSBI.BigInt(10000))
+        ),
+        ZERO,
+      ];
+    }
+  }
+
   public getLiquidityMinted(
     totalSupply: CurrencyAmount<Token>,
     tokenAmountA: CurrencyAmount<Token>,
@@ -240,22 +285,45 @@ export class ConstantProductPool {
       "TOKEN"
     );
 
+    const amount0 = JSBI.divide(
+      JSBI.multiply(tokenAmounts[0].quotient, totalSupply.quotient),
+      this.reserve0.quotient
+    );
+
+    const amount1 = JSBI.divide(
+      JSBI.multiply(tokenAmounts[1].quotient, totalSupply.quotient),
+      this.reserve1.quotient
+    );
+
+    const [fee0, fee1] = this.getNonOptimalMintFee(
+      amount0,
+      amount1,
+      this.reserve0.quotient,
+      this.reserve1.quotient
+    );
+
+    const computed = sqrt(
+      JSBI.multiply(
+        JSBI.subtract(this.tokenAmounts[0].quotient, fee0),
+        JSBI.subtract(this.tokenAmounts[1].quotient, fee1)
+      )
+    );
+
     let liquidity: JSBI;
+
     if (JSBI.equal(totalSupply.quotient, ZERO)) {
       liquidity = JSBI.subtract(
         sqrt(JSBI.multiply(tokenAmounts[0].quotient, tokenAmounts[1].quotient)),
         MINIMUM_LIQUIDITY
       );
     } else {
-      const amount0 = JSBI.divide(
-        JSBI.multiply(tokenAmounts[0].quotient, totalSupply.quotient),
-        this.reserve0.quotient
+      const k = sqrt(
+        JSBI.multiply(this.reserve0.quotient, this.reserve1.quotient)
       );
-      const amount1 = JSBI.divide(
-        JSBI.multiply(tokenAmounts[1].quotient, totalSupply.quotient),
-        this.reserve1.quotient
+      liquidity = JSBI.divide(
+        JSBI.multiply(JSBI.subtract(computed, k), totalSupply.quotient),
+        k
       );
-      liquidity = JSBI.lessThanOrEqual(amount0, amount1) ? amount0 : amount1;
     }
     if (!JSBI.greaterThan(liquidity, ZERO)) {
       throw new InsufficientInputAmountError();
