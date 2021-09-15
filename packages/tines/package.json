@@ -1,0 +1,31 @@
+{
+  "name": "@sushiswap/tines",
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "module": "dist/tines.esm.js",
+  "repository": {
+    "url": "sushiswap/sdk",
+    "directory": "packages/tines"
+  },
+  "scripts": {
+    "lint": "tsdx lint src test",
+    "build": "tsdx build",
+    "watch": "tsdx watch",
+    "test": "tsdx test",
+    "prepublishOnly": "tsdx build"
+  },
+  "peerDependencies": {
+    "@ethersproject/bignumber": "^5.4.1"
+  },
+  "devDependencies": {
+    "@ethersproject/bignumber": "^5.4.1",
+    "@types/seedrandom": "^3.0.1",
+    "seedrandom": "^3.0.5",
+    "tsdx": "^0.14.1"
+  }
+}
