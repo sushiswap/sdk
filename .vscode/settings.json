@@ -1,7 +1,4 @@
 {
-    "eslint.validate": [
-      "javascript",
-      "typescript"
-    ],
-    "debug.javascript.unmapMissingSources": true
+  "eslint.validate": ["javascript", "typescript"],
+  "debug.javascript.unmapMissingSources": true
 }
