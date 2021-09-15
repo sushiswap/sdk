@@ -1,4 +1,5 @@
-import { ChainId } from "../enums";
+import { ChainId, ChainKey } from "../enums";
+
 import JSBI from "jsbi";
 
 export * from "./addresses";
@@ -8,6 +9,10 @@ export * from "./numbers";
 export * from "./tokens";
 
 // export const INIT_CODE_HASH: string = '0xe18a34eb0e04b04f7a0ac29a6e80748dca96319b42c54d679cb821dca90c6303'
+
+export const CHAIN_KEY: { [chainId: number]: ChainKey } = {
+  [ChainId.KOVAN]: ChainKey.KOVAN,
+};
 
 export const INIT_CODE_HASH: { [chainId: number]: string } = {
   [ChainId.MAINNET]:
