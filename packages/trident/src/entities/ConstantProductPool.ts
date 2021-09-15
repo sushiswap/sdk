@@ -302,13 +302,6 @@ export class ConstantProductPool {
       this.reserve1.quotient
     );
 
-    const computed = sqrt(
-      JSBI.multiply(
-        JSBI.subtract(this.tokenAmounts[0].quotient, fee0),
-        JSBI.subtract(this.tokenAmounts[1].quotient, fee1)
-      )
-    );
-
     let liquidity: JSBI;
 
     if (JSBI.equal(totalSupply.quotient, ZERO)) {
@@ -321,7 +314,18 @@ export class ConstantProductPool {
         JSBI.multiply(this.reserve0.quotient, this.reserve1.quotient)
       );
       liquidity = JSBI.divide(
-        JSBI.multiply(JSBI.subtract(computed, k), totalSupply.quotient),
+        JSBI.multiply(
+          JSBI.subtract(
+            sqrt(
+              JSBI.multiply(
+                JSBI.subtract(this.tokenAmounts[0].quotient, fee0),
+                JSBI.subtract(this.tokenAmounts[1].quotient, fee1)
+              )
+            ),
+            k
+          ),
+          totalSupply.quotient
+        ),
         k
       );
     }
