@@ -9,16 +9,41 @@ import {
 } from "./MultiRouterTypes";
 
 import { BigNumber } from "@ethersproject/bignumber";
-import { computeHybridLiquidity } from "./functions/computeHybridLiquidity";
 
 const A_PRECISION = 100;
 
 const DCacheBN = new Map<Pool, BigNumber>();
-
 export function HybridComputeLiquidity(pool: RHybridPool): BigNumber {
   const res = DCacheBN.get(pool);
   if (res !== undefined) return res;
-  const D = computeHybridLiquidity(pool.reserve0, pool.reserve1, pool.A);
+
+  const r0 = pool.reserve0;
+  const r1 = pool.reserve1;
+
+  if (r0.isZero() && r1.isZero()) {
+    DCacheBN.set(pool, BigNumber.from(0));
+    return BigNumber.from(0);
+  }
+  const s = r0.add(r1);
+
+  const nA = BigNumber.from(pool.A * 2);
+
+  let prevD;
+
+  let D = s;
+  for (let i = 0; i < 256; i++) {
+    const dP = D.mul(D).div(r0).mul(D).div(r1).div(4);
+    prevD = D;
+    D = nA
+      .mul(s)
+      .div(A_PRECISION)
+      .add(dP.mul(2))
+      .mul(D)
+      .div(nA.div(A_PRECISION).sub(1).mul(D).add(dP.mul(3)));
+    if (D.sub(prevD).abs().lte(1)) {
+      break;
+    }
+  }
   DCacheBN.set(pool, D);
   return D;
 }
