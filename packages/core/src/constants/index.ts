@@ -3,7 +3,6 @@ import { ChainId, ChainKey } from "../enums";
 import JSBI from "jsbi";
 
 export * from "./addresses";
-export * from "./kashi";
 export * from "./natives";
 export * from "./numbers";
 export * from "./tokens";

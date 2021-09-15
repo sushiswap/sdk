@@ -9,5 +9,4 @@ export * from "./entities";
 export * from "./functions";
 export * from "./router";
 export * from "./enums";
-export * from "./router";
 export * from "./types";
