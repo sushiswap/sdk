@@ -59,3 +59,5 @@ export const FACTOR_PRECISION = BigNumber.from('1000000000000000000')
 export const PROTOCOL_FEE = BigNumber.from('10000') // 10%
 
 export const PROTOCOL_FEE_DIVISOR = BigNumber.from('100000')
+
+export * from './numbers'
