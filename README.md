@@ -19,12 +19,6 @@ yarn workspace @sushiswap/core-sdk test
 yarn workspace @sushiswap/core-sdk build
 ```
 
-### Link
-
-```sh 
-yarn workspace @sushiswap/core-sdk link
-```
-
 ## Limit Order SDK
 
 ### Testing
@@ -39,12 +33,6 @@ yarn workspace @sushiswap/limit-order-sdk test
 yarn workspace @sushiswap/limit-order-sdk build
 ```
 
-### Link
-
-```sh 
-yarn workspace @sushiswap/limit-order-sdk link
-```
-
 ## Trident SDK
 
 ### Testing
@@ -57,12 +45,6 @@ yarn workspace @sushiswap/trident-sdk test
 
 ```sh 
 yarn workspace @sushiswap/trident-sdk build
-```
-
-### Link
-
-```sh 
-yarn workspace @sushiswap/trident-sdk link
 ```
 
 ## Tines SDK
