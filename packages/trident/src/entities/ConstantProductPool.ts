@@ -305,8 +305,8 @@ export class ConstantProductPool {
     let liquidity: JSBI;
 
     const computed = JSBI.multiply(
-      JSBI.subtract(tokenAmounts[0].quotient, fee0),
-      JSBI.subtract(tokenAmounts[1].quotient, fee1)
+      JSBI.subtract(amount0, fee0),
+      JSBI.subtract(amount0, fee1)
     );
 
     if (JSBI.equal(totalSupply.quotient, ZERO)) {
