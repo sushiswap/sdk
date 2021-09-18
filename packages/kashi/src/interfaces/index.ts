@@ -1,2 +1,2 @@
 export { AccrueInfo } from './AccrueInfo'
-export * from './KashiPermit'
+export { KashiPermit } from './KashiPermit'

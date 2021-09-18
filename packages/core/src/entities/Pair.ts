@@ -8,7 +8,7 @@ import { Price } from './Price'
 import { Token } from './Token'
 import { computePairAddress } from '../functions/computePairAddress'
 import invariant from 'tiny-invariant'
-import { sqrt } from '../functions/sqrt'
+import { sqrt } from '../functions/math'
 
 export class Pair {
   public readonly liquidityToken: Token

@@ -1,6 +1,6 @@
 {
   "extends": "../../config/tsconfig.json",
-  "include": ["src", "../kashi/src/constants/constants.ts", "../kashi/src/functions/kashi.ts", "../bentobox/src/functions/bentobox.ts", "../kashi/src/KashiAction.ts"],
+  "include": ["src"],
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": "src"
