@@ -5,7 +5,7 @@ import { defaultAbiCoder } from '@ethersproject/abi'
 export const computePoolInitCodeHash = ({
   creationCode,
   deployData,
-  masterDeployerAddress
+  masterDeployerAddress,
 }: {
   creationCode: string
   deployData: string
@@ -17,6 +17,6 @@ export const computePoolInitCodeHash = ({
       pack(
         ['bytes', 'bytes'],
         [creationCode, defaultAbiCoder.encode(['bytes', 'address'], [deployData, masterDeployerAddress])]
-      )
+      ),
     ]
   )

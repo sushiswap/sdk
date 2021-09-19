@@ -1,3 +1,3 @@
-export * from "./MultiRouter";
-export * from "./MultiRouterMath";
-export * from "./MultiRouterTypes";
+export * from './MultiRouter'
+export * from './MultiRouterMath'
+export * from './MultiRouterTypes'

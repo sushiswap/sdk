@@ -1,3 +1,3 @@
 export enum ChainKey {
-  KOVAN = "kovan",
+  KOVAN = 'kovan',
 }

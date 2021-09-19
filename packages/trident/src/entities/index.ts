@@ -1,1 +1,1 @@
-export * from "./ConstantProductPool";
+export * from './ConstantProductPool'
