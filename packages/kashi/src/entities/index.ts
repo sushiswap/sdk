@@ -1,6 +1,6 @@
 import JSBI from 'jsbi'
 
-import { maximum, minimum } from '@sushiswap/core-sdk'
+import { maximum, minimum, toElastic, ZERO } from '@sushiswap/core-sdk'
 import { BentoToken, toAmount, toShare } from '@sushiswap/bentobox-sdk'
 
 import { AccrueInfo } from '../interfaces'
@@ -117,7 +117,11 @@ export class KashiMediumRiskLendingPair {
    */
   public get maxAssetAvailable(): JSBI {
     return minimum(
-      JSBI.divide(JSBI.multiply(this.totalAsset.elastic, this.currentAllAssets), this.currentAllAssetShares)
+      JSBI.divide(JSBI.multiply(this.totalAsset.elastic, this.currentAllAssets), this.currentAllAssetShares),
+      toAmount(
+        this.asset,
+        toElastic(this.currentTotalAsset, JSBI.subtract(this.totalAsset.base, JSBI.BigInt(1000)), false)
+      )
     )
   }
 
@@ -183,6 +187,7 @@ export class KashiMediumRiskLendingPair {
    * The user's amount borrowed right now
    */
   public get currentUserBorrowAmount(): JSBI {
+    if (JSBI.equal(this.userBorrowPart, ZERO)) return ZERO
     return JSBI.divide(JSBI.multiply(this.userBorrowPart, this.currentBorrowAmount), this.totalBorrow.base)
   }
 
