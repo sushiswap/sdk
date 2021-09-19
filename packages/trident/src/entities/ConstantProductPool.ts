@@ -3,9 +3,7 @@ import {
   ChainKey,
   CurrencyAmount,
   InsufficientInputAmountError,
-  InsufficientReservesError,
   MINIMUM_LIQUIDITY,
-  ONE,
   Price,
   Token,
   ZERO,
@@ -39,7 +37,7 @@ export class ConstantProductPool {
   public constructor(
     currencyAmountA: CurrencyAmount<Token>,
     currencyAmountB: CurrencyAmount<Token>,
-    fee: Fee = 25,
+    fee: Fee = Fee.DEFAULT,
     twap: boolean = true
   ) {
     const currencyAmounts = currencyAmountA.currency.sortsBefore(currencyAmountB.currency) // does safety checks
@@ -113,59 +111,16 @@ export class ConstantProductPool {
     return this.tokenAmounts[1]
   }
 
+  public get kLast(): JSBI {
+    return sqrt(this.reserve0.multiply(this.reserve1).quotient)
+  }
+
   public reserveOf(token: Token): CurrencyAmount<Token> {
     invariant(this.involvesToken(token), 'TOKEN')
     return token.equals(this.token0) ? this.reserve0 : this.reserve1
   }
 
-  public getOutputAmount(inputAmount: CurrencyAmount<Token>): [CurrencyAmount<Token>, ConstantProductPool] {
-    invariant(this.involvesToken(inputAmount.currency), 'TOKEN')
-    if (JSBI.equal(this.reserve0.quotient, ZERO) || JSBI.equal(this.reserve1.quotient, ZERO)) {
-      throw new InsufficientReservesError()
-    }
-    const inputReserve = this.reserveOf(inputAmount.currency)
-    const outputReserve = this.reserveOf(inputAmount.currency.equals(this.token0) ? this.token1 : this.token0)
-    const inputAmountWithFee = JSBI.multiply(inputAmount.quotient, _997)
-    const numerator = JSBI.multiply(inputAmountWithFee, outputReserve.quotient)
-    const denominator = JSBI.add(JSBI.multiply(inputReserve.quotient, _1000), inputAmountWithFee)
-    const outputAmount = CurrencyAmount.fromRawAmount(
-      inputAmount.currency.equals(this.token0) ? this.token1 : this.token0,
-      JSBI.divide(numerator, denominator)
-    )
-    if (JSBI.equal(outputAmount.quotient, ZERO)) {
-      throw new InsufficientInputAmountError()
-    }
-    return [outputAmount, new ConstantProductPool(inputReserve.add(inputAmount), outputReserve.subtract(outputAmount))]
-  }
-
-  public getInputAmount(outputAmount: CurrencyAmount<Token>): [CurrencyAmount<Token>, ConstantProductPool] {
-    invariant(this.involvesToken(outputAmount.currency), 'TOKEN')
-    if (
-      JSBI.equal(this.reserve0.quotient, ZERO) ||
-      JSBI.equal(this.reserve1.quotient, ZERO) ||
-      JSBI.greaterThanOrEqual(outputAmount.quotient, this.reserveOf(outputAmount.currency).quotient)
-    ) {
-      throw new InsufficientReservesError()
-    }
-
-    const outputReserve = this.reserveOf(outputAmount.currency)
-    const inputReserve = this.reserveOf(outputAmount.currency.equals(this.token0) ? this.token1 : this.token0)
-    const numerator = JSBI.multiply(JSBI.multiply(inputReserve.quotient, outputAmount.quotient), _1000)
-    const denominator = JSBI.multiply(
-      JSBI.subtract(outputReserve.quotient, outputAmount.quotient),
-      _997 // 3%
-    )
-    const inputAmount = CurrencyAmount.fromRawAmount(
-      outputAmount.currency.equals(this.token0) ? this.token1 : this.token0,
-      JSBI.add(JSBI.divide(numerator, denominator), ONE)
-    )
-    return [
-      inputAmount,
-      new ConstantProductPool(inputReserve.add(inputAmount), outputReserve.subtract(outputAmount), this.fee, this.twap),
-    ]
-  }
-
-  private getNonOptimalMintFee(amount0: JSBI, amount1: JSBI, reserve0: JSBI, reserve1: JSBI): [JSBI, JSBI] {
+  public getNonOptimalMintFee(amount0: JSBI, amount1: JSBI, reserve0: JSBI, reserve1: JSBI): [JSBI, JSBI] {
     if (JSBI.equal(reserve0, ZERO) || JSBI.equal(reserve1, ZERO)) {
       return [ZERO, ZERO]
     }
@@ -191,6 +146,33 @@ export class ConstantProductPool {
     }
   }
 
+  public getMintFee(reserve0: JSBI, reserve1: JSBI, totalSupply: JSBI): JSBI {
+    if (JSBI.notEqual(this.kLast, ZERO)) {
+      const computed = sqrt(JSBI.multiply(reserve0, reserve1))
+      if (JSBI.greaterThan(computed, this.kLast)) {
+        const liquidity = JSBI.divide(
+          JSBI.divide(
+            JSBI.multiply(JSBI.multiply(totalSupply, JSBI.subtract(computed, this.kLast)), JSBI.BigInt(5)),
+            computed
+          ),
+          JSBI.BigInt(10000)
+        )
+
+        console.log({
+          kLast: this.kLast.toString(),
+          computed: computed.toString(),
+          liquidity: liquidity.toString(),
+        })
+
+        if (JSBI.notEqual(liquidity, ZERO)) {
+          return liquidity
+        }
+      }
+    }
+
+    return ZERO
+  }
+
   public getLiquidityMinted(
     totalSupply: CurrencyAmount<Token>,
     tokenAmountA: CurrencyAmount<Token>,
@@ -204,46 +186,52 @@ export class ConstantProductPool {
 
     let liquidity: JSBI
 
+    // Expected balances after minting
+    const balance0 = JSBI.add(tokenAmounts[0].quotient, this.reserve0.quotient)
+    const balance1 = JSBI.add(tokenAmounts[1].quotient, this.reserve1.quotient)
+
+    const [fee0, fee1] = this.getNonOptimalMintFee(
+      tokenAmounts[0].quotient,
+      tokenAmounts[1].quotient,
+      this.reserve0.quotient,
+      this.reserve1.quotient
+    )
+
+    const computed = sqrt(JSBI.multiply(JSBI.subtract(balance0, fee0), JSBI.subtract(balance1, fee1)))
+
     if (JSBI.equal(totalSupply.quotient, ZERO)) {
-      liquidity = JSBI.subtract(
-        sqrt(JSBI.multiply(tokenAmounts[0].quotient, tokenAmounts[1].quotient)),
-        MINIMUM_LIQUIDITY
-      )
+      liquidity = JSBI.subtract(computed, MINIMUM_LIQUIDITY)
     } else {
-      const [fee0, fee1] = this.getNonOptimalMintFee(
-        tokenAmounts[0].quotient,
-        tokenAmounts[1].quotient,
-        this.reserve0.quotient,
-        this.reserve1.quotient
-      )
-
-      const computed = sqrt(
-        JSBI.multiply(
-          JSBI.subtract(JSBI.add(this.tokenAmounts[0].quotient, tokenAmounts[0].quotient), fee0),
-          JSBI.subtract(JSBI.add(this.tokenAmounts[1].quotient, tokenAmounts[1].quotient), fee1)
-        )
-      )
-
       const k = sqrt(JSBI.multiply(this.reserve0.quotient, this.reserve1.quotient))
 
-      // console.log({
-      //   totalSupply: totalSupply.quotient.toString(),
-      //   computed: computed.toString(),
-      //   reserve0: this.reserve0.quotient.toString(),
-      //   reserve1: this.reserve1.quotient.toString(),
-      //   token0Amount: tokenAmounts[0].quotient.toString(),
-      //   token1Amount: tokenAmounts[1].quotient.toString(),
-      //   tokenAmounts0: this.tokenAmounts[0].quotient.toString(),
-      //   tokenAmounts1: this.tokenAmounts[1].quotient.toString(),
-      //   fee0: fee0.toString(),
-      //   fee1: fee0.toString(),
-      //   k: k.toString(),
-      // })
+      const mintFee = this.getMintFee(this.reserve0.quotient, this.reserve1.quotient, totalSupply.quotient)
 
-      liquidity = JSBI.divide(JSBI.multiply(JSBI.subtract(computed, k), totalSupply.quotient), k)
+      liquidity = JSBI.divide(JSBI.multiply(JSBI.subtract(computed, k), JSBI.add(totalSupply.quotient, mintFee)), k)
+
+      console.log({
+        mintFee: mintFee.toString(),
+        totalSupply: totalSupply.quotient.toString(),
+        newTotalSupply: JSBI.add(
+          totalSupply.quotient,
+          this.getMintFee(this.reserve0.quotient, this.reserve1.quotient, totalSupply.quotient)
+        ).toString(),
+        computed: computed.toString(),
+        token0Amount: tokenAmounts[0].quotient.toString(),
+        token1Amount: tokenAmounts[1].quotient.toString(),
+        reserve0: this.reserve0.quotient.toString(),
+        reserve1: this.reserve1.quotient.toString(),
+        balance0: balance0.toString(),
+        balance1: balance1.toString(),
+        fee0: fee0.toString(),
+        fee1: fee0.toString(),
+        kLast: this.kLast.toString(),
+        k: k.toString(),
+        kNext: sqrt(JSBI.multiply(balance0, balance1)).toString(),
+        liquidity: liquidity.toString(),
+      })
     }
+
     if (!JSBI.greaterThan(liquidity, ZERO)) {
-      console.log({ liquidity: liquidity.toString() })
       throw new InsufficientInputAmountError()
     }
     return CurrencyAmount.fromRawAmount(this.liquidityToken, liquidity)
