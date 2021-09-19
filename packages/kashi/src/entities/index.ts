@@ -3,8 +3,8 @@ import JSBI from 'jsbi'
 import { maximum, minimum } from '@sushiswap/core-sdk'
 import { BentoToken, toAmount, toShare } from '@sushiswap/bentobox-sdk'
 
-import { AccrueInfo } from 'src/interfaces'
-import { accrue, accrueTotalAssetWithFee, interestAccrue, takeFee } from 'src/functions'
+import { AccrueInfo } from '../interfaces'
+import { accrue, accrueTotalAssetWithFee, interestAccrue, takeFee } from '../functions'
 
 export class KashiMediumRiskLendingPair {
   public readonly accrueInfo: AccrueInfo
@@ -16,6 +16,9 @@ export class KashiMediumRiskLendingPair {
   public readonly exchangeRate: JSBI
   public readonly oracleExchangeRate: JSBI
   public readonly spotExchangeRate: JSBI
+  public readonly userCollateralShare: JSBI
+  public readonly userAssetFraction: JSBI
+  public readonly userBorrowPart: JSBI
 
   public constructor(
     accrueInfo: AccrueInfo,
@@ -26,7 +29,10 @@ export class KashiMediumRiskLendingPair {
     totalBorrow: BentoToken,
     exchangeRate: JSBI,
     oracleExchangeRate: JSBI,
-    spotExchangeRate: JSBI
+    spotExchangeRate: JSBI,
+    userCollateralShare: JSBI,
+    userAssetFraction: JSBI,
+    userBorrowPart: JSBI
   ) {
     this.accrueInfo = accrueInfo
     this.collateral = collateral
@@ -37,6 +43,9 @@ export class KashiMediumRiskLendingPair {
     this.exchangeRate = exchangeRate
     this.oracleExchangeRate = oracleExchangeRate
     this.spotExchangeRate = spotExchangeRate
+    this.userCollateralShare = userCollateralShare
+    this.userAssetFraction = userAssetFraction
+    this.userBorrowPart = userBorrowPart
   }
 
   /**
@@ -154,5 +163,81 @@ export class KashiMediumRiskLendingPair {
    */
   public get currentSupplyAPR(): JSBI {
     return takeFee(JSBI.divide(JSBI.multiply(this.currentInterestPerYear, this.utilization), JSBI.BigInt(1e18)))
+  }
+
+  /**
+   * The user's amount of collateral (stable, doesn't accrue)
+   */
+  public get userCollateralAmount(): JSBI {
+    return toAmount(this.collateral, this.userCollateralShare)
+  }
+
+  /**
+   * The user's amount of assets (stable, doesn't accrue)
+   */
+  public get currentUserAssetAmount(): JSBI {
+    return JSBI.divide(JSBI.multiply(this.userAssetFraction, this.currentAllAssets), this.totalAsset.base)
+  }
+
+  /**
+   * The user's amount borrowed right now
+   */
+  public get currentUserBorrowAmount(): JSBI {
+    return JSBI.divide(JSBI.multiply(this.userBorrowPart, this.currentBorrowAmount), this.totalBorrow.base)
+  }
+
+  /**
+   * The user's amount of assets that are currently lent
+   */
+  public get currentUserLentAmount(): JSBI {
+    return JSBI.divide(JSBI.multiply(this.userAssetFraction, this.currentBorrowAmount), this.totalAsset.base)
+  }
+
+  /**
+   * Value of protocol fees
+   */
+  public get feesEarned(): JSBI {
+    return JSBI.divide(JSBI.multiply(this.accrueInfo.feesEarnedFraction, this.currentAllAssets), this.totalAsset.base)
+  }
+
+  /**
+   * The user's maximum borrowable amount based on the collateral provided, using all three oracle values
+   */
+  public get maxBorrowable() {
+    const max = {
+      oracle: JSBI.divide(
+        JSBI.multiply(this.userCollateralAmount, JSBI.multiply(JSBI.BigInt(1e16), JSBI.BigInt(75))),
+        this.oracleExchangeRate
+      ),
+      spot: JSBI.divide(
+        JSBI.multiply(this.userCollateralAmount, JSBI.multiply(JSBI.BigInt(1e16), JSBI.BigInt(75))),
+        this.spotExchangeRate
+      ),
+      stored: JSBI.divide(
+        JSBI.multiply(this.userCollateralAmount, JSBI.multiply(JSBI.BigInt(1e16), JSBI.BigInt(75))),
+        this.exchangeRate
+      ),
+    }
+
+    const min = minimum(...Object.values(max))
+    const safe = JSBI.subtract(
+      JSBI.divide(JSBI.multiply(min, JSBI.BigInt(95)), JSBI.BigInt(100)),
+      this.currentUserBorrowAmount
+    )
+    const possible = minimum(safe, this.maxAssetAvailable)
+
+    return {
+      ...max,
+      minimum: min,
+      safe,
+      possible,
+    }
+  }
+
+  /**
+   * The user's position's health
+   */
+  public get health(): JSBI {
+    return JSBI.divide(JSBI.multiply(this.currentUserBorrowAmount, JSBI.BigInt(1e18)), this.maxBorrowable.minimum)
   }
 }
