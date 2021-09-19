@@ -1,18 +1,18 @@
 import JSBI from 'jsbi'
 
-import { maximum, minimum, toElastic, ZERO } from '@sushiswap/core-sdk'
-import { BentoToken, toAmount, toShare } from '@sushiswap/bentobox-sdk'
+import { maximum, minimum, toElastic, ZERO, Rebase } from '@sushiswap/core-sdk'
+import { toAmount, toShare } from '@sushiswap/bentobox-sdk'
 
 import { AccrueInfo } from '../interfaces'
 import { accrue, accrueTotalAssetWithFee, interestAccrue, takeFee } from '../functions'
 
 export class KashiMediumRiskLendingPair {
   public readonly accrueInfo: AccrueInfo
-  public readonly collateral: BentoToken
-  public readonly asset: BentoToken
+  public readonly collateral: Rebase
+  public readonly asset: Rebase
   public readonly totalCollateralShare: JSBI
-  public readonly totalAsset: BentoToken
-  public readonly totalBorrow: BentoToken
+  public readonly totalAsset: Rebase
+  public readonly totalBorrow: Rebase
   public readonly exchangeRate: JSBI
   public readonly oracleExchangeRate: JSBI
   public readonly spotExchangeRate: JSBI
@@ -22,11 +22,11 @@ export class KashiMediumRiskLendingPair {
 
   public constructor(
     accrueInfo: AccrueInfo,
-    collateral: BentoToken,
-    asset: BentoToken,
+    collateral: Rebase,
+    asset: Rebase,
     totalCollateralShare: JSBI,
-    totalAsset: BentoToken,
-    totalBorrow: BentoToken,
+    totalAsset: Rebase,
+    totalBorrow: Rebase,
     exchangeRate: JSBI,
     oracleExchangeRate: JSBI,
     spotExchangeRate: JSBI,
