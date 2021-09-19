@@ -1,6 +1,6 @@
 import JSBI from 'jsbi'
 
-export interface Rebase {
-  base: JSBI
+export interface BentoToken {
   elastic: JSBI
+  base: JSBI
 }

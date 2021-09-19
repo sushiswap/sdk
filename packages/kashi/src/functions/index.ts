@@ -1,3 +1,8 @@
+import JSBI from 'jsbi'
+import { BigNumber } from '@ethersproject/bignumber'
+
+import { ZERO } from '@sushiswap/core-sdk'
+
 import {
   FACTOR_PRECISION,
   FULL_UTILIZATION_MINUS_MAX,
@@ -9,85 +14,86 @@ import {
   PROTOCOL_FEE,
   PROTOCOL_FEE_DIVISOR,
   STARTING_INTEREST_PER_YEAR,
-} from "../constants";
+} from '../constants'
+import { KashiMediumRiskLendingPair } from 'src/entities'
 
-import { BigNumber } from "@ethersproject/bignumber";
-import { Zero } from "@ethersproject/constants";
-
-export function accrue(
-  pair: any,
-  amount: BigNumber,
-  includePrincipal = false
-): BigNumber {
-  return amount
-    .mul(pair.accrueInfo.interestPerSecond)
-    .mul(pair.elapsedSeconds)
-    .div(BigNumber.from(10).pow(18))
-    .add(includePrincipal ? amount : Zero);
+export function accrue(pair: KashiMediumRiskLendingPair, amount: JSBI, includePrincipal = false): JSBI {
+  return JSBI.add(
+    JSBI.divide(
+      JSBI.multiply(JSBI.multiply(amount, pair.accrueInfo.interestPerSecond), pair.elapsedSeconds),
+      JSBI.BigInt(1e18)
+    ),
+    includePrincipal ? amount : ZERO
+  )
 }
 
-export function accrueTotalAssetWithFee(pair: any): {
-  elastic: BigNumber;
-  base: BigNumber;
+export function accrueTotalAssetWithFee(pair: KashiMediumRiskLendingPair): {
+  elastic: JSBI
+  base: JSBI
 } {
-  const extraAmount = pair.totalBorrow.elastic
-    .mul(pair.accrueInfo.interestPerSecond)
-    .mul(pair.elapsedSeconds.add("3600")) // Project an hour into the future
-    .div(BigNumber.from(10).pow(18));
-  const feeAmount = extraAmount.mul(PROTOCOL_FEE).div(PROTOCOL_FEE_DIVISOR); // % of interest paid goes to fee
-  const feeFraction = feeAmount.mulDiv(
-    pair.totalAsset.base,
-    pair.currentAllAssets.value
-  );
+  const extraAmount = JSBI.divide(
+    JSBI.multiply(
+      JSBI.multiply(pair.totalBorrow.elastic, pair.accrueInfo.interestPerSecond),
+      JSBI.add(pair.elapsedSeconds, JSBI.BigInt(3600)) // For some transactions, to succeed in the next hour (and not only this block), some margin has to be added
+    ),
+    JSBI.BigInt(1e18)
+  )
+  const feeAmount = JSBI.divide(JSBI.multiply(extraAmount, PROTOCOL_FEE), PROTOCOL_FEE_DIVISOR) // % of interest paid goes to fee
+  const feeFraction = JSBI.divide(JSBI.multiply(feeAmount, pair.totalAsset.base), pair.currentAllAssets)
   return {
     elastic: pair.totalAsset.elastic,
-    base: pair.totalAsset.base.add(feeFraction),
-  };
+    base: JSBI.add(pair.totalAsset.base, feeFraction),
+  }
 }
 
-export function interestAccrue(pair: any, interest: BigNumber): BigNumber {
-  if (pair.totalBorrow.base.eq(0)) {
-    return STARTING_INTEREST_PER_YEAR;
+export function interestAccrue(pair: KashiMediumRiskLendingPair, interest: JSBI): JSBI {
+  if (JSBI.equal(pair.totalBorrow.base, ZERO)) {
+    return STARTING_INTEREST_PER_YEAR
   }
-  if (pair.elapsedSeconds.lte(0)) {
-    return interest;
+  if (JSBI.lessThanOrEqual(pair.elapsedSeconds, ZERO)) {
+    return interest
   }
 
-  let currentInterest = interest;
+  let currentInterest = interest
 
-  if (pair.utilization.lt(MINIMUM_TARGET_UTILIZATION)) {
-    const underFactor = BigNumber.from(MINIMUM_TARGET_UTILIZATION).gt(0)
-      ? BigNumber.from(MINIMUM_TARGET_UTILIZATION.sub(pair.utilization))
-          .mul(FACTOR_PRECISION)
-          .div(MINIMUM_TARGET_UTILIZATION)
-      : Zero;
-    const scale = INTEREST_ELASTICITY.add(
-      underFactor.mul(underFactor).mul(pair.elapsedSeconds)
-    );
-    currentInterest = currentInterest.mul(INTEREST_ELASTICITY).div(scale);
+  if (JSBI.lessThan(pair.utilization, MINIMUM_TARGET_UTILIZATION)) {
+    const underFactor = JSBI.greaterThan(MINIMUM_TARGET_UTILIZATION, ZERO)
+      ? JSBI.divide(
+          JSBI.multiply(JSBI.subtract(MINIMUM_TARGET_UTILIZATION, pair.utilization), FACTOR_PRECISION),
+          MINIMUM_TARGET_UTILIZATION
+        )
+      : ZERO
+    const scale = JSBI.add(
+      INTEREST_ELASTICITY,
+      JSBI.multiply(JSBI.multiply(underFactor, underFactor), pair.elapsedSeconds)
+    )
+    currentInterest = JSBI.divide(JSBI.multiply(currentInterest, INTEREST_ELASTICITY), scale)
 
-    if (currentInterest.lt(MINIMUM_INTEREST_PER_YEAR)) {
-      currentInterest = MINIMUM_INTEREST_PER_YEAR; // 0.25% APR minimum
+    if (JSBI.lessThan(currentInterest, MINIMUM_INTEREST_PER_YEAR)) {
+      currentInterest = MINIMUM_INTEREST_PER_YEAR // 0.25% APR minimum
     }
-  } else if (pair.utilization.gt(MAXIMUM_TARGET_UTILIZATION)) {
-    const overFactor = pair.utilization
-      .sub(MAXIMUM_TARGET_UTILIZATION)
-      .mul(FACTOR_PRECISION.div(FULL_UTILIZATION_MINUS_MAX));
-    const scale = INTEREST_ELASTICITY.add(
-      overFactor.mul(overFactor).mul(pair.elapsedSeconds)
-    );
-    currentInterest = currentInterest.mul(scale).div(INTEREST_ELASTICITY);
-    if (currentInterest.gt(MAXIMUM_INTEREST_PER_YEAR)) {
-      currentInterest = MAXIMUM_INTEREST_PER_YEAR; // 1000% APR maximum
+  } else if (JSBI.greaterThan(pair.utilization, MAXIMUM_TARGET_UTILIZATION)) {
+    const overFactor = JSBI.multiply(
+      JSBI.subtract(pair.utilization, MAXIMUM_TARGET_UTILIZATION),
+      JSBI.divide(FACTOR_PRECISION, FULL_UTILIZATION_MINUS_MAX)
+    )
+    const scale = JSBI.add(
+      INTEREST_ELASTICITY,
+      JSBI.multiply(JSBI.multiply(overFactor, overFactor), pair.elapsedSeconds)
+    )
+    currentInterest = JSBI.divide(JSBI.multiply(currentInterest, scale), INTEREST_ELASTICITY)
+    if (JSBI.greaterThan(currentInterest, MAXIMUM_INTEREST_PER_YEAR)) {
+      currentInterest = MAXIMUM_INTEREST_PER_YEAR // 1000% APR maximum
     }
   }
-  return currentInterest;
+  return currentInterest
 }
 
-export function takeFee(amount: BigNumber): BigNumber {
-  return amount.mul(BigNumber.from(9)).div(BigNumber.from(10));
+// Subtract protocol fee
+export function takeFee(amount: JSBI): JSBI {
+  return JSBI.subtract(amount, JSBI.divide(JSBI.multiply(amount, PROTOCOL_FEE), PROTOCOL_FEE_DIVISOR))
 }
 
 export function addBorrowFee(amount: BigNumber): BigNumber {
-  return amount.mul(BigNumber.from(10005)).div(BigNumber.from(10000));
+  return amount.mul(BigNumber.from(10005)).div(BigNumber.from(10000))
 }

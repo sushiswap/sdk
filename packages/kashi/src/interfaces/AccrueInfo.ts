@@ -1,7 +1,7 @@
-import { BigNumber } from '@ethersproject/bignumber'
+import JSBI from 'jsbi'
 
 export interface AccrueInfo {
-  interestPerSecond: BigNumber
-  lastAccrued: BigNumber
-  feesEarnedFraction: BigNumber
+  interestPerSecond: JSBI
+  lastAccrued: JSBI
+  feesEarnedFraction: JSBI
 }

@@ -1,14 +1,13 @@
-import { BigNumber } from "@ethersproject/bignumber";
-import { Zero } from "@ethersproject/constants";
+import JSBI from 'jsbi'
 
-export function toAmount(token: any, shares: BigNumber): BigNumber {
-  return BigNumber.from(token.bentoShare).gt(0)
-    ? shares.mul(token.bentoAmount).div(token.bentoShare)
-    : Zero;
+import { ZERO } from '@sushiswap/core-sdk'
+
+import { BentoToken } from '../interfaces'
+
+export function toAmount(token: BentoToken, shares: JSBI): JSBI {
+  return JSBI.GT(token.base, 0) ? JSBI.divide(JSBI.multiply(shares, token.elastic), token.base) : ZERO
 }
 
-export function toShare(token: any, amount: BigNumber): BigNumber {
-  return BigNumber.from(token.bentoAmount).gt(0)
-    ? amount.mul(token.bentoShare).div(token.bentoAmount)
-    : Zero;
+export function toShare(token: BentoToken, amount: JSBI): JSBI {
+  return JSBI.GT(token.elastic, 0) ? JSBI.divide(JSBI.multiply(amount, token.base), token.elastic) : ZERO
 }
