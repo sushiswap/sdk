@@ -7,8 +7,6 @@ import {
   Price,
   Token,
   ZERO,
-  _1000,
-  _997,
   sqrt,
 } from '@sushiswap/core-sdk'
 
@@ -147,6 +145,12 @@ export class ConstantProductPool {
   }
 
   public getMintFee(reserve0: JSBI, reserve1: JSBI, totalSupply: JSBI): JSBI {
+    console.log('getMintFee', {
+      kLast: this.kLast.toString(),
+      computed: sqrt(JSBI.multiply(reserve0, reserve1)).toString(),
+      totalSupply: totalSupply.toString(),
+    })
+
     if (JSBI.notEqual(this.kLast, ZERO)) {
       const computed = sqrt(JSBI.multiply(reserve0, reserve1))
       if (JSBI.greaterThan(computed, this.kLast)) {
@@ -208,32 +212,33 @@ export class ConstantProductPool {
 
       liquidity = JSBI.divide(JSBI.multiply(JSBI.subtract(computed, k), JSBI.add(totalSupply.quotient, mintFee)), k)
 
-      console.log({
-        mintFee: mintFee.toString(),
-        totalSupply: totalSupply.quotient.toString(),
-        newTotalSupply: JSBI.add(
-          totalSupply.quotient,
-          this.getMintFee(this.reserve0.quotient, this.reserve1.quotient, totalSupply.quotient)
-        ).toString(),
-        computed: computed.toString(),
-        token0Amount: tokenAmounts[0].quotient.toString(),
-        token1Amount: tokenAmounts[1].quotient.toString(),
-        reserve0: this.reserve0.quotient.toString(),
-        reserve1: this.reserve1.quotient.toString(),
-        balance0: balance0.toString(),
-        balance1: balance1.toString(),
-        fee0: fee0.toString(),
-        fee1: fee0.toString(),
-        kLast: this.kLast.toString(),
-        k: k.toString(),
-        kNext: sqrt(JSBI.multiply(balance0, balance1)).toString(),
-        liquidity: liquidity.toString(),
-      })
+      // console.log({
+      //   mintFee: mintFee.toString(),
+      //   totalSupply: totalSupply.quotient.toString(),
+      //   totalSupplyAfterMintFee: JSBI.add(
+      //     totalSupply.quotient,
+      //     this.getMintFee(this.reserve0.quotient, this.reserve1.quotient, totalSupply.quotient)
+      //   ).toString(),
+      //   computed: computed.toString(),
+      //   token0Amount: tokenAmounts[0].quotient.toString(),
+      //   token1Amount: tokenAmounts[1].quotient.toString(),
+      //   reserve0: this.reserve0.quotient.toString(),
+      //   reserve1: this.reserve1.quotient.toString(),
+      //   balance0: balance0.toString(),
+      //   balance1: balance1.toString(),
+      //   fee0: fee0.toString(),
+      //   fee1: fee1.toString(),
+      //   kLast: this.kLast.toString(),
+      //   k: k.toString(),
+      //   kNext: sqrt(JSBI.multiply(balance0, balance1)).toString(),
+      //   liquidity: liquidity.toString(),
+      // })
     }
 
     if (!JSBI.greaterThan(liquidity, ZERO)) {
       throw new InsufficientInputAmountError()
     }
+
     return CurrencyAmount.fromRawAmount(this.liquidityToken, liquidity)
   }
 

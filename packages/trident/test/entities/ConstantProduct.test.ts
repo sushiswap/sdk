@@ -261,25 +261,6 @@ describe('ConstantProductPool', () => {
       ).toEqual('2000')
     })
 
-    it('getLiquidityMinted:!0 - 2', async () => {
-      const tokenA = new Token(3, '0x0000000000000000000000000000000000000001', 18)
-      const tokenB = new Token(3, '0x0000000000000000000000000000000000000002', 18)
-      const pool = new ConstantProductPool(
-        CurrencyAmount.fromRawAmount(tokenA, '100000'),
-        CurrencyAmount.fromRawAmount(tokenB, '100000')
-      )
-
-      expect(
-        pool
-          .getLiquidityMinted(
-            CurrencyAmount.fromRawAmount(pool.liquidityToken, '100000'),
-            CurrencyAmount.fromRawAmount(tokenA, '25000'),
-            CurrencyAmount.fromRawAmount(tokenB, '25000')
-          )
-          .quotient.toString()
-      ).toEqual('25000')
-    })
-
     it('getLiquidityValue', async () => {
       const tokenA = new Token(3, '0x0000000000000000000000000000000000000001', 18)
       const tokenB = new Token(3, '0x0000000000000000000000000000000000000002', 18)

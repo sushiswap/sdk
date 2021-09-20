@@ -1,4 +1,4 @@
-import { Graph, findMultiRouting } from "../src/MultiRouter";
+import { Graph, findMultiRouting } from '../src/MultiRouter'
 import {
   MultiRoute,
   Pool,
@@ -7,110 +7,104 @@ import {
   RToken,
   RouteLeg,
   RouteStatus,
-} from "../src/MultiRouterTypes";
+} from '../src/MultiRouterTypes'
 
-import { checkRouteResult } from "./snapshots/snapshot";
-import { getBigNumber } from "../src/MultiRouterMath";
-import seedrandom from "seedrandom";
+import { checkRouteResult } from './snapshots/snapshot'
+import { getBigNumber } from '../src/MultiRouterMath'
+import seedrandom from 'seedrandom'
 
-const testSeed = "2"; // Change it to change random generator values
-const rnd: () => number = seedrandom(testSeed); // random [0, 1)
+const testSeed = '2' // Change it to change random generator values
+const rnd: () => number = seedrandom(testSeed) // random [0, 1)
 
-const GAS_PRICE = 1 * 200 * 1e-9;
-const MIN_TOKEN_PRICE = 1e-6;
-const MAX_TOKEN_PRICE = 1e6;
-const STABLE_TOKEN_PRICE = 1;
-const MIN_POOL_RESERVE = 1e9;
-const MAX_POOL_RESERVE = 1e31;
-const MIN_POOL_IMBALANCE = 1 / (1 + 1e-3);
-const MAX_POOL_IMBALANCE = 1 + 1e-3;
-const MIN_LIQUIDITY = 1000;
-const MAX_LIQUIDITY = Math.pow(2, 110);
-const MIN_HYBRID_A = 200;
-const MAX_HYBRID_A = 300000;
+const GAS_PRICE = 1 * 200 * 1e-9
+const MIN_TOKEN_PRICE = 1e-6
+const MAX_TOKEN_PRICE = 1e6
+const STABLE_TOKEN_PRICE = 1
+const MIN_POOL_RESERVE = 1e9
+const MAX_POOL_RESERVE = 1e31
+const MIN_POOL_IMBALANCE = 1 / (1 + 1e-3)
+const MAX_POOL_IMBALANCE = 1 + 1e-3
+const MIN_LIQUIDITY = 1000
+const MAX_LIQUIDITY = Math.pow(2, 110)
+const MIN_HYBRID_A = 200
+const MAX_HYBRID_A = 300000
 
 interface Variants {
-  [key: string]: number;
+  [key: string]: number
 }
 
 function choice(rnd: () => number, obj: Variants) {
-  let total = 0;
-  Object.entries(obj).forEach(([_, p]) => (total += p));
-  if (total <= 0) throw new Error("Error 62");
-  const val = rnd() * total;
-  let past = 0;
+  let total = 0
+  Object.entries(obj).forEach(([_, p]) => (total += p))
+  if (total <= 0) throw new Error('Error 62')
+  const val = rnd() * total
+  let past = 0
   for (let k in obj) {
-    past += obj[k];
-    if (past >= val) return k;
+    past += obj[k]
+    if (past >= val) return k
   }
-  throw new Error("Error 70");
+  throw new Error('Error 70')
 }
 
 function getRandom(rnd: () => number, min: number, max: number) {
-  const minL = Math.log(min);
-  const maxL = Math.log(max);
-  const v = rnd() * (maxL - minL) + minL;
-  const res = Math.exp(v);
-  console.assert(res <= max && res >= min, "Random value is out of the range");
-  return res;
+  const minL = Math.log(min)
+  const maxL = Math.log(max)
+  const v = rnd() * (maxL - minL) + minL
+  const res = Math.exp(v)
+  console.assert(res <= max && res >= min, 'Random value is out of the range')
+  return res
 }
 
 function getTokenPrice(rnd: () => number) {
-  const price = getRandom(rnd, MIN_TOKEN_PRICE, MAX_TOKEN_PRICE);
-  return price;
+  const price = getRandom(rnd, MIN_TOKEN_PRICE, MAX_TOKEN_PRICE)
+  return price
 }
 
 function getPoolReserve(rnd: () => number) {
-  return getRandom(rnd, MIN_POOL_RESERVE, MAX_POOL_RESERVE);
+  return getRandom(rnd, MIN_POOL_RESERVE, MAX_POOL_RESERVE)
 }
 
 function getPoolFee(rnd: () => number) {
-  const fees = [0.003, 0.001, 0.0005];
+  const fees = [0.003, 0.001, 0.0005]
   const cmd = choice(rnd, {
     0: 1,
     1: 1,
     2: 1,
-  });
-  return fees[parseInt(cmd)];
+  })
+  return fees[parseInt(cmd)]
 }
 
 function getPoolImbalance(rnd: () => number) {
-  return getRandom(rnd, MIN_POOL_IMBALANCE, MAX_POOL_IMBALANCE);
+  return getRandom(rnd, MIN_POOL_IMBALANCE, MAX_POOL_IMBALANCE)
 }
 
 function getCPPool(rnd: () => number, t0: RToken, t1: RToken, price: number) {
   if (rnd() < 0.5) {
-    const t = t0;
-    t0 = t1;
-    t1 = t;
-    price = 1 / price;
+    const t = t0
+    t0 = t1
+    t1 = t
+    price = 1 / price
   }
 
-  const fee = getPoolFee(rnd);
-  const imbalance = getPoolImbalance(rnd);
+  const fee = getPoolFee(rnd)
+  const imbalance = getPoolImbalance(rnd)
 
-  let reserve0 = getPoolReserve(rnd);
-  let reserve1 = reserve0 * price * imbalance;
-  const maxReserve = Math.max(reserve0, reserve1);
+  let reserve0 = getPoolReserve(rnd)
+  let reserve1 = reserve0 * price * imbalance
+  const maxReserve = Math.max(reserve0, reserve1)
   if (maxReserve > MAX_LIQUIDITY) {
-    const reduceRate = (maxReserve / MAX_LIQUIDITY) * 1.00000001;
-    reserve0 /= reduceRate;
-    reserve1 /= reduceRate;
+    const reduceRate = (maxReserve / MAX_LIQUIDITY) * 1.00000001
+    reserve0 /= reduceRate
+    reserve1 /= reduceRate
   }
-  const minReserve = Math.min(reserve0, reserve1);
+  const minReserve = Math.min(reserve0, reserve1)
   if (minReserve < MIN_LIQUIDITY) {
-    const raseRate = (MIN_LIQUIDITY / minReserve) * 1.00000001;
-    reserve0 *= raseRate;
-    reserve1 *= raseRate;
+    const raseRate = (MIN_LIQUIDITY / minReserve) * 1.00000001
+    reserve0 *= raseRate
+    reserve1 *= raseRate
   }
-  console.assert(
-    reserve0 >= MIN_LIQUIDITY && reserve0 <= MAX_LIQUIDITY,
-    "Error reserve0 clculation"
-  );
-  console.assert(
-    reserve1 >= MIN_LIQUIDITY && reserve1 <= MAX_LIQUIDITY,
-    "Error reserve1 clculation " + reserve1
-  );
+  console.assert(reserve0 >= MIN_LIQUIDITY && reserve0 <= MAX_LIQUIDITY, 'Error reserve0 clculation')
+  console.assert(reserve1 >= MIN_LIQUIDITY && reserve1 <= MAX_LIQUIDITY, 'Error reserve1 clculation ' + reserve1)
 
   return new RConstantProductPool({
     token0: t0,
@@ -119,41 +113,35 @@ function getCPPool(rnd: () => number, t0: RToken, t1: RToken, price: number) {
     reserve0: getBigNumber(undefined, reserve0),
     reserve1: getBigNumber(undefined, reserve1),
     fee,
-  });
+  })
 }
 
 function getPoolA(rnd: () => number) {
-  return Math.floor(getRandom(rnd, MIN_HYBRID_A, MAX_HYBRID_A));
+  return Math.floor(getRandom(rnd, MIN_HYBRID_A, MAX_HYBRID_A))
 }
 
 // price is always 1
 function getHybridPool(rnd: () => number, t0: RToken, t1: RToken) {
-  const fee = getPoolFee(rnd);
-  const imbalance = getPoolImbalance(rnd);
-  const A = getPoolA(rnd);
+  const fee = getPoolFee(rnd)
+  const imbalance = getPoolImbalance(rnd)
+  const A = getPoolA(rnd)
 
-  let reserve0 = getPoolReserve(rnd);
-  let reserve1 = reserve0 * STABLE_TOKEN_PRICE * imbalance;
-  const maxReserve = Math.max(reserve0, reserve1);
+  let reserve0 = getPoolReserve(rnd)
+  let reserve1 = reserve0 * STABLE_TOKEN_PRICE * imbalance
+  const maxReserve = Math.max(reserve0, reserve1)
   if (maxReserve > MAX_LIQUIDITY) {
-    const reduceRate = (maxReserve / MAX_LIQUIDITY) * 1.00000001;
-    reserve0 /= reduceRate;
-    reserve1 /= reduceRate;
+    const reduceRate = (maxReserve / MAX_LIQUIDITY) * 1.00000001
+    reserve0 /= reduceRate
+    reserve1 /= reduceRate
   }
-  const minReserve = Math.min(reserve0, reserve1);
+  const minReserve = Math.min(reserve0, reserve1)
   if (minReserve < MIN_LIQUIDITY) {
-    const raseRate = (MIN_LIQUIDITY / minReserve) * 1.00000001;
-    reserve0 *= raseRate;
-    reserve1 *= raseRate;
+    const raseRate = (MIN_LIQUIDITY / minReserve) * 1.00000001
+    reserve0 *= raseRate
+    reserve1 *= raseRate
   }
-  console.assert(
-    reserve0 >= MIN_LIQUIDITY && reserve0 <= MAX_LIQUIDITY,
-    "Error reserve0 clculation"
-  );
-  console.assert(
-    reserve1 >= MIN_LIQUIDITY && reserve1 <= MAX_LIQUIDITY,
-    "Error reserve1 clculation " + reserve1
-  );
+  console.assert(reserve0 >= MIN_LIQUIDITY && reserve0 <= MAX_LIQUIDITY, 'Error reserve0 clculation')
+  console.assert(reserve1 >= MIN_LIQUIDITY && reserve1 <= MAX_LIQUIDITY, 'Error reserve1 clculation ' + reserve1)
 
   return new RHybridPool({
     token0: t0,
@@ -163,72 +151,53 @@ function getHybridPool(rnd: () => number, t0: RToken, t1: RToken) {
     reserve1: getBigNumber(undefined, reserve1),
     fee,
     A,
-  });
+  })
 }
 
-function getRandomPool(
-  rnd: () => number,
-  t0: RToken,
-  t1: RToken,
-  price: number
-) {
-  if (price !== STABLE_TOKEN_PRICE) return getCPPool(rnd, t0, t1, price);
-  if (rnd() < 0.5) getCPPool(rnd, t0, t1, price);
-  return getHybridPool(rnd, t0, t1);
+function getRandomPool(rnd: () => number, t0: RToken, t1: RToken, price: number) {
+  if (price !== STABLE_TOKEN_PRICE) return getCPPool(rnd, t0, t1, price)
+  if (rnd() < 0.5) getCPPool(rnd, t0, t1, price)
+  return getHybridPool(rnd, t0, t1)
 }
 
 interface Network {
-  tokens: RToken[];
-  prices: number[];
-  pools: Pool[];
-  gasPrice: number;
+  tokens: RToken[]
+  prices: number[]
+  pools: Pool[]
+  gasPrice: number
 }
 
-function createNetwork(
-  rnd: () => number,
-  tokenNumber: number,
-  density: number
-): Network {
-  const tokens = [];
-  const prices = [];
+function createNetwork(rnd: () => number, tokenNumber: number, density: number): Network {
+  const tokens = []
+  const prices = []
   for (var i = 0; i < tokenNumber; ++i) {
-    tokens.push({ name: "" + i, address: "" + i });
-    if (i <= tokenNumber * 0.3) prices.push(STABLE_TOKEN_PRICE);
-    else prices.push(getTokenPrice(rnd));
+    tokens.push({ name: '' + i, address: '' + i })
+    if (i <= tokenNumber * 0.3) prices.push(STABLE_TOKEN_PRICE)
+    else prices.push(getTokenPrice(rnd))
   }
 
-  const pools: Pool[] = [];
+  const pools: Pool[] = []
   for (i = 0; i < tokenNumber; ++i) {
     for (var j = i + 1; j < tokenNumber; ++j) {
-      const r = rnd();
+      const r = rnd()
       if (r < density) {
-        pools.push(
-          getRandomPool(rnd, tokens[i], tokens[j], prices[i] / prices[j])
-        );
+        pools.push(getRandomPool(rnd, tokens[i], tokens[j], prices[i] / prices[j]))
       }
       if (r < density * density) {
         // second pool
-        pools.push(
-          getRandomPool(rnd, tokens[i], tokens[j], prices[i] / prices[j])
-        );
+        pools.push(getRandomPool(rnd, tokens[i], tokens[j], prices[i] / prices[j]))
       }
       if (r < density * density * density) {
         // third pool
-        pools.push(
-          getRandomPool(rnd, tokens[i], tokens[j], prices[i] / prices[j])
-        );
+        pools.push(getRandomPool(rnd, tokens[i], tokens[j], prices[i] / prices[j]))
       }
       if (r < Math.pow(density, 4)) {
         // third pool
-        pools.push(
-          getRandomPool(rnd, tokens[i], tokens[j], prices[i] / prices[j])
-        );
+        pools.push(getRandomPool(rnd, tokens[i], tokens[j], prices[i] / prices[j]))
       }
       if (r < Math.pow(density, 5)) {
         // third pool
-        pools.push(
-          getRandomPool(rnd, tokens[i], tokens[j], prices[i] / prices[j])
-        );
+        pools.push(getRandomPool(rnd, tokens[i], tokens[j], prices[i] / prices[j]))
       }
     }
   }
@@ -238,50 +207,47 @@ function createNetwork(
     prices,
     pools,
     gasPrice: GAS_PRICE,
-  };
+  }
 }
 
 function expectToBeClose(a: number, b: number, max: number) {
-  expect(Math.abs(a / b - 1)).toBeLessThan(max);
+  expect(Math.abs(a / b - 1)).toBeLessThan(max)
 }
 
 function getTokenPools(network: Network): Map<RToken, Pool[]> {
-  const tokenPools = new Map<RToken, Pool[]>();
+  const tokenPools = new Map<RToken, Pool[]>()
   network.pools.forEach((p) => {
-    const pools0 = tokenPools.get(p.token0);
+    const pools0 = tokenPools.get(p.token0)
     if (pools0) {
-      pools0.push(p);
+      pools0.push(p)
     } else {
-      tokenPools.set(p.token0, [p]);
+      tokenPools.set(p.token0, [p])
     }
-    const pools1 = tokenPools.get(p.token1);
+    const pools1 = tokenPools.get(p.token1)
     if (pools1) {
-      pools1.push(p);
+      pools1.push(p)
     } else {
-      tokenPools.set(p.token1, [p]);
+      tokenPools.set(p.token1, [p])
     }
-  });
-  return tokenPools;
+  })
+  return tokenPools
 }
 
-function getAllConnectedTokens(
-  start: RToken,
-  tokenPools: Map<RToken, Pool[]>
-): Set<RToken> {
-  const connected = new Set<RToken>();
-  const nextTokens = [start];
+function getAllConnectedTokens(start: RToken, tokenPools: Map<RToken, Pool[]>): Set<RToken> {
+  const connected = new Set<RToken>()
+  const nextTokens = [start]
   while (nextTokens.length) {
-    const token = nextTokens.pop() as RToken;
+    const token = nextTokens.pop() as RToken
     if (connected.has(token)) {
-      continue;
+      continue
     }
-    connected.add(token);
+    connected.add(token)
     tokenPools.get(token)?.forEach((p) => {
-      const token2 = token == p.token0 ? p.token1 : p.token0;
-      nextTokens.push(token2);
-    });
+      const token2 = token == p.token0 ? p.token1 : p.token0
+      nextTokens.push(token2)
+    })
   }
-  return connected;
+  return connected
 }
 
 function checkRoute(
@@ -293,280 +259,207 @@ function checkRoute(
   gasPrice: number,
   route: MultiRoute
 ) {
-  const tokenPools = getTokenPools(network);
-  const connectedTokens = getAllConnectedTokens(from, tokenPools);
+  const tokenPools = getTokenPools(network)
+  const connectedTokens = getAllConnectedTokens(from, tokenPools)
   if (!connectedTokens.has(to)) {
-    expect(route.status).toEqual(RouteStatus.NoWay);
-    return;
+    expect(route.status).toEqual(RouteStatus.NoWay)
+    return
   }
-  const basePricesAreSet = connectedTokens.has(baseToken);
+  const basePricesAreSet = connectedTokens.has(baseToken)
 
   // amountIn checks
-  if (route.status === RouteStatus.Success)
-    expectToBeClose(route.amountIn, amountIn, 1e-13);
+  if (route.status === RouteStatus.Success) expectToBeClose(route.amountIn, amountIn, 1e-13)
   else if (route.status === RouteStatus.Partial) {
-    expect(route.amountIn).toBeLessThan(amountIn);
-    expect(route.amountIn).toBeGreaterThan(0);
+    expect(route.amountIn).toBeLessThan(amountIn)
+    expect(route.amountIn).toBeGreaterThan(0)
   }
 
   // amountOut checks
-  if (route.status !== RouteStatus.NoWay)
-    expect(route.amountOut).toBeGreaterThan(0);
-  const outPriceToIn =
-    network.prices[parseInt(to.name)] / network.prices[parseInt(from.name)];
+  if (route.status !== RouteStatus.NoWay) expect(route.amountOut).toBeGreaterThan(0)
+  const outPriceToIn = network.prices[parseInt(to.name)] / network.prices[parseInt(from.name)]
   // Slippage is always not-negative
-  expect(route.amountOut).toBeLessThanOrEqual(
-    (route.amountIn / outPriceToIn) * 1.002
-  );
+  expect(route.amountOut).toBeLessThanOrEqual((route.amountIn / outPriceToIn) * 1.002)
 
   // gasSpent checks
-  const poolMap = new Map<string, Pool>();
-  network.pools.forEach((p) => poolMap.set(p.address, p));
-  const expectedGasSpent = route.legs.reduce(
-    (a, b) => a + (poolMap.get(b.address)?.swapGasCost as number),
-    0
-  );
-  expect(route.gasSpent).toEqual(expectedGasSpent);
+  const poolMap = new Map<string, Pool>()
+  network.pools.forEach((p) => poolMap.set(p.address, p))
+  const expectedGasSpent = route.legs.reduce((a, b) => a + (poolMap.get(b.address)?.swapGasCost as number), 0)
+  expect(route.gasSpent).toEqual(expectedGasSpent)
 
   // totalAmountOut checks
   if (route.status === RouteStatus.NoWay) {
-    expect(route.totalAmountOut).toEqual(0);
+    expect(route.totalAmountOut).toEqual(0)
   } else if (basePricesAreSet) {
-    const outPriceToBase =
-      network.prices[parseInt(baseToken.name)] /
-      network.prices[parseInt(to.name)];
-    const expectedTotalAmountOut =
-      route.amountOut - route.gasSpent * gasPrice * outPriceToBase;
-    expectToBeClose(
-      route.totalAmountOut,
-      expectedTotalAmountOut,
-      MAX_POOL_IMBALANCE + 1e-7
-    );
+    const outPriceToBase = network.prices[parseInt(baseToken.name)] / network.prices[parseInt(to.name)]
+    const expectedTotalAmountOut = route.amountOut - route.gasSpent * gasPrice * outPriceToBase
+    expectToBeClose(route.totalAmountOut, expectedTotalAmountOut, MAX_POOL_IMBALANCE + 1e-7)
   } else {
-    expect(route.totalAmountOut).toEqual(route.amountOut);
+    expect(route.totalAmountOut).toEqual(route.amountOut)
   }
 
   // legs checks
-  if (route.status !== RouteStatus.NoWay)
-    expect(route.legs.length).toBeGreaterThan(0);
-  const usedPools = new Map<string, boolean>();
-  const usedTokens = new Map<RToken, RouteLeg[]>();
+  if (route.status !== RouteStatus.NoWay) expect(route.legs.length).toBeGreaterThan(0)
+  const usedPools = new Map<string, boolean>()
+  const usedTokens = new Map<RToken, RouteLeg[]>()
   route.legs.forEach((l) => {
-    expect(usedPools.get(l.address)).toBeUndefined();
-    usedPools.set(l.address, true);
-    const pool = poolMap.get(l.address) as Pool;
-    usedTokens.set(pool.token0, usedTokens.get(pool.token0) || []);
-    usedTokens.get(pool.token0)?.push(l);
-    usedTokens.set(pool.token1, usedTokens.get(pool.token1) || []);
-    usedTokens.get(pool.token1)?.push(l);
-  });
+    expect(usedPools.get(l.address)).toBeUndefined()
+    usedPools.set(l.address, true)
+    const pool = poolMap.get(l.address) as Pool
+    usedTokens.set(pool.token0, usedTokens.get(pool.token0) || [])
+    usedTokens.get(pool.token0)?.push(l)
+    usedTokens.set(pool.token1, usedTokens.get(pool.token1) || [])
+    usedTokens.get(pool.token1)?.push(l)
+  })
   usedTokens.forEach((legs, t) => {
     if (t === from) {
-      expect(legs.length).toBeGreaterThan(0);
-      expect(legs.every((l) => l.token === from)).toBeTruthy();
-      expect(legs[legs.length - 1].swapPortion).toEqual(1);
+      expect(legs.length).toBeGreaterThan(0)
+      expect(legs.every((l) => l.token === from)).toBeTruthy()
+      expect(legs[legs.length - 1].swapPortion).toEqual(1)
     } else if (t === to) {
-      expect(legs.length).toBeGreaterThan(0);
-      expect(legs.some((l) => l.token === to)).toBeFalsy();
+      expect(legs.length).toBeGreaterThan(0)
+      expect(legs.some((l) => l.token === to)).toBeFalsy()
     } else {
-      expect(legs.length).toBeGreaterThanOrEqual(2);
-      expect(legs[0].token).not.toEqual(t);
-      expect(legs[legs.length - 1].token).toEqual(t);
-      expect(legs[legs.length - 1].swapPortion).toEqual(1);
-      let inputFlag = true;
-      let absolutePortion = 0;
+      expect(legs.length).toBeGreaterThanOrEqual(2)
+      expect(legs[0].token).not.toEqual(t)
+      expect(legs[legs.length - 1].token).toEqual(t)
+      expect(legs[legs.length - 1].swapPortion).toEqual(1)
+      let inputFlag = true
+      let absolutePortion = 0
       legs.forEach((l) => {
         if (l.token !== t) {
-          expect(inputFlag).toBeTruthy();
+          expect(inputFlag).toBeTruthy()
         } else {
-          inputFlag = false;
-          absolutePortion += l.absolutePortion;
-          expect(l.swapPortion).toBeGreaterThan(0);
-          expect(l.swapPortion).toBeLessThanOrEqual(1);
+          inputFlag = false
+          absolutePortion += l.absolutePortion
+          expect(l.swapPortion).toBeGreaterThan(0)
+          expect(l.swapPortion).toBeLessThanOrEqual(1)
         }
-      });
-      expectToBeClose(absolutePortion, 1, 1e-12);
+      })
+      expectToBeClose(absolutePortion, 1, 1e-12)
     }
-  });
+  })
 }
 
 // Just for testing
 // @ts-ignore
-function exportNetwork(
-  network: Network,
-  from: RToken,
-  to: RToken,
-  route: MultiRoute
-) {
-  const allPools = new Map<string, Pool>();
-  network.pools.forEach((p) => allPools.set(p.address, p));
-  const usedPools = new Map<string, boolean>();
-  route.legs.forEach((l) =>
-    usedPools.set(l.address, l.token === allPools.get(l.address)?.token0)
-  );
+function exportNetwork(network: Network, from: RToken, to: RToken, route: MultiRoute) {
+  const allPools = new Map<string, Pool>()
+  network.pools.forEach((p) => allPools.set(p.address, p))
+  const usedPools = new Map<string, boolean>()
+  route.legs.forEach((l) => usedPools.set(l.address, l.token === allPools.get(l.address)?.token0))
 
   function edgeStyle(p: Pool) {
-    const u = usedPools.get(p.address);
-    if (u === undefined) return "";
-    if (u) return ', value: 2, arrows: "to"';
-    else return ', value: 2, arrows: "from"';
+    const u = usedPools.get(p.address)
+    if (u === undefined) return ''
+    if (u) return ', value: 2, arrows: "to"'
+    else return ', value: 2, arrows: "from"'
   }
 
   function nodeLabel(t: RToken) {
-    if (t === from) return `${t.name}: ${route.amountIn}`;
-    if (t === to) return `${t.name}: ${route.amountOut}`;
-    return t.name;
+    if (t === from) return `${t.name}: ${route.amountIn}`
+    if (t === to) return `${t.name}: ${route.amountOut}`
+    return t.name
   }
 
   const nodes = `var nodes = new vis.DataSet([
-    ${network.tokens
-      .map((t) => `{ id: ${t.name}, label: "${nodeLabel(t)}"}`)
-      .join(",\n\t\t")}
-  ]);\n`;
+    ${network.tokens.map((t) => `{ id: ${t.name}, label: "${nodeLabel(t)}"}`).join(',\n\t\t')}
+  ]);\n`
   const edges = `var edges = new vis.DataSet([
-    ${network.pools
-      .map(
-        (p) => `{ from: ${p.token0.name}, to: ${p.token1.name}${edgeStyle(p)}}`
-      )
-      .join(",\n\t\t")}
-  ]);\n`;
+    ${network.pools.map((p) => `{ from: ${p.token0.name}, to: ${p.token1.name}${edgeStyle(p)}}`).join(',\n\t\t')}
+  ]);\n`
   const data = `var data = {
       nodes: nodes,
       edges: edges,
-  };\n`;
+  };\n`
 
-  const fs = require("fs");
-  fs.writeFileSync(
-    "D:/Info/Notes/GraphVisualization/data.js",
-    nodes + edges + data
-  );
+  const fs = require('fs')
+  fs.writeFileSync('D:/Info/Notes/GraphVisualization/data.js', nodes + edges + data)
 }
 
-function chooseRandomTokens(
-  rnd: () => number,
-  network: Network
-): [RToken, RToken, RToken] {
-  const num = network.tokens.length;
-  const token0 = Math.floor(rnd() * num);
-  const token1 = (token0 + 1 + Math.floor(rnd() * (num - 1))) % num;
-  expect(token0).not.toEqual(token1);
-  const tokenBase = Math.floor(rnd() * num);
-  return [
-    network.tokens[token0],
-    network.tokens[token1],
-    network.tokens[tokenBase],
-  ];
+function chooseRandomTokens(rnd: () => number, network: Network): [RToken, RToken, RToken] {
+  const num = network.tokens.length
+  const token0 = Math.floor(rnd() * num)
+  const token1 = (token0 + 1 + Math.floor(rnd() * (num - 1))) % num
+  expect(token0).not.toEqual(token1)
+  const tokenBase = Math.floor(rnd() * num)
+  return [network.tokens[token0], network.tokens[token1], network.tokens[tokenBase]]
 }
 
-const network = createNetwork(rnd, 20, 0.3);
+const network = createNetwork(rnd, 20, 0.3)
 
-it("Token price calculation is correct", () => {
-  const baseTokenIndex = 0;
-  const g = new Graph(
-    network.pools,
-    network.tokens[baseTokenIndex],
-    network.gasPrice
-  );
+it('Token price calculation is correct', () => {
+  const baseTokenIndex = 0
+  const g = new Graph(network.pools, network.tokens[baseTokenIndex], network.gasPrice)
   g.vertices.forEach((v) => {
-    const tokenIndex = parseInt(v.token.name);
+    const tokenIndex = parseInt(v.token.name)
     if (tokenIndex === baseTokenIndex) {
-      expectToBeClose(v.price, 1, 1e-10);
+      expectToBeClose(v.price, 1, 1e-10)
     }
     if (v.price !== 0) {
       expectToBeClose(
         v.price,
         network.prices[tokenIndex] / network.prices[baseTokenIndex],
         5 * (MAX_POOL_IMBALANCE - 1)
-      );
+      )
     }
-  });
-});
+  })
+})
 
 it(`Multirouter for ${network.tokens.length} tokens and ${network.pools.length} pools (200 times)`, () => {
   for (var i = 0; i < 200; ++i) {
-    const [t0, t1, tBase] = chooseRandomTokens(rnd, network);
-    const amountIn = getRandom(rnd, 1e6, 1e24);
+    const [t0, t1, tBase] = chooseRandomTokens(rnd, network)
+    const amountIn = getRandom(rnd, 1e6, 1e24)
 
-    const route = findMultiRouting(
-      t0,
-      t1,
-      amountIn,
-      network.pools,
-      tBase,
-      network.gasPrice
-    );
+    const route = findMultiRouting(t0, t1, amountIn, network.pools, tBase, network.gasPrice)
 
-    checkRoute(network, t0, t1, amountIn, tBase, network.gasPrice, route);
+    checkRoute(network, t0, t1, amountIn, tBase, network.gasPrice, route)
 
-    checkRouteResult("top20-" + i, route.totalAmountOut);
+    checkRouteResult('top20-' + i, route.totalAmountOut)
   }
-});
+})
 
 it(`Multirouter-100 for ${network.tokens.length} tokens and ${network.pools.length} pools`, () => {
   for (var i = 0; i < 10; ++i) {
-    const [t0, t1, tBase] = chooseRandomTokens(rnd, network);
-    const amountIn = getRandom(rnd, 1e6, 1e24);
+    const [t0, t1, tBase] = chooseRandomTokens(rnd, network)
+    const amountIn = getRandom(rnd, 1e6, 1e24)
 
-    const route = findMultiRouting(
-      t0,
-      t1,
-      amountIn,
-      network.pools,
-      tBase,
-      network.gasPrice,
-      100
-    );
+    const route = findMultiRouting(t0, t1, amountIn, network.pools, tBase, network.gasPrice, 100)
 
-    checkRoute(network, t0, t1, amountIn, tBase, network.gasPrice, route);
+    checkRoute(network, t0, t1, amountIn, tBase, network.gasPrice, route)
 
-    checkRouteResult("m100-" + i, route.totalAmountOut);
+    checkRouteResult('m100-' + i, route.totalAmountOut)
   }
-});
+})
 
 it(`Multirouter path quantity check`, () => {
-  const rndInternal: () => number = seedrandom("00");
-  const steps = [1, 2, 4, 10, 20, 40, 100];
+  const rndInternal: () => number = seedrandom('00')
+  const steps = [1, 2, 4, 10, 20, 40, 100]
   for (var i = 0; i < 5; ++i) {
-    const [t0, t1, tBase] = chooseRandomTokens(rndInternal, network);
-    const amountIn = getRandom(rndInternal, 1e6, 1e24);
+    const [t0, t1, tBase] = chooseRandomTokens(rndInternal, network)
+    const amountIn = getRandom(rndInternal, 1e6, 1e24)
 
-    let prevAmountOut = -1;
+    let prevAmountOut = -1
     steps.forEach((s) => {
-      const route = findMultiRouting(
-        t0,
-        t1,
-        amountIn,
-        network.pools,
-        tBase,
-        network.gasPrice,
-        s
-      );
-      checkRoute(network, t0, t1, amountIn, tBase, network.gasPrice, route);
-      expect(route.totalAmountOut).toBeGreaterThan(prevAmountOut / 1.001);
-      prevAmountOut = route.totalAmountOut;
-      checkRouteResult(`st-${i}-${s}`, route.totalAmountOut);
-    });
+      const route = findMultiRouting(t0, t1, amountIn, network.pools, tBase, network.gasPrice, s)
+      checkRoute(network, t0, t1, amountIn, tBase, network.gasPrice, route)
+      expect(route.totalAmountOut).toBeGreaterThan(prevAmountOut / 1.001)
+      prevAmountOut = route.totalAmountOut
+      checkRouteResult(`st-${i}-${s}`, route.totalAmountOut)
+    })
   }
-});
+})
 
 function makeTestForTiming(tokens: number, density: number, tests: number) {
-  const network2 = createNetwork(rnd, tokens, density);
+  const network2 = createNetwork(rnd, tokens, density)
   it(`Multirouter timing test for ${tokens} tokens and ${network2.pools.length} pools (${tests} times)`, () => {
     for (var i = 0; i < tests; ++i) {
-      const [t0, t1, tBase] = chooseRandomTokens(rnd, network);
-      const amountIn = getRandom(rnd, 1e6, 1e24);
+      const [t0, t1, tBase] = chooseRandomTokens(rnd, network)
+      const amountIn = getRandom(rnd, 1e6, 1e24)
 
-      findMultiRouting(
-        t0,
-        t1,
-        amountIn,
-        network2.pools,
-        tBase,
-        network2.gasPrice
-      );
+      findMultiRouting(t0, t1, amountIn, network2.pools, tBase, network2.gasPrice)
     }
-  });
+  })
 }
 
-makeTestForTiming(10, 0.5, 1000);
-makeTestForTiming(10, 0.9, 1000);
+makeTestForTiming(10, 0.5, 1000)
+makeTestForTiming(10, 0.9, 1000)

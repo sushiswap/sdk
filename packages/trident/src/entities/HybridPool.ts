@@ -191,7 +191,6 @@ export class HybridPool {
     if (!JSBI.greaterThan(liquidity, ZERO)) {
       throw new InsufficientInputAmountError()
     }
-
     return CurrencyAmount.fromRawAmount(this.liquidityToken, liquidity)
   }
 
