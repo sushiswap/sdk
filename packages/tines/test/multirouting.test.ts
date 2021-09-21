@@ -1,8 +1,7 @@
-import { RConstantProductPool, RouteStatus } from '../src/MultiRouterTypes'
-
-import { BigNumber } from '@ethersproject/bignumber'
-import { checkRouteResult } from './snapshots/snapshot'
-import { findMultiRouting } from '../src/MultiRouter'
+import { BigNumber } from "@ethersproject/bignumber";
+import { checkRouteResult } from "./snapshots/snapshot";
+import { findMultiRouting, RouteStatus } from "../src/MultiRouter";
+import { ConstantProductRPool } from "../src/PrimaryPools";
 
 const gasPrice = 1 * 200 * 1e-9
 
@@ -11,15 +10,25 @@ const gasPrice = 1 * 200 * 1e-9
 // -0 | 3-
 //   \2/
 
-function getPool(tokens: any, t0: number, t1: number, price: number[], reserve: number, fee = 0.003, imbalance = 0) {
-  return new RConstantProductPool({
-    token0: tokens[t0],
-    token1: tokens[t1],
-    address: `pool-${t0}-${t1}-${reserve}-${fee}`,
-    reserve0: BigNumber.from(reserve),
-    reserve1: BigNumber.from(Math.round(reserve / (price[t1] / price[t0]) - imbalance)),
+function getPool(
+  tokens: any,
+  t0: number,
+  t1: number,
+  price: number[],
+  reserve: number,
+  fee = 0.003,
+  imbalance = 0
+) {
+  return new ConstantProductRPool(
+    `pool-${t0}-${t1}-${reserve}-${fee}`,
+    tokens[t0],
+    tokens[t1],
     fee,
-  })
+    BigNumber.from(reserve),
+    BigNumber.from(
+      Math.round(reserve / (price[t1] / price[t0]) - imbalance)
+    ),
+  );
 }
 
 // ====================== Env 1 ==================

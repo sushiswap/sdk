@@ -1,33 +1,32 @@
-import { Graph, findMultiRouting } from '../src/MultiRouter'
-import {
+import { 
+  Graph, 
+  findMultiRouting, 
   MultiRoute,
-  Pool,
-  RConstantProductPool,
-  RHybridPool,
   RToken,
   RouteLeg,
-  RouteStatus,
-} from '../src/MultiRouterTypes'
+  RouteStatus 
+} from "../src";
 
-import { checkRouteResult } from './snapshots/snapshot'
-import { getBigNumber } from '../src/MultiRouterMath'
-import seedrandom from 'seedrandom'
+import { checkRouteResult } from "./snapshots/snapshot";
+import { getBigNumber } from "../src";
+import seedrandom from "seedrandom";
+import { ConstantProductRPool, HybridRPool, RPool } from "../src/PrimaryPools";
 
-const testSeed = '2' // Change it to change random generator values
-const rnd: () => number = seedrandom(testSeed) // random [0, 1)
+const testSeed = "2"; // Change it to change random generator values
+const rnd: () => number = seedrandom(testSeed); // random [0, 1)
 
-const GAS_PRICE = 1 * 200 * 1e-9
-const MIN_TOKEN_PRICE = 1e-6
-const MAX_TOKEN_PRICE = 1e6
-const STABLE_TOKEN_PRICE = 1
-const MIN_POOL_RESERVE = 1e9
-const MAX_POOL_RESERVE = 1e31
-const MIN_POOL_IMBALANCE = 1 / (1 + 1e-3)
-const MAX_POOL_IMBALANCE = 1 + 1e-3
-const MIN_LIQUIDITY = 1000
-const MAX_LIQUIDITY = Math.pow(2, 110)
-const MIN_HYBRID_A = 200
-const MAX_HYBRID_A = 300000
+const GAS_PRICE = 1 * 200 * 1e-9;
+const MIN_TOKEN_PRICE = 1e-6;
+const MAX_TOKEN_PRICE = 1e6;
+const STABLE_TOKEN_PRICE = 1;
+const MIN_POOL_RESERVE = 1e9;
+const MAX_POOL_RESERVE = 1e31;
+const MIN_POOL_IMBALANCE = 1 / (1 + 1e-3);
+const MAX_POOL_IMBALANCE = 1 + 1e-3;
+const MIN_LIQUIDITY = 1000;
+const MAX_LIQUIDITY = Math.pow(2, 110);
+const MIN_HYBRID_A = 200;
+const MAX_HYBRID_A = 300000;
 
 interface Variants {
   [key: string]: number
@@ -106,14 +105,14 @@ function getCPPool(rnd: () => number, t0: RToken, t1: RToken, price: number) {
   console.assert(reserve0 >= MIN_LIQUIDITY && reserve0 <= MAX_LIQUIDITY, 'Error reserve0 clculation')
   console.assert(reserve1 >= MIN_LIQUIDITY && reserve1 <= MAX_LIQUIDITY, 'Error reserve1 clculation ' + reserve1)
 
-  return new RConstantProductPool({
-    token0: t0,
-    token1: t1,
-    address: `pool cp ${t0.name} ${t1.name} ${reserve0} ${price} ${fee}`,
-    reserve0: getBigNumber(undefined, reserve0),
-    reserve1: getBigNumber(undefined, reserve1),
+  return new ConstantProductRPool(
+    `pool cp ${t0.name} ${t1.name} ${reserve0} ${price} ${fee}`,
+    t0,
+    t1,
     fee,
-  })
+    getBigNumber(undefined, reserve0),
+    getBigNumber(undefined, reserve1),
+  );
 }
 
 function getPoolA(rnd: () => number) {
@@ -143,15 +142,15 @@ function getHybridPool(rnd: () => number, t0: RToken, t1: RToken) {
   console.assert(reserve0 >= MIN_LIQUIDITY && reserve0 <= MAX_LIQUIDITY, 'Error reserve0 clculation')
   console.assert(reserve1 >= MIN_LIQUIDITY && reserve1 <= MAX_LIQUIDITY, 'Error reserve1 clculation ' + reserve1)
 
-  return new RHybridPool({
-    token0: t0,
-    token1: t1,
-    address: `pool hb ${t0.name} ${t1.name} ${reserve0} ${1} ${fee}`,
-    reserve0: getBigNumber(undefined, reserve0),
-    reserve1: getBigNumber(undefined, reserve1),
+  return new HybridRPool(
+    `pool hb ${t0.name} ${t1.name} ${reserve0} ${1} ${fee}`,
+    t0,
+    t1,
     fee,
     A,
-  })
+    getBigNumber(undefined, reserve0),
+    getBigNumber(undefined, reserve1),
+  );
 }
 
 function getRandomPool(rnd: () => number, t0: RToken, t1: RToken, price: number) {
@@ -161,10 +160,10 @@ function getRandomPool(rnd: () => number, t0: RToken, t1: RToken, price: number)
 }
 
 interface Network {
-  tokens: RToken[]
-  prices: number[]
-  pools: Pool[]
-  gasPrice: number
+  tokens: RToken[];
+  prices: number[];
+  pools: RPool[];
+  gasPrice: number;
 }
 
 function createNetwork(rnd: () => number, tokenNumber: number, density: number): Network {
@@ -176,7 +175,7 @@ function createNetwork(rnd: () => number, tokenNumber: number, density: number):
     else prices.push(getTokenPrice(rnd))
   }
 
-  const pools: Pool[] = []
+  const pools: RPool[] = [];
   for (i = 0; i < tokenNumber; ++i) {
     for (var j = i + 1; j < tokenNumber; ++j) {
       const r = rnd()
@@ -214,8 +213,8 @@ function expectToBeClose(a: number, b: number, max: number) {
   expect(Math.abs(a / b - 1)).toBeLessThan(max)
 }
 
-function getTokenPools(network: Network): Map<RToken, Pool[]> {
-  const tokenPools = new Map<RToken, Pool[]>()
+function getTokenPools(network: Network): Map<RToken, RPool[]> {
+  const tokenPools = new Map<RToken, RPool[]>();
   network.pools.forEach((p) => {
     const pools0 = tokenPools.get(p.token0)
     if (pools0) {
@@ -233,9 +232,12 @@ function getTokenPools(network: Network): Map<RToken, Pool[]> {
   return tokenPools
 }
 
-function getAllConnectedTokens(start: RToken, tokenPools: Map<RToken, Pool[]>): Set<RToken> {
-  const connected = new Set<RToken>()
-  const nextTokens = [start]
+function getAllConnectedTokens(
+  start: RToken,
+  tokenPools: Map<RToken, RPool[]>
+): Set<RToken> {
+  const connected = new Set<RToken>();
+  const nextTokens = [start];
   while (nextTokens.length) {
     const token = nextTokens.pop() as RToken
     if (connected.has(token)) {
@@ -281,10 +283,13 @@ function checkRoute(
   expect(route.amountOut).toBeLessThanOrEqual((route.amountIn / outPriceToIn) * 1.002)
 
   // gasSpent checks
-  const poolMap = new Map<string, Pool>()
-  network.pools.forEach((p) => poolMap.set(p.address, p))
-  const expectedGasSpent = route.legs.reduce((a, b) => a + (poolMap.get(b.address)?.swapGasCost as number), 0)
-  expect(route.gasSpent).toEqual(expectedGasSpent)
+  const poolMap = new Map<string, RPool>();
+  network.pools.forEach((p) => poolMap.set(p.address, p));
+  const expectedGasSpent = route.legs.reduce(
+    (a, b) => a + (poolMap.get(b.address)?.swapGasCost as number),
+    0
+  );
+  expect(route.gasSpent).toEqual(expectedGasSpent);
 
   // totalAmountOut checks
   if (route.status === RouteStatus.NoWay) {
@@ -302,14 +307,14 @@ function checkRoute(
   const usedPools = new Map<string, boolean>()
   const usedTokens = new Map<RToken, RouteLeg[]>()
   route.legs.forEach((l) => {
-    expect(usedPools.get(l.address)).toBeUndefined()
-    usedPools.set(l.address, true)
-    const pool = poolMap.get(l.address) as Pool
-    usedTokens.set(pool.token0, usedTokens.get(pool.token0) || [])
-    usedTokens.get(pool.token0)?.push(l)
-    usedTokens.set(pool.token1, usedTokens.get(pool.token1) || [])
-    usedTokens.get(pool.token1)?.push(l)
-  })
+    expect(usedPools.get(l.address)).toBeUndefined();
+    usedPools.set(l.address, true);
+    const pool = poolMap.get(l.address) as RPool;
+    usedTokens.set(pool.token0, usedTokens.get(pool.token0) || []);
+    usedTokens.get(pool.token0)?.push(l);
+    usedTokens.set(pool.token1, usedTokens.get(pool.token1) || []);
+    usedTokens.get(pool.token1)?.push(l);
+  });
   usedTokens.forEach((legs, t) => {
     if (t === from) {
       expect(legs.length).toBeGreaterThan(0)
@@ -342,17 +347,24 @@ function checkRoute(
 
 // Just for testing
 // @ts-ignore
-function exportNetwork(network: Network, from: RToken, to: RToken, route: MultiRoute) {
-  const allPools = new Map<string, Pool>()
-  network.pools.forEach((p) => allPools.set(p.address, p))
-  const usedPools = new Map<string, boolean>()
-  route.legs.forEach((l) => usedPools.set(l.address, l.token === allPools.get(l.address)?.token0))
+function exportNetwork(
+  network: Network,
+  from: RToken,
+  to: RToken,
+  route: MultiRoute
+) {
+  const allPools = new Map<string, RPool>();
+  network.pools.forEach((p) => allPools.set(p.address, p));
+  const usedPools = new Map<string, boolean>();
+  route.legs.forEach((l) =>
+    usedPools.set(l.address, l.token === allPools.get(l.address)?.token0)
+  );
 
-  function edgeStyle(p: Pool) {
-    const u = usedPools.get(p.address)
-    if (u === undefined) return ''
-    if (u) return ', value: 2, arrows: "to"'
-    else return ', value: 2, arrows: "from"'
+  function edgeStyle(p: RPool) {
+    const u = usedPools.get(p.address);
+    if (u === undefined) return "";
+    if (u) return ', value: 2, arrows: "to"';
+    else return ', value: 2, arrows: "from"';
   }
 
   function nodeLabel(t: RToken) {

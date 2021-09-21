@@ -1,8 +1,8 @@
-import { Edge, Graph, Vertice } from '../src/MultiRouter'
-import { Pool, PoolType, RToken } from '../src/MultiRouterTypes'
+import { Edge, Graph, Vertice } from "../src/MultiRouter";
 
-import { BigNumber } from '@ethersproject/bignumber'
-import seedrandom from 'seedrandom'
+import { BigNumber } from "@ethersproject/bignumber";
+import seedrandom from "seedrandom";
+import { ConstantProductRPool, RToken } from "../src/PrimaryPools";
 
 type Topology = [number, number[][]]
 
@@ -13,17 +13,16 @@ function createTopology(t: Topology): [Graph, Vertice, Vertice] {
   }
   const bn = BigNumber.from(1e6)
   const pools = t[1].map((e, i) => {
-    return new Pool({
-      address: '' + i,
-      token0: tokens[e[0]],
-      token1: tokens[e[1]],
-      type: PoolType.ConstantProduct,
-      reserve0: bn,
-      reserve1: bn,
-      fee: 0.003,
-    })
-  })
-  const g = new Graph(pools, tokens[0], 0) // just a dummy
+    return new ConstantProductRPool(
+      "" + i,
+      tokens[e[0]],
+      tokens[e[1]],
+      0.003,
+      bn,
+      bn,
+    );
+  });
+  const g = new Graph(pools, tokens[0], 0); // just a dummy
   g.edges.forEach((e) => {
     e.amountInPrevious = 1
     e.amountOutPrevious = 1
@@ -44,19 +43,18 @@ function createCorrectTopology(t: Topology, paths: number): [Graph, Vertice, Ver
   }
   const bn = BigNumber.from(1e6)
   const pools = t[1].map((e, i) => {
-    return new Pool({
-      address: '' + i,
-      token0: tokens[e[0]],
-      token1: tokens[e[1]],
-      type: PoolType.ConstantProduct,
-      reserve0: bn,
-      reserve1: bn,
-      fee: 0.003,
-    })
-  })
-  const g = new Graph(pools, tokens[0], 0) // just a dummy
-  const from = g.getOrCreateVertice(tokens[0])
-  const to = g.getOrCreateVertice(tokens[tokens.length - 1])
+    return new ConstantProductRPool(
+      "" + i,
+      tokens[e[0]],
+      tokens[e[1]],
+      0.003,
+      bn,
+      bn,
+    );
+  });
+  const g = new Graph(pools, tokens[0], 0); // just a dummy
+  const from = g.getOrCreateVertice(tokens[0]);
+  const to = g.getOrCreateVertice(tokens[tokens.length - 1]);
   for (let i = 0; i < paths; ++i) {
     const p = generatePath(g, from, to, new Set<Vertice>())
     if (p === undefined) return [g, from, to]
