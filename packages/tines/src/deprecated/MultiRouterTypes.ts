@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 
-export interface RToken {
+interface RToken {
   name: string
   address: string
 }
