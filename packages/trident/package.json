@@ -1,6 +1,6 @@
 {
   "name": "@sushiswap/trident-sdk",
-  "version": "1.0.0-canary.1",
+  "version": "1.0.0-canary.2",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -20,7 +20,7 @@
     "prepublishOnly": "tsdx build"
   },
   "dependencies": {
-    "@sushiswap/trident": "1.0.0-canary.10"
+    "@sushiswap/trident": "1.0.0-canary.12"
   },
   "devDependencies": {
     "@sushiswap/core-sdk": "canary",
