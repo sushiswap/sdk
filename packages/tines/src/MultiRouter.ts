@@ -217,7 +217,7 @@ export class Vertice {
 export class Graph {
   vertices: Vertice[]
   edges: Edge[]
-  tokens: Map<RToken, Vertice>
+  tokens: Map<string, Vertice>
 
   constructor(pools: RPool[], baseToken: RToken, gasPrice: number) {
     this.vertices = [];
@@ -231,7 +231,7 @@ export class Graph {
       v1.edges.push(edge)
       this.edges.push(edge)
     })
-    const baseVert = this.tokens.get(baseToken)
+    const baseVert = this.tokens.get(baseToken.address)
     if (baseVert) {
       this.setPrices(baseVert, 1, gasPrice)
     }
@@ -253,11 +253,11 @@ export class Graph {
   }
 
   getOrCreateVertice(token: RToken) {
-    let vert = this.tokens.get(token)
+    let vert = this.tokens.get(token.address)
     if (vert) return vert
     vert = new Vertice(token)
     this.vertices.push(vert)
-    this.tokens.set(token, vert)
+    this.tokens.set(token.address, vert)
     return vert
   }
 
@@ -345,8 +345,8 @@ export class Graph {
         totalOutput: number
       }
     | undefined {
-    const start = this.tokens.get(from)
-    const finish = this.tokens.get(to)
+    const start = this.tokens.get(from.address)
+    const finish = this.tokens.get(to.address)
     if (!start || !finish) return
 
     this.edges.forEach((e) => {
@@ -498,7 +498,7 @@ export class Graph {
         output += p.output
         gasSpentInit += p.gasSpent
         //totalOutput += p.totalOutput
-        this.addPath(this.tokens.get(from), this.tokens.get(to), p.path)
+        this.addPath(this.tokens.get(from.address), this.tokens.get(to.address), p.path)
         totalrouted += routeValues[step]
       }
     }
@@ -515,8 +515,8 @@ export class Graph {
     if (step < routeValues.length) status = RouteStatus.Partial
     else status = RouteStatus.Success
 
-    const fromVert = this.tokens.get(from) as Vertice
-    const toVert = this.tokens.get(to) as Vertice
+    const fromVert = this.tokens.get(from.address) as Vertice
+    const toVert = this.tokens.get(to.address) as Vertice
     const [legs, gasSpent, topologyWasChanged] = this.getRouteLegs(fromVert, toVert)
     console.assert(gasSpent <= gasSpentInit, 'Internal Error 491')
 
@@ -589,10 +589,10 @@ export class Graph {
   }
 
   calcLegsAmountOut(legs: RouteLeg[], amountIn: number, to: RToken) {
-    const amounts = new Map<RToken, number>()
-    amounts.set(legs[0].token, amountIn)
+    const amounts = new Map<string, number>()
+    amounts.set(legs[0].token.address, amountIn)
     legs.forEach((l) => {
-      const vert = this.tokens.get(l.token);
+      const vert = this.tokens.get(l.token.address);
       console.assert(vert !== undefined, "Internal Error 570");
       const edge = (vert as Vertice).edges.find(
         (e) => e.pool.address === l.address
@@ -601,17 +601,17 @@ export class Graph {
       const pool = (edge as Edge).pool;
       const direction = vert === (edge as Edge).vert0;
 
-      const inputTotal = amounts.get(l.token);
+      const inputTotal = amounts.get(l.token.address);
       console.assert(inputTotal !== undefined, "Internal Error 564");
       const input = (inputTotal as number) * l.swapPortion;
-      amounts.set(l.token, (inputTotal as number) - input);
+      amounts.set(l.token.address, (inputTotal as number) - input);
       const output = pool.calcOutByIn(input, direction)[0];
 
       const vertNext = (vert as Vertice).getNeibour(edge) as Vertice;
-      const prevAmount = amounts.get(vertNext.token);
-      amounts.set(vertNext.token, (prevAmount || 0) + output);
+      const prevAmount = amounts.get(vertNext.token.address);
+      amounts.set(vertNext.token.address, (prevAmount || 0) + output);
     });
-    return amounts.get(to) || 0;
+    return amounts.get(to.address) || 0;
   }
 
   // removes all cycles if there are any, then removes all dead end could appear after cycle removing
@@ -771,7 +771,7 @@ export function findMultiRouting(
   steps: number | number[] = 12
 ): MultiRoute {
   const g = new Graph(pools, baseToken, gasPrice)
-  const fromV = g.tokens.get(from)
+  const fromV = g.tokens.get(from.address)
   if (fromV?.price === 0) {
     g.setPrices(fromV, 1, 0)
   }

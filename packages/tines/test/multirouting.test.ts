@@ -1,7 +1,7 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { checkRouteResult } from "./snapshots/snapshot";
 import { findMultiRouting, RouteStatus } from "../src/MultiRouter";
-import { ConstantProductRPool } from "../src/PrimaryPools";
+import { RToken, ConstantProductRPool } from "../src/PrimaryPools";
 
 const gasPrice = 1 * 200 * 1e-9
 
@@ -11,7 +11,7 @@ const gasPrice = 1 * 200 * 1e-9
 //   \2/
 
 function getPool(
-  tokens: any,
+  tokens: RToken[],
   t0: number,
   t1: number,
   price: number[],
@@ -35,7 +35,7 @@ function getPool(
 const price = [1, 1, 1, 1, 1]
 const tokens = price.map((_, i) => ({
   name: '' + (i + 1),
-  address: 'abcd',
+  address: 'token_addres ' + (i+1),
 }))
 
 const testPool0_1 = getPool(tokens, 0, 1, price, 1_500_0)
@@ -50,7 +50,7 @@ const testPools = [testPool0_1, testPool0_2, testPool1_3, testPool2_3, testPool1
 const price2 = [1, 2, 2.2, 15, 0.01]
 const tokens2 = price2.map((_, i) => ({
   name: '' + (i + 1),
-  address: 'abcd',
+  address: 'token_addres ' + (i+1),
 }))
 
 const testPool0_1_2 = getPool(tokens2, 0, 1, price2, 1_500_0)
