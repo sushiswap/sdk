@@ -21,8 +21,8 @@ function getPool(
 ) {
   return new ConstantProductRPool(
     `pool-${t0}-${t1}-${reserve}-${fee}`,
-    tokens[t0],
-    tokens[t1],
+    {...tokens[t0]},
+    {...tokens[t1]},
     fee,
     BigNumber.from(reserve),
     BigNumber.from(
@@ -63,7 +63,15 @@ const testPools2 = [testPool0_1_2, testPool0_2_2, testPool1_3_2, testPool2_3_2, 
 
 describe('Multirouting for bridge topology', () => {
   it('works correct for equal prices', () => {
-    const res = findMultiRouting(tokens[0], tokens[3], 10000, testPools, tokens[2], gasPrice, 100)
+    const res = findMultiRouting(
+      {...tokens[0]}, 
+      {...tokens[3]}, 
+      10000, 
+      testPools, 
+      {...tokens[2]}, 
+      gasPrice, 
+      100
+    )
 
     expect(res).toBeDefined()
     expect(res?.status).toEqual(RouteStatus.Success)
