@@ -4,6 +4,9 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "lerna": "lerna"
+  },
   "devDependencies": {
     "@sushiswap/prettier-config": "^0.1.0",
     "@types/node": "^16.9.1",

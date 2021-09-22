@@ -2,7 +2,7 @@ import { ChainId, ChainKey, Token } from '@sushiswap/core-sdk'
 
 import { Fee } from '../enums'
 import all from '@sushiswap/trident/exports/all.json'
-import { bytecode } from '@sushiswap/trident/artifacts/contracts/pool/ConstantProductPoolFactory.sol/ConstantProductPoolFactory.json'
+import { bytecode } from '@sushiswap/trident/artifacts/contracts/pool/ConstantProductPool.sol/ConstantProductPool.json'
 import { computePoolInitCodeHash } from './computePoolInitCodeHash'
 import { defaultAbiCoder } from '@ethersproject/abi'
 import { getCreate2Address } from '@ethersproject/address'

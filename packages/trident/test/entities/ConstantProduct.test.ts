@@ -26,6 +26,14 @@ describe('computePoolAddress', () => {
 
     const twap = true
 
+    console.log({
+      factoryAddress: all[ChainId.KOVAN][ChainKey.KOVAN].contracts.ConstantProductPoolFactory.address,
+      tokenA,
+      tokenB,
+      fee,
+      twap,
+    })
+
     const address = computeConstantProductPoolAddress({
       factoryAddress: all[ChainId.KOVAN][ChainKey.KOVAN].contracts.ConstantProductPoolFactory.address,
       tokenA,
