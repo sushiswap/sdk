@@ -110,8 +110,8 @@ function getCPPool(rnd: () => number, t0: RToken, t1: RToken, price: number) {
     t0,
     t1,
     fee,
-    getBigNumber(undefined, reserve0),
-    getBigNumber(undefined, reserve1),
+    getBigNumber(reserve0),
+    getBigNumber(reserve1),
   );
 }
 
@@ -148,8 +148,8 @@ function getHybridPool(rnd: () => number, t0: RToken, t1: RToken) {
     t1,
     fee,
     A,
-    getBigNumber(undefined, reserve0),
-    getBigNumber(undefined, reserve1),
+    getBigNumber(reserve0),
+    getBigNumber(reserve1),
   );
 }
 

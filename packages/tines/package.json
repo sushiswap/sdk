@@ -1,6 +1,6 @@
 {
   "name": "@sushiswap/tines",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -17,7 +17,7 @@
     "build": "tsdx build",
     "watch": "tsdx watch",
     "test": "tsdx test",
-    "clear_jest": "tsdx test --clearCache",
+    "clear_jest_cache": "tsdx test --clearCache",
     "prepublishOnly": "tsdx build"
   },
   "peerDependencies": {

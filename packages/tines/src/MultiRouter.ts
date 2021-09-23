@@ -505,6 +505,8 @@ export class Graph {
     if (step == 0)
       return {
         status: RouteStatus.NoWay,
+        fromToken: from,
+        toToken: to,
         amountIn: 0,
         amountOut: 0,
         legs: [],
@@ -526,6 +528,8 @@ export class Graph {
 
     return {
       status,
+      fromToken: from,
+      toToken: to,
       amountIn: amountIn * totalrouted,
       amountOut: output,
       legs,
@@ -754,6 +758,8 @@ export enum RouteStatus {
 }
 export interface MultiRoute {
   status: RouteStatus;
+  fromToken: RToken;
+  toToken: RToken;
   amountIn: number;
   amountOut: number;
   legs: RouteLeg[];

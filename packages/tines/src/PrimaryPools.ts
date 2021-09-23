@@ -189,7 +189,7 @@ export class HybridRPool extends RPool {
     const xBN = direction ? this.reserve0 : this.reserve1
     const yBN = direction ? this.reserve1 : this.reserve0
     const xNewBN = xBN.add(
-      getBigNumber(undefined, amountIn * (1 - this.fee))
+      getBigNumber(amountIn * (1 - this.fee))
     )
     const yNewBN = this.computeY(xNewBN)
     const dy = parseInt(yBN.sub(yNewBN).toString())
@@ -200,7 +200,7 @@ export class HybridRPool extends RPool {
   calcInByOut(amountOut: number, direction: boolean): [number, number] {
     const xBN = direction ? this.reserve0 : this.reserve1
     const yBN = direction ? this.reserve1 : this.reserve0
-    let yNewBN = yBN.sub(getBigNumber(undefined, amountOut))
+    let yNewBN = yBN.sub(getBigNumber(amountOut))
     if (yNewBN.lt(1))
       // lack of precision
       yNewBN = BigNumber.from(1)
