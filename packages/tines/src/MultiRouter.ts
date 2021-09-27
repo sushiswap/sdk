@@ -368,10 +368,10 @@ export class Graph {
     let checkLine = 0
     for (;;) {
       let closestVert: Vertice | undefined
-      let closestTotal = -1
+      let closestTotal: number | undefined
       let closestPosition = 0
       nextVertList.forEach((v, i) => {
-        if (v.bestTotal > closestTotal) {
+        if (closestTotal === undefined || v.bestTotal > closestTotal) {
           closestTotal = v.bestTotal
           closestVert = v
           closestPosition = i

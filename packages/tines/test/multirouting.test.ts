@@ -1,7 +1,7 @@
-import { BigNumber } from "@ethersproject/bignumber";
 import { checkRouteResult } from "./snapshots/snapshot";
 import { findMultiRouting, RouteStatus } from "../src/MultiRouter";
 import { RToken, ConstantProductRPool } from "../src/PrimaryPools";
+import { getBigNumber } from "../src";
 
 const gasPrice = 1 * 200 * 1e-9
 
@@ -24,10 +24,8 @@ function getPool(
     {...tokens[t0]},
     {...tokens[t1]},
     fee,
-    BigNumber.from(reserve),
-    BigNumber.from(
-      Math.round(reserve / (price[t1] / price[t0]) - imbalance)
-    ),
+    getBigNumber(reserve),
+    getBigNumber(Math.round(reserve / (price[t1] / price[t0]) - imbalance)),
   );
 }
 
@@ -164,5 +162,13 @@ describe('Multirouting for bridge topology', () => {
 
       checkRouteResult('bridge-7-' + s, res.totalAmountOut)
     })
+  })
+
+  it('very small swap', () => {
+    const token0 = {name: 'Token0', address: 'Token0Address'}
+    const token1 = {name: 'Token1', address: 'Token1Address'}
+    const pool = getPool([token0, token1], 0, 1, [1, 2], 1e18, 0.03, 0)
+    const out2 = findMultiRouting(token0, token1, 100, [pool], token1, 200).amountOut
+    expect(out2).toBeGreaterThan(0)
   })
 })
