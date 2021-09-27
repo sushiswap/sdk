@@ -28,13 +28,35 @@ describe('Parallel ConstuntProduct Combo Pool', () => {
         getBigNumber(1e18),
         getBigNumber(2e18)
     )
-    debugger
-    const comboPool = new ParallelCPRPool(token0, [pool], 200)
+    const comboPool1 = new ParallelCPRPool(token0, [pool], 200)
 
-    for (let i = 0; i < 100; ++i) {
-      const amountIn = getRandom(rnd, 1, 1e17)
-      const out1 = comboPool.calcOutByIn(amountIn, true)[0]
+    for (let i = 0; i < 10; ++i) {
+      const amountIn = getRandom(rnd, 1e3, 1e17)
+      const out1 = comboPool1.calcOutByIn(amountIn, true)[0]
       const out2 = findMultiRouting(token0, token1, amountIn, [pool], token1, 200).amountOut
+      expect(Math.abs(out1/out2-1)).toBeLessThan(1e-12)
+    }
+
+    for (let i = 0; i < 10; ++i) {
+      const amountIn = getRandom(rnd, 1e3, 1e17)
+      const out1 = comboPool1.calcOutByIn(amountIn, false)[0]
+      const out2 = findMultiRouting(token1, token0, amountIn, [pool], token1, 200).amountOut
+      expect(Math.abs(out1/out2-1)).toBeLessThan(1e-12)
+    }
+
+    const comboPool2 = new ParallelCPRPool(token1, [pool], 200)
+
+    for (let i = 0; i < 10; ++i) {
+      const amountIn = getRandom(rnd, 1e3, 1e17)
+      const out1 = comboPool2.calcOutByIn(amountIn, false)[0]
+      const out2 = findMultiRouting(token0, token1, amountIn, [pool], token1, 200).amountOut
+      expect(Math.abs(out1/out2-1)).toBeLessThan(1e-12)
+    }
+
+    for (let i = 0; i < 10; ++i) {
+      const amountIn = getRandom(rnd, 1e3, 1e17)
+      const out1 = comboPool2.calcOutByIn(amountIn, true)[0]
+      const out2 = findMultiRouting(token1, token0, amountIn, [pool], token1, 200).amountOut
       expect(Math.abs(out1/out2-1)).toBeLessThan(1e-12)
     }
   })
