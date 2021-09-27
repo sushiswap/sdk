@@ -247,7 +247,7 @@ export class Graph {
     edges.forEach(([e, _]) => {
       const v = e.vert0 === from ? e.vert1 : e.vert0;
       if (v.price !== 0) return;
-      let p = e.pool.calcPrice(0, from === e.vert1, false);
+      let p = e.pool.calcCurrentPriceWithoutFee(from === e.vert1);
       this.setPrices(v, price * p, gasPrice / p);
     });
   }

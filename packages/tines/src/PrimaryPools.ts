@@ -42,67 +42,72 @@ export abstract class RPool {
     // Returns [<output amount>, <gas consumption estimation>]
     abstract calcOutByIn(amountIn: number, direction: boolean): [number, number];
     abstract calcInByOut(amountOut: number, direction: boolean): [number, number];
-    abstract calcPrice(amountIn: number, direction: boolean, takeFeeIntoAccount: boolean): number;
-    abstract calcInputByPrice(price: number, direction: boolean, takeFeeIntoAccount: boolean, hint: number): number;
+    abstract calcCurrentPriceWithoutFee(direction: boolean): number;
+    // abstract calcPrice(amountIn: number, direction: boolean, takeFeeIntoAccount: boolean): number;
+    // abstract calcInputByPrice(price: number, direction: boolean, takeFeeIntoAccount: boolean, hint: number): number;
 }
 
-// TODO: cache BN -> number transform
 export class ConstantProductRPool extends RPool {
 
-    constructor(
-      address: string,
-      token0: RToken,
-      token1: RToken,
-      fee: number,
-      reserve0: BigNumber,
-      reserve1: BigNumber,
-    ) {
-        super(
-          address,
-          token0,
-          token1,
-          fee,
-          reserve0,
-          reserve1,
-        );
-    }
+  reserve0Number: number
+  reserve1Number: number
+
+  constructor(
+    address: string,
+    token0: RToken,
+    token1: RToken,
+    fee: number,
+    reserve0: BigNumber,
+    reserve1: BigNumber,
+  ) {
+    super(
+      address,
+      token0,
+      token1,
+      fee,
+      reserve0,
+      reserve1,
+    );
+    this.reserve0Number = parseInt(reserve0.toString());
+    this.reserve1Number = parseInt(reserve1.toString());
+  }
 
   calcOutByIn(amountIn: number, direction: boolean): [number, number] {
-    const xBN = direction ? this.reserve0 : this.reserve1;
-    const yBN = direction ? this.reserve1 : this.reserve0;
-    const x = parseInt(xBN.toString());
-    const y = parseInt(yBN.toString());
+    const x = direction ? this.reserve0Number : this.reserve1Number;
+    const y = direction ? this.reserve1Number : this.reserve0Number;
     return [(y * amountIn) / (x / (1 - this.fee) + amountIn), this.swapGasCost];
   }
 
   calcInByOut(amountOut: number, direction: boolean): [number, number] {
-    const xBN = direction ? this.reserve0 : this.reserve1;
-    const yBN = direction ? this.reserve1 : this.reserve0;
-    const x = parseInt(xBN.toString());
-    const y = parseInt(yBN.toString());
+    const x = direction ? this.reserve0Number : this.reserve1Number;
+    const y = direction ? this.reserve1Number : this.reserve0Number;
     let input = (x * amountOut) / (1 - this.fee) / (y - amountOut);
     if (input < 1) input = 1
     return [input, this.swapGasCost]
   }
 
+  calcCurrentPriceWithoutFee(direction: boolean): number {
+    return this.calcPrice(0, direction, false)
+  }
+
   calcPrice(amountIn: number, direction: boolean, takeFeeIntoAccount: boolean): number {
-    const xBN = direction ? this.reserve0 : this.reserve1;
-    const yBN = direction ? this.reserve1 : this.reserve0;
-    const x = parseInt(xBN.toString());
-    const y = parseInt(yBN.toString());
+    const x = direction ? this.reserve0Number : this.reserve1Number;
+    const y = direction ? this.reserve1Number : this.reserve0Number;
     const oneMinusFee = takeFeeIntoAccount ? 1 - this.fee : 1;
     const xf = x / oneMinusFee;
     return (y * xf) / (xf + amountIn) / (xf + amountIn);
   }
 
   calcInputByPrice(price: number, direction: boolean, takeFeeIntoAccount: boolean): number {
-    const xBN = direction ? this.reserve0 : this.reserve1;
-    const yBN = direction ? this.reserve1 : this.reserve0;
-    const x = parseInt(xBN.toString());
-    const y = parseInt(yBN.toString());
+    const x = direction ? this.reserve0Number : this.reserve1Number;
+    const y = direction ? this.reserve1Number : this.reserve0Number;
     const oneMinusFee = takeFeeIntoAccount ? 1 - this.fee : 1;
     const xf = x / oneMinusFee;
-    return Math.sqrt(y*xf*price) - xf;
+    return Math.sqrt(y*xf*price) - xf;    // TODO: or y*xf/price ???
+  }
+
+  getLiquidity() {
+    return Math.sqrt(this.reserve0Number*this.reserve1Number)
   }
 }
 
@@ -210,6 +215,10 @@ export class HybridRPool extends RPool {
 
     if (input < 1) input = 1
     return [input, this.swapGasCost]
+  }
+  
+  calcCurrentPriceWithoutFee(direction: boolean): number {
+    return this.calcPrice(0, direction, false)
   }
 
   calcPrice(amountIn: number, direction: boolean, takeFeeIntoAccount: boolean): number {
