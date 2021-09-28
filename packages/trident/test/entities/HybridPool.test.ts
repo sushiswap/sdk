@@ -216,7 +216,7 @@ describe('HybridPool', () => {
         CurrencyAmount.fromRawAmount(tokenB, '1000')
       )
 
-      expect(liquidity.quotient.toString()).toEqual('1256')
+      expect(liquidity.quotient.toString()).toEqual('1000')
     })
 
     it('getLiquidityMinted:!0', async () => {

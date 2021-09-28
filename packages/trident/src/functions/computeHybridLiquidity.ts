@@ -24,10 +24,10 @@ export function computeHybridLiquidity(reserve0: JSBI, reserve1: JSBI, a: JSBI):
     prevD = D
 
     D = JSBI.divide(
-      JSBI.multiply(JSBI.add(JSBI.multiply(JSBI.multiply(N_A, s), A_PRECISION), JSBI.BigInt(2)), dP),
-      JSBI.multiply(
-        JSBI.add(JSBI.multiply(JSBI.subtract(JSBI.divide(N_A, A_PRECISION), JSBI.BigInt(1)), D), JSBI.BigInt(3)),
-        dP
+      JSBI.multiply(JSBI.add(JSBI.divide(JSBI.multiply(N_A, s), A_PRECISION), JSBI.multiply(dP, JSBI.BigInt(2))), D),
+      JSBI.add(
+        JSBI.multiply(JSBI.subtract(JSBI.divide(N_A, A_PRECISION), JSBI.BigInt(1)), D),
+        JSBI.multiply(dP, JSBI.BigInt(3))
       )
     )
 
