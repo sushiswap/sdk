@@ -12,10 +12,11 @@ import { computeHybridLiquidity, computeHybridPoolAddress } from '../functions'
 import { A_PRECISION } from '../constants'
 import { Fee } from '../enums'
 import JSBI from 'jsbi'
+import { Pool } from '../interfaces'
 import all from '@sushiswap/trident/exports/all.json'
 import invariant from 'tiny-invariant'
 
-export class HybridPool {
+export class HybridPool implements Pool {
   public readonly liquidityToken: Token
   public readonly fee: Fee
   public readonly a: JSBI
@@ -98,6 +99,10 @@ export class HybridPool {
 
   public get token1(): Token {
     return this.tokenAmounts[1].currency
+  }
+
+  public get getAssets(): Token[] {
+    return [this.tokenAmounts[0].currency, this.tokenAmounts[1].currency]
   }
 
   public get reserve0(): CurrencyAmount<Token> {
@@ -184,8 +189,8 @@ export class HybridPool {
       tokenAmountA: tokenAmountA.quotient.toString(),
       tokenAmountB: tokenAmountB.quotient.toString(),
       totalSupply: totalSupply.quotient.toString(),
-      liquidity: liquidity.toString(),
       newLiquidity: newLiquidity.toString(),
+      liquidity: liquidity.toString(),
     })
 
     if (!JSBI.greaterThan(liquidity, ZERO)) {

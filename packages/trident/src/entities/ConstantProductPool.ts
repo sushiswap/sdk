@@ -12,11 +12,12 @@ import {
 
 import { Fee } from '../enums'
 import JSBI from 'jsbi'
+import { Pool } from '../interfaces'
 import all from '@sushiswap/trident/exports/all.json'
 import { computeConstantProductPoolAddress } from '../functions'
 import invariant from 'tiny-invariant'
 
-export class ConstantProductPool {
+export class ConstantProductPool implements Pool {
   public readonly liquidityToken: Token
   public readonly fee: Fee
   public readonly twap: boolean
@@ -99,6 +100,10 @@ export class ConstantProductPool {
 
   public get token1(): Token {
     return this.tokenAmounts[1].currency
+  }
+
+  public get getAssets(): Token[] {
+    return [this.tokenAmounts[0].currency, this.tokenAmounts[1].currency]
   }
 
   public get reserve0(): CurrencyAmount<Token> {
