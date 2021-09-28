@@ -96,7 +96,7 @@ export function calcOutByIn(pool: Pool, amountIn: number, direction = true): num
       // const yNew = HybridgetY(pool, xNew);
       // const dy = y - yNew;
 
-      const xNewBN = xBN.add(getBigNumber(undefined, amountIn * (1 - pool.fee)))
+      const xNewBN = xBN.add(getBigNumber(amountIn * (1 - pool.fee)))
       const yNewBN = HybridgetY(pool as RHybridPool, xNewBN)
       const dy = parseInt(yBN.sub(yNewBN).toString())
 
@@ -193,7 +193,7 @@ export function calcInByOut(pool: Pool, amountOut: number, direction: boolean): 
       break
     }
     case PoolType.Hybrid: {
-      let yNewBN = yBN.sub(getBigNumber(undefined, amountOut))
+      let yNewBN = yBN.sub(getBigNumber(amountOut))
       if (yNewBN.lt(1))
         // lack of precision
         yNewBN = BigNumber.from(1)

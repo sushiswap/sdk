@@ -56,11 +56,8 @@ export function ASSERT(f: () => boolean, t?: string) {
   }
   
   export function getBigNumber(
-    valueBN: BigNumber | undefined,
     value: number
   ): BigNumber {
-    if (valueBN !== undefined) return valueBN;
-  
     if (value < Number.MAX_SAFE_INTEGER) return BigNumber.from(Math.round(value));
   
     const exp = Math.floor(Math.log(value) / Math.LN2);

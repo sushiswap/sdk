@@ -247,7 +247,7 @@ export class Graph {
     edges.forEach(([e, _]) => {
       const v = e.vert0 === from ? e.vert1 : e.vert0;
       if (v.price !== 0) return;
-      let p = e.pool.calcPrice(0, from === e.vert1, false);
+      let p = e.pool.calcCurrentPriceWithoutFee(from === e.vert1);
       this.setPrices(v, price * p, gasPrice / p);
     });
   }
@@ -368,10 +368,10 @@ export class Graph {
     let checkLine = 0
     for (;;) {
       let closestVert: Vertice | undefined
-      let closestTotal = -1
+      let closestTotal: number | undefined
       let closestPosition = 0
       nextVertList.forEach((v, i) => {
-        if (v.bestTotal > closestTotal) {
+        if (closestTotal === undefined || v.bestTotal > closestTotal) {
           closestTotal = v.bestTotal
           closestVert = v
           closestPosition = i
@@ -505,6 +505,8 @@ export class Graph {
     if (step == 0)
       return {
         status: RouteStatus.NoWay,
+        fromToken: from,
+        toToken: to,
         amountIn: 0,
         amountOut: 0,
         legs: [],
@@ -526,6 +528,8 @@ export class Graph {
 
     return {
       status,
+      fromToken: from,
+      toToken: to,
       amountIn: amountIn * totalrouted,
       amountOut: output,
       legs,
@@ -754,6 +758,8 @@ export enum RouteStatus {
 }
 export interface MultiRoute {
   status: RouteStatus;
+  fromToken: RToken;
+  toToken: RToken;
   amountIn: number;
   amountOut: number;
   legs: RouteLeg[];
