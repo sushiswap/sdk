@@ -39,11 +39,7 @@ export class ParallelCPRPool extends RPool {
 
   //TODO:
   // 1) weak pool test
-  // 2) directions: true/fasle
   // 3) poolPrice < priceCurrent
-  // 4) 1 pool result == findMultiRouting
-  // 5) n pool result > findMultiRouting
-  // 6) Several equal pools
   calcNextJumpforPool(pool: ConstantProductRPool, poolIndex: number, direction: boolean, prevJump?: JumpInfo): JumpInfo | undefined {
     const dir = (this.token0.address === pool.token0.address) === direction
     const poolPrice = pool.calcPrice(0, dir, true)
