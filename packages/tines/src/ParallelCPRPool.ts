@@ -90,7 +90,10 @@ export class ParallelCPRPool extends RPool {
     pools.forEach( (p, i) => {
       const jump = this.calcNextJumpforPool(p, i, direction, prevJump)
       if (bestJump === undefined) bestJump = jump
-      else if (jump !== undefined && jump.input < bestJump.input) bestJump = jump
+      else if (jump !== undefined) {
+        if (0 < jump.input && jump.input < bestJump.input) bestJump = jump
+        if (bestJump.input === 0 && jump.price > bestJump.price) bestJump = jump
+      }
     })
     return bestJump
   }

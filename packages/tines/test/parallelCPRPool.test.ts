@@ -17,19 +17,22 @@ function getRandom(rnd: () => number, min: number, max: number) {
 }
 
 const gasPrice = 200
+const token0 = {name: 'Token0', address: 'Token0Address'}
+const token1 = {name: 'Token1', address: 'Token1Address'}
+function getPool(reserve: number, price: number, fee: number) {
+  return new ConstantProductRPool(
+    'poolAddress',
+    token0,
+    token1,
+    fee,
+    getBigNumber(reserve),
+    getBigNumber(reserve*price)
+)
+}
 
 describe('Parallel ConstuntProduct Combo Pool', () => {
   it('One pool', () => {
-    const token0 = {name: 'Token0', address: 'Token0Address'}
-    const token1 = {name: 'Token1', address: 'Token1Address'}
-    const pool = new ConstantProductRPool(
-        'poolAddress',
-        token0,
-        token1,
-        0.003,
-        getBigNumber(1e18),
-        getBigNumber(2e18)
-    )
+    const pool = getPool(1e18, 2, 0.003)
     const comboPool1 = new ParallelCPRPool(token0, [pool], gasPrice)
 
     for (let i = 0; i < 10; ++i) {
@@ -64,18 +67,9 @@ describe('Parallel ConstuntProduct Combo Pool', () => {
   })
 
   it('Several equal pools', () => {
-    const token0 = {name: 'Token0', address: 'Token0Address'}
-    const token1 = {name: 'Token1', address: 'Token1Address'}
     const pools = []
     for (let i = 0; i < 7; ++i) {
-      pools.push(new ConstantProductRPool(
-        'poolAddress',
-        token0,
-        token1,
-        0.003,
-        getBigNumber(1e18),
-        getBigNumber(2e18)
-      ))
+      pools.push(getPool(1e18, 2, 0.003))
       const comboPool = new ParallelCPRPool(token0, pools, gasPrice)
 
       for (let i = 0; i < 100; ++i) {
@@ -87,5 +81,24 @@ describe('Parallel ConstuntProduct Combo Pool', () => {
         expect(totalAmountOut).toBeLessThanOrEqual(ta > 0 ? ta*(1+1e-12):ta*(1-1e-12))
       }
     }    
+  })
+
+  it('1+3 pools', () => {
+    const pools = [
+      getPool(1e18, 2, 0.003),
+      getPool(1e18, 2, 0.003),
+      getPool(1e19, 2, 0.003),
+      getPool(1e18, 2, 0.003)
+    ]
+    const comboPool = new ParallelCPRPool(token0, pools, gasPrice)
+
+    for (let i = 0; i < 100; ++i) {
+      const amountIn = getRandom(rnd, 1e3, 1e20)
+      const [out1, gas] = comboPool.calcOutByIn(amountIn, true)
+      const ta = out1 - gas*gasPrice
+      const {amountOut, totalAmountOut} = findMultiRouting(token0, token1, amountIn, pools, token1, gasPrice)      
+      expect(amountOut).toBeLessThanOrEqual(out1*(1+1e-12))
+      expect(totalAmountOut).toBeLessThanOrEqual(ta > 0 ? ta*(1+1e-12):ta*(1-1e-12))
+    } 
   })
 })
