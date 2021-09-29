@@ -59,13 +59,12 @@ export class ParallelCPRPool extends RPool {
 
     const swapCost = this.gasPrice * pool.swapGasCost
     if ( y < swapCost) return     // pool is too weak to pay off swap gas cost
-
     const combinedYNew = Math.sqrt(poolPrice/prevJump.price)*prevJump.combinedLiquidityY
     console.assert(combinedYNew > 0, "Internal error 45")
     const outputFirst = prevJump.combinedLiquidityY - combinedYNew   // TODO: check if negative !!!!
     const inputFirst = prevJump.combinedLiquidityY*outputFirst/prevJump.price/combinedYNew
 
-    const [in1, inputSecond] = calcSquareEquation(swapCost-y, swapCost*(2*combinedYNew + y)/poolPrice, 
+    const [inputSecond, in1] = calcSquareEquation(swapCost-y, swapCost*(2*combinedYNew + y)/poolPrice, 
       swapCost*combinedYNew*(combinedYNew+y)/poolPrice/poolPrice)
     console.assert(in1 < 0, "Internal Error 53")
     console.assert(inputSecond > 0, "Internal Error 54")
@@ -74,8 +73,8 @@ export class ParallelCPRPool extends RPool {
       const outputSecond2 = (combinedYNew + y)*inputSecond/((combinedYNew + y)/poolPrice + inputSecond)
       return Math.abs(outputSecond/outputSecond2 - 1) < 1e-12
     }, "Internal Error 62")
-    const combinedYFinal = combinedYNew - outputSecond
-    const priceFinal = poolPrice* Math.pow(combinedYFinal/combinedYNew, 2)
+    const combinedYFinal = combinedYNew + y - outputSecond
+    const priceFinal = poolPrice* Math.pow(combinedYFinal/(combinedYNew+y), 2)
     return {
       poolIndex,
       input: prevJump.input + inputFirst + inputSecond,
@@ -105,7 +104,7 @@ export class ParallelCPRPool extends RPool {
     let bestJump = this.calcBestJump(unusedPools, direction)
     while(bestJump !== undefined) {
       jumps.push(bestJump)
-      unusedPools.splice(bestJump.poolIndex)
+      unusedPools.splice(bestJump.poolIndex, 1)
       bestJump = this.calcBestJump(unusedPools, direction, bestJump)
     }
 
@@ -115,41 +114,11 @@ export class ParallelCPRPool extends RPool {
     return jumps
   }
 
-  // quadratic by number of pools - do not use for large number of pools !
-  /*calcOutByIn2(amountIn: number, direction: boolean): [number, number] {
-    function calcOutForPools(pools: [ConstantProductRPool, number][], amountIn: number, direction: boolean): [number, number] {
-      console.log("calcOutForPools ", pools.length);
-      
-      let outTotal = 0
-      let gasTotal = 0
-      const totalLiquidity = pools.reduce((a, [_, l]) => a + l, 0)
-      pools.forEach(([p, l]) => {
-        const partition = l/totalLiquidity
-        const [out, gas] = p.calcOutByIn(amountIn*partition, direction);
-        outTotal += out
-        gasTotal += gas
-      })
-      return [outTotal, gasTotal]
-    }
-    let outPrev = 0
-    let gasPrev = 0
-    let outTotalPrev = 0
-    for (let i = 0; i < this.pools.length; ++i) {
-      const [out, gas] = calcOutForPools(this.pools.slice(0, i+1), amountIn, direction)
-      const outTotal = out - gas*this.gasPrice
-      if (outTotal < outTotalPrev) break
-      outPrev = out
-      gasPrev = gas
-      outTotalPrev = outTotal
-    }
-    return [outPrev, gasPrev];
-  }*/
-
   getJump(direction: boolean, less: (j: JumpInfo) => boolean) {
     const jumps = this.calcJumps(direction)
     let a = 0, b = jumps.length - 1
     while( (b-a) > 1) {
-      const c = (a+b)/2
+      const c = Math.floor((a+b)/2)
       if (less(jumps[c])) a = c
       else b = c
     }
