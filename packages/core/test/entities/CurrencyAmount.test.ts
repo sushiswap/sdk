@@ -1,5 +1,6 @@
-import { CurrencyAmount, Ether, Percent, Token } from '../../src/entities'
+import { Currency, CurrencyAmount, Ether, NativeCurrency, Percent, Token } from '../../src/entities'
 
+import { ChainId } from '../../src/enums'
 import JSBI from 'jsbi'
 import { MaxUint256 } from '../../src/constants'
 
@@ -108,6 +109,30 @@ describe('CurrencyAmount', () => {
       const token = new Token(1, ADDRESS_ONE, 18)
       const amount = CurrencyAmount.fromRawAmount(token, 123e13)
       expect(amount.toExact()).toEqual('0.00123')
+    })
+  })
+
+  describe('#serialize', () => {
+    it('renders string with address and amount for Token', () => {
+      const token = new Token(1, ADDRESS_ONE, 3, 'MOONBEAM')
+      const amount = CurrencyAmount.fromRawAmount(token, 123456)
+      expect(amount.serialize()).toEqual(`[${ADDRESS_ONE} - 123.456]`)
+    })
+
+    it('renders string with address and amount for NativeCurrency', () => {
+      class MoonBeam extends NativeCurrency {
+        constructor(chainId: number) {
+          super(chainId, 18)
+        }
+        equals(other: Currency): boolean {
+          return other.isNative && other.chainId === this.chainId
+        }
+        get wrapped(): Token {
+          return new Token(ChainId.MAINNET, ADDRESS_ONE, 18)
+        }
+      }
+      const amount = CurrencyAmount.fromRawAmount(new MoonBeam(ChainId.MAINNET), 4234)
+      expect(amount.serialize()).toEqual(`[${ADDRESS_ONE} - 0.000000000000004234]`)
     })
   })
 })
