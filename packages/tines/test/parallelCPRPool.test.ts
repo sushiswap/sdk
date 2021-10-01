@@ -121,4 +121,40 @@ describe('Parallel ConstuntProduct Combo Pool', () => {
       expect(totalAmountOut).toBeLessThanOrEqual(ta > 0 ? ta*(1+1e-12):ta*(1-1e-12))
     } 
   })
+
+  it('weak pool', () => {
+    const pools = [
+      getPool(1e8, 2, 0.003),
+      getPool(1e19, 2, 0.003),
+      getPool(1e18, 2.02, 0.003),
+      getPool(1e18, 2, 0.003)
+    ]
+    const comboPool = new ParallelCPRPool(token0, pools, gasPrice)
+    
+    for (let i = 0; i < 100; ++i) {
+      const amountIn = getRandom(rnd, 1e3, 1e25)
+      const [out1, gas] = comboPool.calcOutByIn(amountIn, true)        
+      const ta = out1 - gas*gasPrice
+      const {totalAmountOut} = findMultiRouting(token0, token1, amountIn, pools, token1, gasPrice)
+      expect(totalAmountOut).toBeLessThanOrEqual(ta > 0 ? ta*(1+1e-12):ta*(1-1e-12))
+    } 
+  })
+
+  it.skip('weak pool with good price', () => {
+    const pools = [
+      getPool(1e8, 2.05, 0.003),
+      getPool(1e19, 2, 0.003),
+      getPool(1e18, 2.02, 0.003),
+      getPool(1e18, 2, 0.003)
+    ]
+    const comboPool = new ParallelCPRPool(token0, pools, gasPrice)
+    
+    for (let i = 0; i < 100; ++i) {
+      const amountIn = getRandom(rnd, 1e3, 1e25)
+      const [out1, gas] = comboPool.calcOutByIn(amountIn, true)        
+      const ta = out1 - gas*gasPrice
+      const {totalAmountOut} = findMultiRouting(token0, token1, amountIn, pools, token1, gasPrice)
+      expect(totalAmountOut).toBeLessThanOrEqual(ta > 0 ? ta*(1+1e-12):ta*(1-1e-12))
+    } 
+  })
 })
