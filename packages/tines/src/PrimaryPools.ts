@@ -72,6 +72,13 @@ export class ConstantProductRPool extends RPool {
     this.reserve1Number = parseInt(reserve1.toString());
   }
 
+  updateReserves(res0: BigNumber, res1: BigNumber) {
+    this.reserve0 = res0
+    this.reserve0Number = parseInt(res0.toString())
+    this.reserve1 = res1
+    this.reserve1Number = parseInt(res1.toString())
+  }
+
   calcOutByIn(amountIn: number, direction: boolean): [number, number] {
     const x = direction ? this.reserve0Number : this.reserve1Number;
     const y = direction ? this.reserve1Number : this.reserve0Number;
