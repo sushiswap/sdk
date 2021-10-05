@@ -144,6 +144,12 @@ export class HybridRPool extends RPool {
       this.D = BigNumber.from(0)
   }
 
+  updateReserves(res0: BigNumber, res1: BigNumber) {
+    this.D = BigNumber.from(0)
+    this.reserve0 = res0
+    this.reserve1 = res1
+  }
+
   computeLiquidity(): BigNumber {
     if (!this.D.eq(0)) return this.D  // already calculated
   
