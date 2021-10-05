@@ -96,8 +96,6 @@ export class RWeightedPool extends Pool {
   }
 }
 
-export const CL_MIN_TICK = -887272
-export const CL_MAX_TICK = -CL_MIN_TICK - 1
 interface CLTick {
   index: number
   DLiquidity: number
