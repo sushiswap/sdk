@@ -1,8 +1,8 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { getBigNumber, revertPositive } from "./Utils";
 
-const TYPICAL_SWAP_GAS_COST = 40_000
-const TYPICAL_MINIMAL_LIQUIDITY = 1000
+export const TYPICAL_SWAP_GAS_COST = 40_000
+export const TYPICAL_MINIMAL_LIQUIDITY = 1000
 
 export interface RToken {
   name: string;
@@ -39,6 +39,11 @@ export abstract class RPool {
       this.reserve1 = reserve1;
     }
 
+    updateReserves(res0: BigNumber, res1: BigNumber) {
+      this.reserve0 = res0
+      this.reserve1 = res1
+    }
+
     // Returns [<output amount>, <gas consumption estimation>]
     abstract calcOutByIn(amountIn: number, direction: boolean): [number, number];
     abstract calcInByOut(amountOut: number, direction: boolean): [number, number];
@@ -70,6 +75,13 @@ export class ConstantProductRPool extends RPool {
     );
     this.reserve0Number = parseInt(reserve0.toString());
     this.reserve1Number = parseInt(reserve1.toString());
+  }
+
+  updateReserves(res0: BigNumber, res1: BigNumber) {
+    this.reserve0 = res0
+    this.reserve0Number = parseInt(res0.toString())
+    this.reserve1 = res1
+    this.reserve1Number = parseInt(res1.toString())
   }
 
   calcOutByIn(amountIn: number, direction: boolean): [number, number] {
@@ -135,6 +147,12 @@ export class HybridRPool extends RPool {
       );
       this.A = A
       this.D = BigNumber.from(0)
+  }
+
+  updateReserves(res0: BigNumber, res1: BigNumber) {
+    this.D = BigNumber.from(0)
+    this.reserve0 = res0
+    this.reserve1 = res1
   }
 
   computeLiquidity(): BigNumber {
