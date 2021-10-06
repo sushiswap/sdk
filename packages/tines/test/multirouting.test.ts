@@ -1,7 +1,9 @@
-import { checkRouteResult } from "./snapshots/snapshot";
-import { findMultiRouting, RouteStatus } from "../src/MultiRouter";
-import { RToken, ConstantProductRPool } from "../src/PrimaryPools";
-import { getBigNumber } from "../src";
+import { checkRouteResult } from './snapshots/snapshot'
+import { findMultiRouting, RouteStatus } from '../src/MultiRouter'
+import { RToken, ConstantProductRPool } from '../src/PrimaryPools'
+import { USDC, WNATIVE } from '@sushiswap/core-sdk'
+import { getBigNumber } from '../src'
+import { BigNumber } from '@ethersproject/bignumber'
 
 const gasPrice = 1 * 200 * 1e-9
 
@@ -21,19 +23,19 @@ function getPool(
 ) {
   return new ConstantProductRPool(
     `pool-${t0}-${t1}-${reserve}-${fee}`,
-    {...tokens[t0]},
-    {...tokens[t1]},
+    { ...tokens[t0] },
+    { ...tokens[t1] },
     fee,
     getBigNumber(reserve),
-    getBigNumber(Math.round(reserve / (price[t1] / price[t0]) - imbalance)),
-  );
+    getBigNumber(Math.round(reserve / (price[t1] / price[t0]) - imbalance))
+  )
 }
 
 // ====================== Env 1 ==================
 const price = [1, 1, 1, 1, 1]
 const tokens = price.map((_, i) => ({
   name: '' + (i + 1),
-  address: 'token_addres ' + (i+1),
+  address: 'token_addres ' + (i + 1),
 }))
 
 const testPool0_1 = getPool(tokens, 0, 1, price, 1_500_0)
@@ -48,7 +50,7 @@ const testPools = [testPool0_1, testPool0_2, testPool1_3, testPool2_3, testPool1
 const price2 = [1, 2, 2.2, 15, 0.01]
 const tokens2 = price2.map((_, i) => ({
   name: '' + (i + 1),
-  address: 'token_addres ' + (i+1),
+  address: 'token_addres ' + (i + 1),
 }))
 
 const testPool0_1_2 = getPool(tokens2, 0, 1, price2, 1_500_0)
@@ -61,15 +63,7 @@ const testPools2 = [testPool0_1_2, testPool0_2_2, testPool1_3_2, testPool2_3_2, 
 
 describe('Multirouting for bridge topology', () => {
   it('works correct for equal prices', () => {
-    const res = findMultiRouting(
-      {...tokens[0]}, 
-      {...tokens[3]}, 
-      10000, 
-      testPools, 
-      {...tokens[2]}, 
-      gasPrice, 
-      100
-    )
+    const res = findMultiRouting({ ...tokens[0] }, { ...tokens[3] }, 10000, testPools, { ...tokens[2] }, gasPrice, 100)
 
     expect(res).toBeDefined()
     expect(res?.status).toEqual(RouteStatus.Success)
@@ -88,6 +82,33 @@ describe('Multirouting for bridge topology', () => {
     expect(res?.legs[res.legs.length - 1].swapPortion).toEqual(1)
 
     checkRouteResult('bridge-2', res.totalAmountOut)
+  })
+
+  it('doesnt return route using 20*1e9 as gas price', () => {
+    const res = findMultiRouting(
+      USDC[42] as RToken,
+      WNATIVE[42] as RToken,
+      1 * 1e6,
+      [
+        new ConstantProductRPool(
+          '0x83a19C45358De3611cf297969AEDf8E5Ba7E10FB',
+          USDC[42] as RToken,
+          WNATIVE[42] as RToken,
+          0.003,
+          BigNumber.from('879752148'),
+          BigNumber.from('227627092068744941')
+        ),
+      ],
+      WNATIVE[42] as RToken,
+      20 * 1e9,
+      100
+    )
+
+    expect(res).toBeDefined()
+
+    console.log(res)
+
+    expect(res?.status).toEqual(RouteStatus.Success)
   })
 
   it('not connected tokens', () => {
@@ -165,8 +186,8 @@ describe('Multirouting for bridge topology', () => {
   })
 
   it('very small swap', () => {
-    const token0 = {name: 'Token0', address: 'Token0Address'}
-    const token1 = {name: 'Token1', address: 'Token1Address'}
+    const token0 = { name: 'Token0', address: 'Token0Address' }
+    const token1 = { name: 'Token1', address: 'Token1Address' }
     const pool = getPool([token0, token1], 0, 1, [1, 2], 1e18, 0.03, 0)
     const out2 = findMultiRouting(token0, token1, 100, [pool], token1, 200).amountOut
     expect(out2).toBeGreaterThan(0)
