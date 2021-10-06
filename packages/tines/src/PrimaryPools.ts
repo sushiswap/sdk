@@ -39,6 +39,11 @@ export abstract class RPool {
       this.reserve1 = reserve1;
     }
 
+    updateReserves(res0: BigNumber, res1: BigNumber) {
+      this.reserve0 = res0
+      this.reserve1 = res1
+    }
+
     // Returns [<output amount>, <gas consumption estimation>]
     abstract calcOutByIn(amountIn: number, direction: boolean): [number, number];
     abstract calcInByOut(amountOut: number, direction: boolean): [number, number];
