@@ -5,7 +5,7 @@ export const TYPICAL_SWAP_GAS_COST = 40_000
 export const TYPICAL_MINIMAL_LIQUIDITY = 1000
 
 export interface RToken {
-  name: string;
+  name?: string;
   address: string;
 }
 
