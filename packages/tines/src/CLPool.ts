@@ -4,8 +4,6 @@ import { RPool, RToken, TYPICAL_MINIMAL_LIQUIDITY, TYPICAL_SWAP_GAS_COST } from 
 export const CL_MIN_TICK = -887272
 export const CL_MAX_TICK = -CL_MIN_TICK - 1
 
-class OutOfLiquidity extends Error {}
-
 export interface CLTick {
   index: number
   DLiquidity: number
@@ -57,7 +55,8 @@ export class CLRPool extends RPool {
     let input = amountIn
   
     while (input > 0) {
-      if (nextTickToCross < 0 || nextTickToCross >= this.ticks.length) throw new OutOfLiquidity()
+      if (nextTickToCross < 0 || nextTickToCross >= this.ticks.length)
+        return [outAmount, this.swapGasCost]
   
       const nextTickPrice = Math.sqrt(Math.pow(1.0001, this.ticks[nextTickToCross].index))
       // console.log('L, P, tick, nextP', currentLiquidity,
