@@ -84,11 +84,11 @@ describe('Multirouting for bridge topology', () => {
     checkRouteResult('bridge-2', res.totalAmountOut)
   })
 
-  it('doesnt return route using 20*1e9 as gas price', () => {
+  it('should work with 20*1e9 as gas price (case form integration)', () => {
     const res = findMultiRouting(
       USDC[42] as RToken,
       WNATIVE[42] as RToken,
-      1 * 1e6,
+      4 * 1e6,
       [
         new ConstantProductRPool(
           '0x83a19C45358De3611cf297969AEDf8E5Ba7E10FB',
@@ -100,14 +100,10 @@ describe('Multirouting for bridge topology', () => {
         ),
       ],
       WNATIVE[42] as RToken,
-      20 * 1e9,
-      100
+      20 * 1e9
     )
 
     expect(res).toBeDefined()
-
-    console.log(res)
-
     expect(res?.status).toEqual(RouteStatus.Success)
   })
 
