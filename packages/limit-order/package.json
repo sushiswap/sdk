@@ -1,6 +1,6 @@
 {
   "name": "@sushiswap/limit-order-sdk",
-  "version": "1.0.0-canary.0",
+  "version": "1.0.0-canary.1",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -17,41 +17,22 @@
     "build": "tsdx build",
     "watch": "tsdx watch",
     "test": "tsdx test",
-    "prepublishOnly": "tsdx build"
+    "prepublishOnly": "tsdx build",
+    "publish:canary": "npm publish --access public --tag canary"
   },
   "dependencies": {
-    "@sushiswap/core-sdk": "0.1.0"
-  },
-  "peerDependencies": {
     "@ethersproject/abi": "^5.4.0",
     "@ethersproject/abstract-signer": "^5.4.0",
-    "@ethersproject/address": "^5.4.0",
-    "@ethersproject/bignumber": "^5.4.0",
     "@ethersproject/bytes": "^5.4.0",
     "@ethersproject/contracts": "^5.4.0",
     "@ethersproject/experimental": "^5.4.0",
-    "@ethersproject/networks": "^5.4.0",
-    "@ethersproject/providers": "^5.4.0",
     "@ethersproject/signing-key": "^5.4.0",
-    "@ethersproject/solidity": "^5.4.0",
     "@ethersproject/transactions": "^5.4.0",
+    "@sushiswap/core-sdk": "1.0.0-canary.5",
+    "eip-712": "^0.4.0",
     "isomorphic-unfetch": "^3.0.0"
   },
   "devDependencies": {
-    "@ethersproject/abi": "^5.4.0",
-    "@ethersproject/abstract-signer": "^5.4.0",
-    "@ethersproject/address": "^5.4.0",
-    "@ethersproject/bignumber": "^5.4.0",
-    "@ethersproject/bytes": "^5.4.0",
-    "@ethersproject/contracts": "^5.4.0",
-    "@ethersproject/experimental": "^5.4.0",
-    "@ethersproject/networks": "^5.4.0",
-    "@ethersproject/providers": "^5.4.0",
-    "@ethersproject/signing-key": "^5.4.0",
-    "@ethersproject/solidity": "^5.4.0",
-    "@ethersproject/transactions": "^5.4.0",
-    "eip-712": "^0.4.0",
-    "isomorphic-unfetch": "^3.0.0",
     "tsdx": "^0.14.1"
   }
 }
