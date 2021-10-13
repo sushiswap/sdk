@@ -817,7 +817,7 @@ export interface MultiRoute {
   totalAmountOutBN: BigNumber;
 }
 
-export function findMultiRouting(
+export function findMultiRoute(
   from: RToken,
   to: RToken,
   amountIn: BigNumber | number,
@@ -863,7 +863,7 @@ export function findSingleRoute(
   const out = g.findBestRoute(from, to, amountIn, 1)
 
   if (compareWithMultirouting) {
-    const outMultiRoute = findMultiRouting(from, to, amountIn, pools, baseToken, gasPrice)
+    const outMultiRoute = findMultiRoute(from, to, amountIn, pools, baseToken, gasPrice)
     console.assert(out.amountIn <= outMultiRoute.amountIn*1.001)
   }
   

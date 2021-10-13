@@ -1,6 +1,6 @@
 import { 
   Graph, 
-  findMultiRouting, 
+  findMultiRoute, 
   MultiRoute,
   RToken,
   RouteLeg,
@@ -423,7 +423,7 @@ it(`Multirouter for ${network.tokens.length} tokens and ${network.pools.length} 
     const [t0, t1, tBase] = chooseRandomTokens(rnd, network)
     const amountIn = getRandom(rnd, 1e6, 1e24)
 
-    const route = findMultiRouting(t0, t1, amountIn, network.pools, tBase, network.gasPrice)
+    const route = findMultiRoute(t0, t1, amountIn, network.pools, tBase, network.gasPrice)
 
     checkRoute(network, t0, t1, amountIn, tBase, network.gasPrice, route)
 
@@ -436,7 +436,7 @@ it(`Multirouter-100 for ${network.tokens.length} tokens and ${network.pools.leng
     const [t0, t1, tBase] = chooseRandomTokens(rnd, network)
     const amountIn = getRandom(rnd, 1e6, 1e24)
 
-    const route = findMultiRouting(t0, t1, amountIn, network.pools, tBase, network.gasPrice, 100)
+    const route = findMultiRoute(t0, t1, amountIn, network.pools, tBase, network.gasPrice, 100)
 
     checkRoute(network, t0, t1, amountIn, tBase, network.gasPrice, route)
 
@@ -453,7 +453,7 @@ it(`Multirouter path quantity check`, () => {
 
     let prevAmountOut = -1
     steps.forEach((s) => {
-      const route = findMultiRouting(t0, t1, amountIn, network.pools, tBase, network.gasPrice, s)
+      const route = findMultiRoute(t0, t1, amountIn, network.pools, tBase, network.gasPrice, s)
       checkRoute(network, t0, t1, amountIn, tBase, network.gasPrice, route)
       expect(route.totalAmountOut).toBeGreaterThan(prevAmountOut / 1.001)
       prevAmountOut = route.totalAmountOut
@@ -469,7 +469,7 @@ function makeTestForTiming(tokens: number, density: number, tests: number) {
       const [t0, t1, tBase] = chooseRandomTokens(rnd, network)
       const amountIn = getRandom(rnd, 1e6, 1e24)
 
-      findMultiRouting(t0, t1, amountIn, network2.pools, tBase, network2.gasPrice)
+      findMultiRoute(t0, t1, amountIn, network2.pools, tBase, network2.gasPrice)
     }
   })
 }
@@ -486,7 +486,7 @@ it(`Singlerouter for ${network.tokens.length} tokens and ${network.pools.length}
     const route = findSingleRoute(t0, t1, amountIn, network.pools, tBase, network.gasPrice, false)
 
     checkRoute(network, t0, t1, amountIn, tBase, network.gasPrice, route)
-    const route2 = findMultiRouting(t0, t1, amountIn, network.pools, tBase, network.gasPrice)
+    const route2 = findMultiRoute(t0, t1, amountIn, network.pools, tBase, network.gasPrice)
     expect(route.amountOut).toBeLessThan(route2.amountOut * 1.001)
 
     checkRouteResult('single20-' + i, route.totalAmountOut)
