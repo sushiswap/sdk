@@ -472,6 +472,18 @@ export class Graph {
     }, 'Error 290')
   }
 
+  getPrimaryPriceForPath(from: Vertice, path: Edge[]): number {
+    let p = 1
+    let prevToken = from
+    path.forEach( edge => {
+      const direction = edge.vert0 === prevToken
+      const edgePrice = edge.pool.calcCurrentPriceWithoutFee(direction)
+      p *= edgePrice
+      prevToken = from.getNeibour(edge) as Vertice
+    })
+    return p
+  }
+
   findBestRoute(from: RToken, to: RToken, amountIn: number, mode: number | number[]): MultiRoute {
     let routeValues = []
     if (Array.isArray(mode)) {
@@ -490,6 +502,7 @@ export class Graph {
     let gasSpentInit = 0
     //let totalOutput = 0
     let totalrouted = 0
+    let primaryPrice
     let step
     for (step = 0; step < routeValues.length; ++step) {
       const p = this.findBestPath(from, to, amountIn * routeValues[step])
@@ -501,6 +514,9 @@ export class Graph {
         //totalOutput += p.totalOutput
         this.addPath(this.tokens.get(from.address), this.tokens.get(to.address), p.path)
         totalrouted += routeValues[step]
+        if (step === 0) {
+          primaryPrice = this.getPrimaryPriceForPath(this.tokens.get(from.address) as Vertice, p.path)
+        }
       }
     }
     if (step == 0)
@@ -530,10 +546,19 @@ export class Graph {
       output = this.calcLegsAmountOut(legs, amountIn, to)
     }
 
+    let swapPrice, priceImpact
+    try {
+      swapPrice = output/amountIn
+      priceImpact = primaryPrice !== undefined? 1- swapPrice/primaryPrice : undefined
+    } catch(e) { /* skip division by 0 errors*/}
+
     return {
       status,
       fromToken: from,
       toToken: to,
+      primaryPrice,
+      swapPrice,
+      priceImpact,
       amountIn: amountIn * totalrouted,
       amountInBN: getBigNumber(amountIn * totalrouted),
       amountOut: output,
@@ -779,6 +804,9 @@ export interface MultiRoute {
   status: RouteStatus;
   fromToken: RToken;
   toToken: RToken;
+  primaryPrice?: number;
+  swapPrice?: number;
+  priceImpact?: number;
   amountIn: number;
   amountInBN: BigNumber;
   amountOut: number;
@@ -809,5 +837,6 @@ export function findMultiRouting(
   }
 
   const out = g.findBestRoute(from, to, amountIn, steps)
+  
   return out
 }

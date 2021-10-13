@@ -69,6 +69,7 @@ describe('Multirouting for bridge topology', () => {
     expect(res?.status).toEqual(RouteStatus.Success)
     expect(res?.legs.length).toEqual(testPools.length)
     expect(res?.legs[res.legs.length - 1].swapPortion).toEqual(1)
+    expect(res.priceImpact).toBeGreaterThan(0)
 
     checkRouteResult('bridge-1', res.totalAmountOut)
   })
@@ -80,6 +81,7 @@ describe('Multirouting for bridge topology', () => {
     expect(res?.status).toEqual(RouteStatus.Success)
     expect(res?.legs.length).toEqual(testPools.length)
     expect(res?.legs[res.legs.length - 1].swapPortion).toEqual(1)
+    expect(res.priceImpact).toBeGreaterThan(0)
 
     checkRouteResult('bridge-2', res.totalAmountOut)
   })
@@ -105,6 +107,7 @@ describe('Multirouting for bridge topology', () => {
 
     expect(res).toBeDefined()
     expect(res?.status).toEqual(RouteStatus.Success)
+    expect(res.priceImpact).toBeGreaterThan(0)
   })
 
   it('not connected tokens', () => {
@@ -122,6 +125,7 @@ describe('Multirouting for bridge topology', () => {
     expect(res?.status).toEqual(RouteStatus.Partial)
     expect(res?.legs.length).toEqual(testPools.length)
     expect(res?.legs[res.legs.length - 1].swapPortion).toEqual(1)
+    expect(res.priceImpact).toBeGreaterThan(0)
 
     checkRouteResult('bridge-3', res.totalAmountOut)
   })
@@ -140,6 +144,7 @@ describe('Multirouting for bridge topology', () => {
     expect(res).toBeDefined()
     expect(res?.status).toEqual(RouteStatus.Success)
     expect(res?.legs[res.legs.length - 1].swapPortion).toEqual(1)
+    expect(res.priceImpact).toBeGreaterThan(0)
 
     checkRouteResult('bridge-4', res.totalAmountOut)
   })
@@ -152,6 +157,7 @@ describe('Multirouting for bridge topology', () => {
       expect(res).toBeDefined()
       expect(res?.status).toEqual(RouteStatus.Success)
       expect(res?.legs[res.legs.length - 1].swapPortion).toEqual(1)
+      expect(res.priceImpact).toBeGreaterThan(0)
 
       checkRouteResult('bridge-5-' + s, res.totalAmountOut)
     })
@@ -164,6 +170,7 @@ describe('Multirouting for bridge topology', () => {
     expect(res?.status).toEqual(RouteStatus.Success)
     expect(res?.legs.length).toEqual(testPools.length)
     expect(res?.legs[res.legs.length - 1].swapPortion).toEqual(1)
+    expect(res.priceImpact).toBeGreaterThan(0)
 
     checkRouteResult('bridge-6', res.totalAmountOut)
   })
@@ -176,6 +183,7 @@ describe('Multirouting for bridge topology', () => {
       expect(res).toBeDefined()
       expect(res?.status).toEqual(RouteStatus.Success)
       expect(res?.legs[res.legs.length - 1].swapPortion).toEqual(1)
+      expect(res.priceImpact).toBeGreaterThan(0)
 
       checkRouteResult('bridge-7-' + s, res.totalAmountOut)
     })
@@ -185,7 +193,8 @@ describe('Multirouting for bridge topology', () => {
     const token0 = { name: 'Token0', address: 'Token0Address' }
     const token1 = { name: 'Token1', address: 'Token1Address' }
     const pool = getPool([token0, token1], 0, 1, [1, 2], 1e18, 0.03, 0)
-    const out2 = findMultiRouting(token0, token1, 100, [pool], token1, 200).amountOut
-    expect(out2).toBeGreaterThan(0)
+    const res = findMultiRouting(token0, token1, 100, [pool], token1, 200)
+    expect(res.amountOut).toBeGreaterThan(0)
+    expect(res.priceImpact).toBeGreaterThan(0)
   })
 })
