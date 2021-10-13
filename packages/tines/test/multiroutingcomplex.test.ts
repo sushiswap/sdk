@@ -286,7 +286,7 @@ function checkRoute(
   const poolMap = new Map<string, RPool>();
   network.pools.forEach((p) => poolMap.set(p.address, p));
   const expectedGasSpent = route.legs.reduce(
-    (a, b) => a + (poolMap.get(b.address)?.swapGasCost as number),
+    (a, b) => a + (poolMap.get(b.poolAddress)?.swapGasCost as number),
     0
   );
   expect(route.gasSpent).toEqual(expectedGasSpent);
@@ -307,9 +307,9 @@ function checkRoute(
   const usedPools = new Map<string, boolean>()
   const usedTokens = new Map<RToken, RouteLeg[]>()
   route.legs.forEach((l) => {
-    expect(usedPools.get(l.address)).toBeUndefined();
-    usedPools.set(l.address, true);
-    const pool = poolMap.get(l.address) as RPool;
+    expect(usedPools.get(l.poolAddress)).toBeUndefined();
+    usedPools.set(l.poolAddress, true);
+    const pool = poolMap.get(l.poolAddress) as RPool;
     usedTokens.set(pool.token0, usedTokens.get(pool.token0) || []);
     usedTokens.get(pool.token0)?.push(l);
     usedTokens.set(pool.token1, usedTokens.get(pool.token1) || []);
@@ -318,20 +318,20 @@ function checkRoute(
   usedTokens.forEach((legs, t) => {
     if (t === from) {
       expect(legs.length).toBeGreaterThan(0)
-      expect(legs.every((l) => l.token === from)).toBeTruthy()
+      expect(legs.every((l) => l.tokenFrom === from)).toBeTruthy()
       expect(legs[legs.length - 1].swapPortion).toEqual(1)
     } else if (t === to) {
       expect(legs.length).toBeGreaterThan(0)
-      expect(legs.some((l) => l.token === to)).toBeFalsy()
+      expect(legs.some((l) => l.tokenFrom === to)).toBeFalsy()
     } else {
       expect(legs.length).toBeGreaterThanOrEqual(2)
-      expect(legs[0].token).not.toEqual(t)
-      expect(legs[legs.length - 1].token).toEqual(t)
+      expect(legs[0].tokenFrom).not.toEqual(t)
+      expect(legs[legs.length - 1].tokenFrom).toEqual(t)
       expect(legs[legs.length - 1].swapPortion).toEqual(1)
       let inputFlag = true
       let absolutePortion = 0
       legs.forEach((l) => {
-        if (l.token !== t) {
+        if (l.tokenFrom !== t) {
           expect(inputFlag).toBeTruthy()
         } else {
           inputFlag = false
@@ -357,7 +357,7 @@ function exportNetwork(
   network.pools.forEach((p) => allPools.set(p.address, p));
   const usedPools = new Map<string, boolean>();
   route.legs.forEach((l) =>
-    usedPools.set(l.address, l.token === allPools.get(l.address)?.token0)
+    usedPools.set(l.poolAddress, l.tokenFrom === allPools.get(l.poolAddress)?.token0)
   );
 
   function edgeStyle(p: RPool) {

@@ -555,9 +555,14 @@ export class Graph {
       outEdges.forEach((e, i) => {
         const p = e[2] as number
         const quantity = i + 1 === outEdges.length ? 1 : p / outAmount
+        const edge = e[0] as Edge
         legs.push({
-          address: (e[0] as Edge).pool.address,
-          token: n.token,
+          poolAddress: edge.pool.address,
+          poolFee: edge.pool.fee,
+          tokenFrom: n.token,
+          tokenTo: (n.getNeibour(edge) as Vertice).token,
+          assumedAmountIn: edge.direction ? edge.amountInPrevious : edge.amountOutPrevious,
+          assunedAmountOut:  edge.direction ? edge.amountOutPrevious : edge.amountInPrevious,
           swapPortion: quantity,
           absolutePortion: p / total,
         })
@@ -594,21 +599,21 @@ export class Graph {
 
   calcLegsAmountOut(legs: RouteLeg[], amountIn: number, to: RToken) {
     const amounts = new Map<string, number>()
-    amounts.set(legs[0].token.address, amountIn)
+    amounts.set(legs[0].tokenFrom.address, amountIn)
     legs.forEach((l) => {
-      const vert = this.tokens.get(l.token.address);
+      const vert = this.tokens.get(l.tokenFrom.address);
       console.assert(vert !== undefined, "Internal Error 570");
       const edge = (vert as Vertice).edges.find(
-        (e) => e.pool.address === l.address
+        (e) => e.pool.address === l.poolAddress
       );
       console.assert(edge !== undefined, "Internel Error 569");
       const pool = (edge as Edge).pool;
       const direction = vert === (edge as Edge).vert0;
 
-      const inputTotal = amounts.get(l.token.address);
+      const inputTotal = amounts.get(l.tokenFrom.address);
       console.assert(inputTotal !== undefined, "Internal Error 564");
       const input = (inputTotal as number) * l.swapPortion;
-      amounts.set(l.token.address, (inputTotal as number) - input);
+      amounts.set(l.tokenFrom.address, (inputTotal as number) - input);
       const output = pool.calcOutByIn(input, direction)[0];
 
       const vertNext = (vert as Vertice).getNeibour(edge) as Vertice;
@@ -743,12 +748,19 @@ export class Graph {
   }
 }
 
-
+// Routing info about each one swap
 export interface RouteLeg {
-  address: string;
-  token: RToken;
-  swapPortion: number; // For router contract
-  absolutePortion: number; // To depict at webpage for user
+  poolAddress: string       // which pool use for swap
+  poolFee: number
+
+  tokenFrom: RToken         // from what token to swap
+  tokenTo: RToken           // to what token 
+
+  assumedAmountIn: number   // assumed number of input token for swapping
+  assunedAmountOut: number  // assumed number of output token after swapping
+
+  swapPortion: number       // for router contract
+  absolutePortion: number   // to depict at webpage for user
 }
 
 export enum RouteStatus {
