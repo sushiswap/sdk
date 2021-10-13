@@ -4,7 +4,8 @@ import {
   MultiRoute,
   RToken,
   RouteLeg,
-  RouteStatus 
+  RouteStatus, 
+  findSingleRoute
 } from "../src";
 
 import { checkRouteResult } from "./snapshots/snapshot";
@@ -473,5 +474,21 @@ function makeTestForTiming(tokens: number, density: number, tests: number) {
   })
 }
 
-makeTestForTiming(10, 0.5, 1000)
-makeTestForTiming(10, 0.9, 1000)
+makeTestForTiming(10, 0.5, 100)
+makeTestForTiming(10, 0.9, 100)
+
+debugger
+it(`Singlerouter for ${network.tokens.length} tokens and ${network.pools.length} pools (100 times)`, () => {
+  for (var i = 0; i < 100; ++i) {
+    const [t0, t1, tBase] = chooseRandomTokens(rnd, network)
+    const amountIn = getRandom(rnd, 1e6, 1e24)
+
+    const route = findSingleRoute(t0, t1, amountIn, network.pools, tBase, network.gasPrice, false)
+
+    checkRoute(network, t0, t1, amountIn, tBase, network.gasPrice, route)
+    const route2 = findMultiRouting(t0, t1, amountIn, network.pools, tBase, network.gasPrice)
+    expect(route.amountOut).toBeLessThan(route2.amountOut * 1.001)
+
+    checkRouteResult('single20-' + i, route.totalAmountOut)
+  }
+})

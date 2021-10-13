@@ -840,3 +840,32 @@ export function findMultiRouting(
   
   return out
 }
+
+export function findSingleRoute(
+  from: RToken,
+  to: RToken,
+  amountIn: BigNumber | number,
+  pools: RPool[],
+  baseToken: RToken,
+  gasPrice: number,
+  compareWithMultirouting = true
+): MultiRoute {
+  const g = new Graph(pools, baseToken, gasPrice)
+  const fromV = g.tokens.get(from.address)
+  if (fromV?.price === 0) {
+    g.setPrices(fromV, 1, 0)
+  }
+
+  if (amountIn instanceof BigNumber) {
+    amountIn = parseInt(amountIn.toString())
+  }
+
+  const out = g.findBestRoute(from, to, amountIn, 1)
+
+  if (compareWithMultirouting) {
+    const outMultiRoute = findMultiRouting(from, to, amountIn, pools, baseToken, gasPrice)
+    console.assert(out.amountIn <= outMultiRoute.amountIn*1.001)
+  }
+  
+  return out
+}
