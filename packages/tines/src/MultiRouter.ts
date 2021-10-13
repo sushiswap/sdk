@@ -5,6 +5,7 @@ import {
 
 import { BigNumber } from "@ethersproject/bignumber";
 import { RPool, RToken } from "./PrimaryPools";
+import { getBigNumber } from "./Utils";
 
 export class Edge {
   pool: RPool;
@@ -508,10 +509,13 @@ export class Graph {
         fromToken: from,
         toToken: to,
         amountIn: 0,
+        amountInBN: BigNumber.from(0),
         amountOut: 0,
+        amountOutBN: BigNumber.from(0),
         legs: [],
         gasSpent: 0,
         totalAmountOut: 0,
+        totalAmountOutBN: BigNumber.from(0),
       }
     let status
     if (step < routeValues.length) status = RouteStatus.Partial
@@ -531,10 +535,13 @@ export class Graph {
       fromToken: from,
       toToken: to,
       amountIn: amountIn * totalrouted,
+      amountInBN: getBigNumber(amountIn * totalrouted),
       amountOut: output,
+      amountOutBN: getBigNumber(output),
       legs,
       gasSpent,
       totalAmountOut: output - gasSpent * toVert.gasPrice,
+      totalAmountOutBN: getBigNumber(output - gasSpent * toVert.gasPrice),
     }
   }
 
@@ -773,16 +780,19 @@ export interface MultiRoute {
   fromToken: RToken;
   toToken: RToken;
   amountIn: number;
+  amountInBN: BigNumber;
   amountOut: number;
+  amountOutBN: BigNumber;
   legs: RouteLeg[];
   gasSpent: number;
   totalAmountOut: number;
+  totalAmountOutBN: BigNumber;
 }
 
 export function findMultiRouting(
   from: RToken,
   to: RToken,
-  amountIn: number,
+  amountIn: BigNumber | number,
   pools: RPool[],
   baseToken: RToken,
   gasPrice: number,
@@ -793,6 +803,11 @@ export function findMultiRouting(
   if (fromV?.price === 0) {
     g.setPrices(fromV, 1, 0)
   }
+
+  if (amountIn instanceof BigNumber) {
+    amountIn = parseInt(amountIn.toString())
+  }
+
   const out = g.findBestRoute(from, to, amountIn, steps)
   return out
 }
