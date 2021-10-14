@@ -165,7 +165,8 @@ export class CLRPool extends RPool {
     return [input, this.swapGasCost]
   }
   
-  calcCurrentPriceWithoutFee(_direction: boolean): number {
-    return 0 //not implemented
+  calcCurrentPriceWithoutFee(direction: boolean): number {
+    const p = this.sqrtPrice*this.sqrtPrice
+    return direction ? p : 1/p
   }
 }
