@@ -479,7 +479,7 @@ export class Graph {
       const direction = edge.vert0 === prevToken
       const edgePrice = edge.pool.calcCurrentPriceWithoutFee(direction)
       p *= edgePrice
-      prevToken = from.getNeibour(edge) as Vertice
+      prevToken = prevToken.getNeibour(edge) as Vertice
     })
     return p
   }
