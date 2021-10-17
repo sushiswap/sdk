@@ -1,8 +1,8 @@
 import { checkRouteResult } from './snapshots/snapshot'
-import { findMultiRouteExactIn, RouteStatus } from '../src/MultiRouter'
+import { findMultiRouteExactIn, findMultiRouteExactOut, RouteStatus } from '../src/MultiRouter'
 import { RToken, ConstantProductRPool } from '../src/PrimaryPools'
 import { USDC, WNATIVE } from '@sushiswap/core-sdk'
-import { getBigNumber } from '../src'
+import { closeValues, getBigNumber } from '../src'
 import { BigNumber } from '@ethersproject/bignumber'
 
 const gasPrice = 1 * 200 * 1e-9
@@ -70,6 +70,15 @@ describe('Multirouting for bridge topology', () => {
     expect(res?.legs.length).toEqual(testPools.length)
     expect(res?.legs[res.legs.length - 1].swapPortion).toEqual(1)
     expect(res.priceImpact).toBeGreaterThan(0)
+
+    const res2 = findMultiRouteExactOut(tokens[0], tokens[3], res.amountOut, testPools, tokens[2], gasPrice, 100)
+
+    expect(res2).toBeDefined()
+    expect(res2?.status).toEqual(RouteStatus.Success)
+    expect(res2?.legs.length).toEqual(testPools.length)
+    expect(res2?.legs[res.legs.length - 1].swapPortion).toEqual(1)
+    expect(res2.priceImpact).toBeGreaterThan(0)
+    expect(closeValues(res2.amountIn, 10000, 1e-10)).toBeTruthy
 
     checkRouteResult('bridge-1', res.totalAmountOut)
   })
