@@ -11,14 +11,13 @@ import {
   ZERO,
   sqrt,
 } from '@sushiswap/core-sdk'
-
-import { Fee } from '../enums'
+import { Fee } from '../enums/Fee'
 import JSBI from 'jsbi'
 import { MAX_FEE } from '../constants'
-import { Pool } from '../interfaces'
-import all from '@sushiswap/trident/exports/all.json'
-import { computeConstantProductPoolAddress } from '../functions'
+import EXPORTS from '@sushiswap/trident/exports/all.json'
+import { computeConstantProductPoolAddress } from '../functions/computeConstantProductPoolAddress'
 import invariant from 'tiny-invariant'
+import { Pool } from './Pool'
 
 export class ConstantProductPool implements Pool {
   public readonly liquidityToken: Token
@@ -28,7 +27,7 @@ export class ConstantProductPool implements Pool {
 
   public static getAddress(tokenA: Token, tokenB: Token, fee: Fee = Fee.DEFAULT, twap: boolean = true): string {
     return computeConstantProductPoolAddress({
-      factoryAddress: all[ChainId.KOVAN][ChainKey.KOVAN].contracts.ConstantProductPoolFactory.address,
+      factoryAddress: EXPORTS[ChainId.KOVAN][ChainKey.KOVAN].contracts.ConstantProductPoolFactory.address,
       tokenA,
       tokenB,
       fee,
@@ -105,16 +104,20 @@ export class ConstantProductPool implements Pool {
     return this.tokenAmounts[1].currency
   }
 
-  public get getAssets(): Token[] {
-    return [this.tokenAmounts[0].currency, this.tokenAmounts[1].currency]
-  }
-
   public get reserve0(): CurrencyAmount<Token> {
     return this.tokenAmounts[0]
   }
 
   public get reserve1(): CurrencyAmount<Token> {
     return this.tokenAmounts[1]
+  }
+
+  public get assets(): Token[] {
+    return [this.tokenAmounts[0].currency, this.tokenAmounts[1].currency]
+  }
+
+  public get reserves(): CurrencyAmount<Token>[] {
+    return [this.reserve0, this.reserve1]
   }
 
   public get kLast(): JSBI {

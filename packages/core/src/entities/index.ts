@@ -1,12 +1,13 @@
 export * from './AbstractCurrency'
-export * from './Currency'
+export * from './NativeCurrency'
 export * from './CurrencyAmount'
 export * from './Fraction'
-export * from './NativeCurrency'
 export * from './Pair'
 export * from './Percent'
 export * from './Price'
 export * from './Route'
 export * from './Token'
 export * from './Trade'
-export * from './Native'
+
+// TODO: This is actually a type...
+export * from './Currency'

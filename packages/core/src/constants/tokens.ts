@@ -5,7 +5,7 @@ import { Token } from '../entities/Token'
 import { TokenMap } from '../types/TokenMap'
 
 export const USDC: TokenMap = {
-  [ChainId.MAINNET]: new Token(ChainId.MAINNET, USDC_ADDRESS[ChainId.MAINNET], 6, 'USDC', 'USD Coin'),
+  [ChainId.ETHEREUM]: new Token(ChainId.ETHEREUM, USDC_ADDRESS[ChainId.ETHEREUM], 6, 'USDC', 'USD Coin'),
   [ChainId.ROPSTEN]: new Token(ChainId.ROPSTEN, USDC_ADDRESS[ChainId.ROPSTEN], 6, 'USDC', 'USD Coin'),
   [ChainId.KOVAN]: new Token(ChainId.KOVAN, USDC_ADDRESS[ChainId.KOVAN], 6, 'USDC', 'USD Coin'),
   [ChainId.MATIC]: new Token(ChainId.MATIC, USDC_ADDRESS[ChainId.MATIC], 6, 'USDC', 'USD Coin'),
@@ -19,7 +19,7 @@ export const USDC: TokenMap = {
 }
 
 export const WETH9: TokenMap = {
-  [ChainId.MAINNET]: new Token(ChainId.MAINNET, WETH9_ADDRESS[ChainId.MAINNET], 18, 'WETH', 'Wrapped Ether'),
+  [ChainId.ETHEREUM]: new Token(ChainId.ETHEREUM, WETH9_ADDRESS[ChainId.ETHEREUM], 18, 'WETH', 'Wrapped Ether'),
   [ChainId.ROPSTEN]: new Token(ChainId.ROPSTEN, WETH9_ADDRESS[ChainId.ROPSTEN], 18, 'WETH', 'Wrapped Ether'),
   [ChainId.RINKEBY]: new Token(ChainId.RINKEBY, WETH9_ADDRESS[ChainId.RINKEBY], 18, 'WETH', 'Wrapped Ether'),
   [ChainId.GÖRLI]: new Token(ChainId.GÖRLI, WETH9_ADDRESS[ChainId.GÖRLI], 18, 'WETH', 'Wrapped Ether'),
@@ -43,7 +43,7 @@ export const WETH9: TokenMap = {
 }
 
 export const WNATIVE: TokenMap = {
-  [ChainId.MAINNET]: WETH9[ChainId.MAINNET],
+  [ChainId.ETHEREUM]: WETH9[ChainId.ETHEREUM],
   [ChainId.ROPSTEN]: WETH9[ChainId.ROPSTEN],
   [ChainId.RINKEBY]: WETH9[ChainId.RINKEBY],
   [ChainId.GÖRLI]: WETH9[ChainId.GÖRLI],

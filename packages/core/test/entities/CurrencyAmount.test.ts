@@ -128,10 +128,10 @@ describe('CurrencyAmount', () => {
           return other.isNative && other.chainId === this.chainId
         }
         get wrapped(): Token {
-          return new Token(ChainId.MAINNET, ADDRESS_ONE, 18)
+          return new Token(ChainId.ETHEREUM, ADDRESS_ONE, 18)
         }
       }
-      const amount = CurrencyAmount.fromRawAmount(new MoonBeam(ChainId.MAINNET), 4234)
+      const amount = CurrencyAmount.fromRawAmount(new MoonBeam(ChainId.ETHEREUM), 4234)
       expect(amount.serialize()).toEqual(`[${ADDRESS_ONE} - 0.000000000000004234]`)
     })
   })

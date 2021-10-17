@@ -17,7 +17,7 @@ import {
 import { ChainId } from '../enums'
 
 export const NATIVE = {
-  [ChainId.MAINNET]: Ether.onChain(ChainId.MAINNET),
+  [ChainId.ETHEREUM]: Ether.onChain(ChainId.ETHEREUM),
   [ChainId.ROPSTEN]: Ether.onChain(ChainId.ROPSTEN),
   [ChainId.RINKEBY]: Ether.onChain(ChainId.RINKEBY),
   [ChainId.GÖRLI]: Ether.onChain(ChainId.GÖRLI),
