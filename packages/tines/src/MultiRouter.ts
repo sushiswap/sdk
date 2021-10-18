@@ -38,7 +38,7 @@ export class Edge {
     return v === this.vert0 ? this.pool.reserve0 : this.pool.reserve1
   }
 
-  calcOutput(v: Vertice, amountIn: number) {
+  calcOutput(v: Vertice, amountIn: number): {out: number, gasSpent: number} {
     let res, gas;
     if (v === this.vert1) {
       if (this.direction) {
@@ -76,7 +76,7 @@ export class Edge {
 
     // this.testApply(v, amountIn, out);
 
-    return [res, gas - this.spentGas];
+    return {out: res, gasSpent: gas - this.spentGas};
   }
 
   checkMinimalLiquidityExceededAfterSwap(from: Vertice, amountOut: number): boolean {
@@ -408,9 +408,11 @@ export class Graph {
         if (processedVert.has(v2)) return
         let newIncome, gas
         try {
-          ;[newIncome, gas] = e.calcOutput(closestVert as Vertice, (closestVert as Vertice).bestIncome)
-          if (!isFinite(newIncome) || !isFinite(gas))   // Math errors protection
+          const {out, gasSpent} = e.calcOutput(closestVert as Vertice, (closestVert as Vertice).bestIncome)
+          if (!isFinite(out) || !isFinite(gasSpent))   // Math errors protection
             return
+          newIncome = out
+          gas = gasSpent
         } catch (e) {
           // Any arithmetic error or out-of-liquidity
           return
@@ -547,7 +549,7 @@ export class Graph {
 
     const fromVert = this.tokens.get(from.address) as Vertice
     const toVert = this.tokens.get(to.address) as Vertice
-    const [legs, gasSpent, topologyWasChanged] = this.getRouteLegs(fromVert, toVert)
+    const {legs, gasSpent, topologyWasChanged} = this.getRouteLegs(fromVert, toVert)
     console.assert(gasSpent <= gasSpentInit, 'Internal Error 491')
 
     if (topologyWasChanged) {
@@ -578,14 +580,18 @@ export class Graph {
     }
   }
 
-  getRouteLegs(from: Vertice, to: Vertice): [RouteLeg[], number, boolean] {
-    const [nodes, topologyWasChanged] = this.cleanTopology(from, to)
+  getRouteLegs(from: Vertice, to: Vertice): {
+    legs: RouteLeg[],
+    gasSpent: number,
+    topologyWasChanged: boolean
+  } {
+    const {vertices, topologyWasChanged} = this.cleanTopology(from, to)
     const legs: RouteLeg[] = []
     let gasSpent = 0
-    nodes.forEach((n) => {
+    vertices.forEach((n) => {
       const outEdges = this.getOutputEdges(n).map((e) => {
         const from = this.edgeFrom(e)
-        return from ? [e, from[0], from[1]] : [e]
+        return from ? [e, from.vert, from.amount] : [e]
       })
 
       let outAmount = outEdges.reduce((a, b) => a + (b[2] as number), 0)
@@ -611,12 +617,12 @@ export class Graph {
       })
       console.assert(outAmount / total < 1e-12, 'Error 281')
     })
-    return [legs, gasSpent, topologyWasChanged]
+    return {legs, gasSpent, topologyWasChanged}
   }
 
-  edgeFrom(e: Edge): [Vertice, number] | undefined {
+  edgeFrom(e: Edge): {vert: Vertice, amount: number} | undefined {
     if (e.amountInPrevious === 0) return undefined
-    return e.direction ? [e.vert0, e.amountInPrevious] : [e.vert1, e.amountOutPrevious]
+    return e.direction ? {vert: e.vert0, amount: e.amountInPrevious} : {vert: e.vert1, amount: e.amountOutPrevious}
   }
 
   getOutputEdges(v: Vertice): Edge[] {
@@ -665,24 +671,24 @@ export class Graph {
 
   // removes all cycles if there are any, then removes all dead end could appear after cycle removing
   // Returns clean result topologically sorted
-  cleanTopology(from: Vertice, to: Vertice): [Vertice[], boolean] {
+  cleanTopology(from: Vertice, to: Vertice): {vertices: Vertice[], topologyWasChanged: boolean} {
     let topologyWasChanged = false
     let result = this.topologySort(from, to)
-    if (result[0] !== 2) {
+    if (result.status !== 2) {
       topologyWasChanged = true
-      console.assert(result[0] === 0, 'Internal Error 554')
-      while (result[0] === 0) {
-        this.removeWeakestEdge(result[1])
+      console.assert(result.status === 0, 'Internal Error 554')
+      while (result.status === 0) {
+        this.removeWeakestEdge(result.vertices)
         result = this.topologySort(from, to)
       }
-      if (result[0] === 3) {
-        this.removeDeadEnds(result[1])
+      if (result.status === 3) {
+        this.removeDeadEnds(result.vertices)
         result = this.topologySort(from, to)
       }
-      console.assert(result[0] === 2, 'Internal Error 563')
-      if (result[0] !== 2) return [[], topologyWasChanged]
+      console.assert(result.status === 2, 'Internal Error 563')
+      if (result.status !== 2) return {vertices: [], topologyWasChanged}
     }
-    return [result[1], topologyWasChanged]
+    return {vertices: result.vertices, topologyWasChanged}
   }
 
   removeDeadEnds(verts: Vertice[]) {
@@ -720,7 +726,7 @@ export class Graph {
   // if there is a cycle - returns [0, <List of envolved vertices in the cycle>]
   // if there are no cycles but deadends- returns [3, <List of all envolved deadend vertices>]
   // if there are no cycles or deadends- returns [2, <List of all envolved vertices topologically sorted>]
-  topologySort(from: Vertice, to: Vertice): [number, Vertice[]] {
+  topologySort(from: Vertice, to: Vertice): {status: number, vertices: Vertice[]} {
     // undefined or 0 - not processed, 1 - in process, 2 - finished, 3 - dedend
     const vertState = new Map<Vertice, number>()
     const vertsFinished: Vertice[] = []
@@ -775,16 +781,16 @@ export class Graph {
     }
 
     const res = topSortRecursive(from)
-    if (res === 0) return [0, foundCycle]
-    if (foundDeadEndVerts.length) return [3, foundDeadEndVerts]
+    if (res === 0) return {status: 0, vertices: foundCycle}
+    if (foundDeadEndVerts.length) return {status: 3, vertices: foundDeadEndVerts}
     ASSERT(() => {
       if (vertsFinished[0] !== to) return false
       if (vertsFinished[vertsFinished.length - 1] !== from) return false
       return true
     }, 'Internal Error 614')
-    if (res === 2) return [2, vertsFinished.reverse()]
+    if (res === 2) return {status: 2, vertices: vertsFinished.reverse()}
     console.assert(true, 'Internal Error 612')
-    return [1, []]
+    return {status: 1, vertices: []}
   }
 }
 

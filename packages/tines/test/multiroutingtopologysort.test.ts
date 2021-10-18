@@ -102,10 +102,10 @@ it('Simple topology', () => {
   const topology: Topology = [2, [[0, 1]]]
   const g = createTopology(topology)
   const res = g[0].topologySort(g[1], g[2])
-  expect(res[0]).toEqual(2)
-  expect(res[1].length).toEqual(2)
-  expect(res[1][0]).toEqual(g[1])
-  expect(res[1][1]).toEqual(g[2])
+  expect(res.status).toEqual(2)
+  expect(res.vertices.length).toEqual(2)
+  expect(res.vertices[0]).toEqual(g[1])
+  expect(res.vertices[1]).toEqual(g[2])
 })
 
 it('Line topology', () => {
@@ -120,10 +120,10 @@ it('Line topology', () => {
   ]
   const g = createTopology(topology)
   const res = g[0].topologySort(g[1], g[2])
-  expect(res[0]).toEqual(2)
-  expect(res[1].length).toEqual(5)
-  expect(res[1][0]).toEqual(g[1])
-  expect(res[1][4]).toEqual(g[2])
+  expect(res.status).toEqual(2)
+  expect(res.vertices.length).toEqual(5)
+  expect(res.vertices[0]).toEqual(g[1])
+  expect(res.vertices[4]).toEqual(g[2])
 })
 
 it('Verts after the last', () => {
@@ -138,9 +138,9 @@ it('Verts after the last', () => {
   ]
   const g = createTopology(topology)
   const res = g[0].topologySort(g[1], g[2])
-  expect(res[0]).toEqual(3)
-  expect(res[1].length).toEqual(1)
-  expect(res[1][0].token.name).toEqual('3')
+  expect(res.status).toEqual(3)
+  expect(res.vertices.length).toEqual(1)
+  expect(res.vertices[0].token.name).toEqual('3')
 })
 
 it('Fork topology', () => {
@@ -158,10 +158,10 @@ it('Fork topology', () => {
   ]
   const g = createTopology(topology)
   const res = g[0].topologySort(g[1], g[2])
-  expect(res[0]).toEqual(2)
-  expect(res[1].length).toEqual(5)
-  expect(res[1][0]).toEqual(g[1])
-  expect(res[1][4]).toEqual(g[2])
+  expect(res.status).toEqual(2)
+  expect(res.vertices.length).toEqual(5)
+  expect(res.vertices[0]).toEqual(g[1])
+  expect(res.vertices[4]).toEqual(g[2])
 })
 
 it('Unreached verts', () => {
@@ -176,10 +176,10 @@ it('Unreached verts', () => {
   ]
   const g = createTopology(topology)
   const res = g[0].topologySort(g[1], g[2])
-  expect(res[0]).toEqual(2)
-  expect(res[1].length).toEqual(3)
-  expect(res[1][0]).toEqual(g[1])
-  expect(res[1][2]).toEqual(g[2])
+  expect(res.status).toEqual(2)
+  expect(res.vertices.length).toEqual(3)
+  expect(res.vertices[0]).toEqual(g[1])
+  expect(res.vertices[2]).toEqual(g[2])
 })
 
 it('Dead end', () => {
@@ -194,8 +194,8 @@ it('Dead end', () => {
   ]
   const g = createTopology(topology)
   const res = g[0].topologySort(g[1], g[2])
-  expect(res[0]).toEqual(3)
-  expect(res[1].length).toEqual(2)
+  expect(res.status).toEqual(3)
+  expect(res.vertices.length).toEqual(2)
 })
 
 it('Cycle from begin', () => {
@@ -211,8 +211,8 @@ it('Cycle from begin', () => {
   ]
   const g = createTopology(topology)
   const res = g[0].topologySort(g[1], g[2])
-  expect(res[0]).toEqual(0)
-  expect(res[1].length).toEqual(4)
+  expect(res.status).toEqual(0)
+  expect(res.vertices.length).toEqual(4)
 })
 
 it('Cycle not from begin', () => {
@@ -228,8 +228,8 @@ it('Cycle not from begin', () => {
   ]
   const g = createTopology(topology)
   const res = g[0].topologySort(g[1], g[2])
-  expect(res[0]).toEqual(0)
-  expect(res[1].length).toEqual(3)
+  expect(res.status).toEqual(0)
+  expect(res.vertices.length).toEqual(3)
 })
 
 const testSeed = '0' // Change it to change random generator values
@@ -250,8 +250,8 @@ function getRandomTopology(tokens: number, density: number): Topology {
 function vertIndex(v: Vertice): number {
   return parseInt(v.token.name)
 }
-function getEdge(i: number, res: [number, Vertice[]]): [number, number] {
-  return [vertIndex(res[1][i]), vertIndex(res[1][i - 1])]
+function getEdge(i: number, res: {status: number, vertices: Vertice[]}): [number, number] {
+  return [vertIndex(res.vertices[i]), vertIndex(res.vertices[i - 1])]
 }
 function findEdge(edge: [number, number], t: Topology): number {
   for (let j = 0; j < t[1].length; j++) {
@@ -268,19 +268,19 @@ function checkTopologySort(t: Topology) {
   //console.log(t);
   const g = createTopology(t)
   const res = g[0].topologySort(g[1], g[2])
-  //console.log('Result:', res[0], res[1].map(vertIndex));
+  //console.log('Result:', res.status, res.vertices.map(vertIndex));
 
-  if (res[0] === 0) {
+  if (res.status === 0) {
     // check cycle really exists
-    expect(res[1].length).toBeGreaterThan(1)
-    for (let i = res[1].length - 1; i >= 1; i--) {
+    expect(res.vertices.length).toBeGreaterThan(1)
+    for (let i = res.vertices.length - 1; i >= 1; i--) {
       const edge = getEdge(i, res)
       expect(findEdge(edge, t)).not.toEqual(-1)
     }
 
     // remove arbitrary edge from the cycle and launch checkTopologySort again
-    const r = Math.floor(rnd() * (res[1].length - 1) + 1)
-    console.assert(r >= 1 && r < res[1].length, 'Inernal Error 137')
+    const r = Math.floor(rnd() * (res.vertices.length - 1) + 1)
+    console.assert(r >= 1 && r < res.vertices.length, 'Inernal Error 137')
     const edge = getEdge(r, res)
     const index = findEdge(edge, t)
     const nextEdgeList = [...t[1]]
@@ -289,13 +289,13 @@ function checkTopologySort(t: Topology) {
     checkTopologySort(t2) // recursion till the end of all cycles
     return 0
   }
-  if (res[0] === 2) {
+  if (res.status === 2) {
     // check topology is correct
-    expect(res[1][0]).toEqual(g[1])
-    expect(res[1][res[1].length - 1]).toEqual(g[2])
+    expect(res.vertices[0]).toEqual(g[1])
+    expect(res.vertices[res.vertices.length - 1]).toEqual(g[2])
     const vertPlace = new Map<number, number>()
     const notLastVert = new Set<number>()
-    res[1].forEach((e, i) => vertPlace.set(vertIndex(e), i))
+    res.vertices.forEach((e, i) => vertPlace.set(vertIndex(e), i))
     t[1].forEach(([a, b]) => {
       const p1 = vertPlace.get(a)
       const p2 = vertPlace.get(b)
@@ -305,15 +305,15 @@ function checkTopologySort(t: Topology) {
         notLastVert.add(a)
       }
     })
-    expect(notLastVert.size).toEqual(res[1].length - 1)
+    expect(notLastVert.size).toEqual(res.vertices.length - 1)
     expect(notLastVert.has(vertIndex(g[2]))).toBeFalsy()
     return 2
   }
-  if (res[0] == 3 && res[1][res[1].length - 1] === g[1]) {
+  if (res.status == 3 && res.vertices[res.vertices.length - 1] === g[1]) {
     // No way between start and end verts
-    expect(res[1].length).toBeGreaterThan(0)
+    expect(res.vertices.length).toBeGreaterThan(0)
     const verts = new Set<number>()
-    res[1].forEach((e) => verts.add(vertIndex(e)))
+    res.vertices.forEach((e) => verts.add(vertIndex(e)))
     expect(verts.has(vertIndex(g[1]))).toBeTruthy()
     expect(verts.has(vertIndex(g[2]))).toBeFalsy()
     const vertsReached = new Set<number>()
@@ -323,21 +323,21 @@ function checkTopologySort(t: Topology) {
       if (p1) expect(p2).toBeTruthy()
       if (p1) vertsReached.add(b)
     })
-    expect(vertsReached.size).toEqual(res[1].length - 1)
+    expect(vertsReached.size).toEqual(res.vertices.length - 1)
     expect(vertsReached.has(vertIndex(g[1]))).toBeFalsy()
 
     // add edge
     const nextEdgeList = [...t[1]]
-    nextEdgeList.push([vertIndex(res[1][0]), vertIndex(g[2])])
+    nextEdgeList.push([vertIndex(res.vertices[0]), vertIndex(g[2])])
     const t2: Topology = [t[0], nextEdgeList]
     const nextRes = checkTopologySort(t2)
     expect(nextRes).not.toEqual(4)
     return 4
   }
-  if (res[0] === 3) {
-    expect(res[1].length).toBeGreaterThan(0)
+  if (res.status === 3) {
+    expect(res.vertices.length).toBeGreaterThan(0)
     const verts = new Set<number>()
-    res[1].forEach((e) => verts.add(vertIndex(e)))
+    res.vertices.forEach((e) => verts.add(vertIndex(e)))
     expect(verts.has(vertIndex(g[1]))).toBeFalsy()
     expect(verts.has(vertIndex(g[2]))).toBeFalsy()
     const vertsReached = new Set<number>()
@@ -347,7 +347,7 @@ function checkTopologySort(t: Topology) {
       if (p1) expect(p2).toBeTruthy()
       if (p2) vertsReached.add(b)
     })
-    expect(vertsReached.size).toEqual(res[1].length)
+    expect(vertsReached.size).toEqual(res.vertices.length)
 
     // remove all dead end
     const nextEdgeList = t[1].filter(([_, b]) => !verts.has(b))
@@ -402,11 +402,11 @@ it('random topology clean test', () => {
     do {
       const t = getRandomTopology(5, 0.5)
       g = createCorrectTopology(t, 10)
-    } while (g[0].topologySort(g[1], g[2])[0] !== 0) // find topology with cycles
+    } while (g[0].topologySort(g[1], g[2]).status !== 0) // find topology with cycles
 
-    const [nodes] = g[0].cleanTopology(g[1], g[2])
+    const {vertices} = g[0].cleanTopology(g[1], g[2])
     const res = g[0].topologySort(g[1], g[2])
-    expect(res[0]).toEqual(2)
-    expect(res[1].length).toEqual(nodes.length)
+    expect(res.status).toEqual(2)
+    expect(res.vertices.length).toEqual(vertices.length)
   }
 })
