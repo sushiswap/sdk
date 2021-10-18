@@ -124,23 +124,23 @@ export class ParallelCPRPool extends RPool {
     return less(jumps[b]) ? jumps[b] : jumps[a]
   }
 
-  calcOutByIn(amountIn: number, direction: boolean): [number, number] {
+  calcOutByIn(amountIn: number, direction: boolean): {out: number, gasSpent: number} {
     const jump = this.getJump(direction, j => j.input <= amountIn)
     console.assert(amountIn >= jump.input)
 
     const addInput = amountIn - jump.input
     const addOutput = jump.combinedLiquidityY*addInput/(jump.combinedLiquidityY/jump.price + addInput)
-    return [jump.output + addOutput, jump.gasCost]
+    return {out: jump.output + addOutput, gasSpent: jump.gasCost}
   }
 
-  calcInByOut(amountOut: number, direction: boolean): [number, number] {
+  calcInByOut(amountOut: number, direction: boolean): {inp: number, gasSpent: number} {
     const jump = this.getJump(direction, j => j.output <= amountOut)
     console.assert(amountOut >= jump.input)
 
     const addOutput = amountOut - jump.output
     let addInput = jump.combinedLiquidityY/jump.price*addOutput/(jump.combinedLiquidityY - addOutput)
     if (addInput < 0) addInput = 0
-    return [jump.input + addInput, jump.gasCost]
+    return {inp: jump.input + addInput, gasSpent: jump.gasCost}
   }
 
   calcCurrentPriceWithoutFee(direction: boolean): number {

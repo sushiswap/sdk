@@ -39,38 +39,44 @@ export class Edge {
   }
 
   calcOutput(v: Vertice, amountIn: number) {
-    let out, gas;
+    let res, gas;
     if (v === this.vert1) {
       if (this.direction) {
         if (amountIn < this.amountOutPrevious) {
-          [out, gas] = this.pool.calcInByOut(this.amountOutPrevious - amountIn, true)
-          out = this.amountInPrevious - out
+          const {inp, gasSpent} = this.pool.calcInByOut(this.amountOutPrevious - amountIn, true)
+          res = this.amountInPrevious - inp
+          gas = gasSpent
         } else {
-          [out, gas] = this.pool.calcOutByIn(amountIn - this.amountOutPrevious, false)
-          out = out + this.amountInPrevious;
+          const {out, gasSpent} = this.pool.calcOutByIn(amountIn - this.amountOutPrevious, false)
+          res = out + this.amountInPrevious
+          gas = gasSpent
         }
       } else {
-        [out, gas] = this.pool.calcOutByIn(this.amountOutPrevious + amountIn, false)
-        out = out - this.amountInPrevious;
+        const {out, gasSpent} = this.pool.calcOutByIn(this.amountOutPrevious + amountIn, false)
+        res = out - this.amountInPrevious;
+        gas = gasSpent
       }
     } else {
       if (this.direction) {
-        [out, gas] = this.pool.calcOutByIn(this.amountInPrevious + amountIn, true)
-        out = out - this.amountOutPrevious;
+        const {out, gasSpent} = this.pool.calcOutByIn(this.amountInPrevious + amountIn, true)
+        res = out - this.amountOutPrevious
+        gas = gasSpent
       } else {
         if (amountIn < this.amountInPrevious) {
-          [out, gas] = this.pool.calcInByOut(this.amountInPrevious - amountIn, false)
-          out = this.amountOutPrevious - out
+          const {inp, gasSpent} = this.pool.calcInByOut(this.amountInPrevious - amountIn, false)
+          res = this.amountOutPrevious - inp
+          gas = gasSpent
         } else {
-          [out, gas] = this.pool.calcOutByIn(amountIn - this.amountInPrevious, true)
-          out = out + this.amountOutPrevious;
+          const {out, gasSpent} = this.pool.calcOutByIn(amountIn - this.amountInPrevious, true)
+          res = out + this.amountOutPrevious
+          gas = gasSpent
         }
       }
     }
 
     // this.testApply(v, amountIn, out);
 
-    return [out, gas - this.spentGas];
+    return [res, gas - this.spentGas];
   }
 
   checkMinimalLiquidityExceededAfterSwap(from: Vertice, amountOut: number): boolean {
@@ -119,7 +125,7 @@ export class Edge {
     } else console.error('Error 221')
 
     if (directionNew) {
-      const calc = this.pool.calcOutByIn(amountInNew, true)[0];
+      const calc = this.pool.calcOutByIn(amountInNew, true).out;
       const res = closeValues(amountOutNew, calc, 1e-6);
       if (!res)
         console.log(
@@ -130,7 +136,7 @@ export class Edge {
         );
       return res;
     } else {
-      const calc = this.pool.calcOutByIn(amountOutNew, false)[0];
+      const calc = this.pool.calcOutByIn(amountOutNew, false).out;
       const res = closeValues(amountInNew, calc, 1e-6);
       if (!res)
         console.log(
@@ -170,13 +176,13 @@ export class Edge {
       if (this.direction)
         return closeValues(
           this.amountOutPrevious,
-          this.pool.calcOutByIn(this.amountInPrevious, this.direction)[0],
+          this.pool.calcOutByIn(this.amountInPrevious, this.direction).out,
           1e-6
         );
       else {
         return closeValues(
           this.amountInPrevious,
-          this.pool.calcOutByIn(this.amountOutPrevious, this.direction)[0],
+          this.pool.calcOutByIn(this.amountOutPrevious, this.direction).out,
           1e-6
         );
       }
@@ -648,7 +654,7 @@ export class Graph {
       console.assert(inputTotal !== undefined, "Internal Error 564");
       const input = (inputTotal as number) * l.swapPortion;
       amounts.set(l.tokenFrom.address, (inputTotal as number) - input);
-      const output = pool.calcOutByIn(input, direction)[0];
+      const output = pool.calcOutByIn(input, direction).out;
 
       const vertNext = (vert as Vertice).getNeibour(edge) as Vertice;
       const prevAmount = amounts.get(vertNext.token.address);

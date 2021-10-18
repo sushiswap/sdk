@@ -49,7 +49,7 @@ export class CLRPool extends RPool {
     if (this.ticks[this.ticks.length - 1].index < CL_MAX_TICK) this.ticks.push({ index: CL_MAX_TICK, DLiquidity: 0 })
   }
 
-  calcOutByIn(amountIn: number, direction: boolean): [number, number] {
+  calcOutByIn(amountIn: number, direction: boolean): {out: number, gasSpent: number} {
     let nextTickToCross = direction ? this.nearestTick : this.nearestTick + 1
     let currentPrice = this.sqrtPrice
     let currentLiquidity = this.liquidity
@@ -58,7 +58,7 @@ export class CLRPool extends RPool {
   
     while (input > 0) {
       if (nextTickToCross < 0 || nextTickToCross >= this.ticks.length)
-        return [outAmount, this.swapGasCost]
+        return {out: outAmount, gasSpent: this.swapGasCost}
   
       const nextTickPrice = Math.sqrt(Math.pow(1.0001, this.ticks[nextTickToCross].index))
       // console.log('L, P, tick, nextP', currentLiquidity,
@@ -106,10 +106,10 @@ export class CLRPool extends RPool {
       //console.log('out', outAmount);
     }
   
-    return [outAmount, this.swapGasCost]  // TODO: more accurate gas prediction 
+    return {out: outAmount, gasSpent: this.swapGasCost}  // TODO: more accurate gas prediction 
   }
 
-  calcInByOut(amountOut: number, direction: boolean): [number, number] {  
+  calcInByOut(amountOut: number, direction: boolean): {inp: number, gasSpent: number} {  
     let nextTickToCross = direction ? this.nearestTick : this.nearestTick + 1
     let currentPrice = this.sqrtPrice
     let currentLiquidity = this.liquidity
@@ -118,7 +118,7 @@ export class CLRPool extends RPool {
 
     while (outBeforeFee > 0) {
       if (nextTickToCross < 0 || nextTickToCross >= this.ticks.length)
-        return [input, this.swapGasCost]
+        return {inp: input, gasSpent: this.swapGasCost}
   
       const nextTickPrice = Math.sqrt(Math.pow(1.0001, this.ticks[nextTickToCross].index))
       // console.log('L, P, tick, nextP', currentLiquidity,
@@ -162,7 +162,7 @@ export class CLRPool extends RPool {
       }
     }
   
-    return [input, this.swapGasCost]
+    return {inp: input, gasSpent: this.swapGasCost}
   }
   
   calcCurrentPriceWithoutFee(direction: boolean): number {
