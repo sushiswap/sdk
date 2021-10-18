@@ -403,6 +403,8 @@ export class Graph {
         let newIncome, gas
         try {
           ;[newIncome, gas] = e.calcOutput(closestVert as Vertice, (closestVert as Vertice).bestIncome)
+          if (!isFinite(newIncome) || !isFinite(gas))   // Math errors protection
+            return
         } catch (e) {
           // Any arithmetic error or out-of-liquidity
           return
