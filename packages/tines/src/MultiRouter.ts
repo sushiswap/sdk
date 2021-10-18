@@ -334,7 +334,7 @@ export class Graph {
     );
   }*/
 
-  findBestPath(
+  findBestPathExactIn(
     from: RToken,
     to: RToken,
     amountIn: number
@@ -484,7 +484,7 @@ export class Graph {
     return p
   }
 
-  findBestRoute(from: RToken, to: RToken, amountIn: number, mode: number | number[]): MultiRoute {
+  findBestRouteExactIn(from: RToken, to: RToken, amountIn: number, mode: number | number[]): MultiRoute {
     let routeValues = []
     if (Array.isArray(mode)) {
       const sum = mode.reduce((a, b) => a + b, 0)
@@ -505,7 +505,7 @@ export class Graph {
     let primaryPrice
     let step
     for (step = 0; step < routeValues.length; ++step) {
-      const p = this.findBestPath(from, to, amountIn * routeValues[step])
+      const p = this.findBestPathExactIn(from, to, amountIn * routeValues[step])
       if (!p) {
         break
       } else {
@@ -817,7 +817,7 @@ export interface MultiRoute {
   totalAmountOutBN: BigNumber;
 }
 
-export function findMultiRoute(
+export function findMultiRouteExactIn(
   from: RToken,
   to: RToken,
   amountIn: BigNumber | number,
@@ -836,12 +836,12 @@ export function findMultiRoute(
     amountIn = parseInt(amountIn.toString())
   }
 
-  const out = g.findBestRoute(from, to, amountIn, steps)
+  const out = g.findBestRouteExactIn(from, to, amountIn, steps)
   
   return out
 }
 
-export function findSingleRoute(
+export function findSingleRouteExactIn(
   from: RToken,
   to: RToken,
   amountIn: BigNumber | number,
@@ -860,10 +860,10 @@ export function findSingleRoute(
     amountIn = parseInt(amountIn.toString())
   }
 
-  const out = g.findBestRoute(from, to, amountIn, 1)
+  const out = g.findBestRouteExactIn(from, to, amountIn, 1)
 
   if (compareWithMultirouting) {
-    const outMultiRoute = findMultiRoute(from, to, amountIn, pools, baseToken, gasPrice)
+    const outMultiRoute = findMultiRouteExactIn(from, to, amountIn, pools, baseToken, gasPrice)
     console.assert(out.amountIn <= outMultiRoute.amountIn*1.001)
   }
   
