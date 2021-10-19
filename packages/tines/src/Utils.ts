@@ -58,13 +58,14 @@ export function ASSERT(f: () => boolean, t?: string) {
   export function getBigNumber(
     value: number
   ): BigNumber {
-    if (value < Number.MAX_SAFE_INTEGER) return BigNumber.from(Math.round(value));
+    const v = Math.abs(value)
+    if (v < Number.MAX_SAFE_INTEGER) return BigNumber.from(Math.round(value));
   
-    const exp = Math.floor(Math.log(value) / Math.LN2);
+    const exp = Math.floor(Math.log(v) / Math.LN2);
     console.assert(exp >= 51, "Internal Error 314");
     const shift = exp - 51;
-    const mant = Math.round(value / Math.pow(2, shift));
+    const mant = Math.round(v / Math.pow(2, shift));
     const res = BigNumber.from(mant).mul(BigNumber.from(2).pow(shift));
-    return res;
+    return value > 0 ? res : res.mul(-1);
   }
   
