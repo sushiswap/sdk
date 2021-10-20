@@ -1,6 +1,6 @@
 {
   "name": "@sushiswap/tines",
-  "version": "0.1.8",
+  "version": "0.1.15",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",

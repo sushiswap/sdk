@@ -1,10 +1,11 @@
 import { 
   Graph, 
-  findMultiRouting, 
+  findMultiRouteExactIn, 
   MultiRoute,
   RToken,
   RouteLeg,
-  RouteStatus 
+  RouteStatus, 
+  findSingleRouteExactIn
 } from "../src";
 
 import { checkRouteResult } from "./snapshots/snapshot";
@@ -286,7 +287,7 @@ function checkRoute(
   const poolMap = new Map<string, RPool>();
   network.pools.forEach((p) => poolMap.set(p.address, p));
   const expectedGasSpent = route.legs.reduce(
-    (a, b) => a + (poolMap.get(b.address)?.swapGasCost as number),
+    (a, b) => a + (poolMap.get(b.poolAddress)?.swapGasCost as number),
     0
   );
   expect(route.gasSpent).toEqual(expectedGasSpent);
@@ -307,9 +308,9 @@ function checkRoute(
   const usedPools = new Map<string, boolean>()
   const usedTokens = new Map<RToken, RouteLeg[]>()
   route.legs.forEach((l) => {
-    expect(usedPools.get(l.address)).toBeUndefined();
-    usedPools.set(l.address, true);
-    const pool = poolMap.get(l.address) as RPool;
+    expect(usedPools.get(l.poolAddress)).toBeUndefined();
+    usedPools.set(l.poolAddress, true);
+    const pool = poolMap.get(l.poolAddress) as RPool;
     usedTokens.set(pool.token0, usedTokens.get(pool.token0) || []);
     usedTokens.get(pool.token0)?.push(l);
     usedTokens.set(pool.token1, usedTokens.get(pool.token1) || []);
@@ -318,20 +319,20 @@ function checkRoute(
   usedTokens.forEach((legs, t) => {
     if (t === from) {
       expect(legs.length).toBeGreaterThan(0)
-      expect(legs.every((l) => l.token === from)).toBeTruthy()
+      expect(legs.every((l) => l.tokenFrom === from)).toBeTruthy()
       expect(legs[legs.length - 1].swapPortion).toEqual(1)
     } else if (t === to) {
       expect(legs.length).toBeGreaterThan(0)
-      expect(legs.some((l) => l.token === to)).toBeFalsy()
+      expect(legs.some((l) => l.tokenFrom === to)).toBeFalsy()
     } else {
       expect(legs.length).toBeGreaterThanOrEqual(2)
-      expect(legs[0].token).not.toEqual(t)
-      expect(legs[legs.length - 1].token).toEqual(t)
+      expect(legs[0].tokenFrom).not.toEqual(t)
+      expect(legs[legs.length - 1].tokenFrom).toEqual(t)
       expect(legs[legs.length - 1].swapPortion).toEqual(1)
       let inputFlag = true
       let absolutePortion = 0
       legs.forEach((l) => {
-        if (l.token !== t) {
+        if (l.tokenFrom !== t) {
           expect(inputFlag).toBeTruthy()
         } else {
           inputFlag = false
@@ -357,7 +358,7 @@ function exportNetwork(
   network.pools.forEach((p) => allPools.set(p.address, p));
   const usedPools = new Map<string, boolean>();
   route.legs.forEach((l) =>
-    usedPools.set(l.address, l.token === allPools.get(l.address)?.token0)
+    usedPools.set(l.poolAddress, l.tokenFrom === allPools.get(l.poolAddress)?.token0)
   );
 
   function edgeStyle(p: RPool) {
@@ -422,7 +423,7 @@ it(`Multirouter for ${network.tokens.length} tokens and ${network.pools.length} 
     const [t0, t1, tBase] = chooseRandomTokens(rnd, network)
     const amountIn = getRandom(rnd, 1e6, 1e24)
 
-    const route = findMultiRouting(t0, t1, amountIn, network.pools, tBase, network.gasPrice)
+    const route = findMultiRouteExactIn(t0, t1, amountIn, network.pools, tBase, network.gasPrice)
 
     checkRoute(network, t0, t1, amountIn, tBase, network.gasPrice, route)
 
@@ -435,7 +436,7 @@ it(`Multirouter-100 for ${network.tokens.length} tokens and ${network.pools.leng
     const [t0, t1, tBase] = chooseRandomTokens(rnd, network)
     const amountIn = getRandom(rnd, 1e6, 1e24)
 
-    const route = findMultiRouting(t0, t1, amountIn, network.pools, tBase, network.gasPrice, 100)
+    const route = findMultiRouteExactIn(t0, t1, amountIn, network.pools, tBase, network.gasPrice, 100)
 
     checkRoute(network, t0, t1, amountIn, tBase, network.gasPrice, route)
 
@@ -452,7 +453,7 @@ it(`Multirouter path quantity check`, () => {
 
     let prevAmountOut = -1
     steps.forEach((s) => {
-      const route = findMultiRouting(t0, t1, amountIn, network.pools, tBase, network.gasPrice, s)
+      const route = findMultiRouteExactIn(t0, t1, amountIn, network.pools, tBase, network.gasPrice, s)
       checkRoute(network, t0, t1, amountIn, tBase, network.gasPrice, route)
       expect(route.totalAmountOut).toBeGreaterThan(prevAmountOut / 1.001)
       prevAmountOut = route.totalAmountOut
@@ -468,10 +469,26 @@ function makeTestForTiming(tokens: number, density: number, tests: number) {
       const [t0, t1, tBase] = chooseRandomTokens(rnd, network)
       const amountIn = getRandom(rnd, 1e6, 1e24)
 
-      findMultiRouting(t0, t1, amountIn, network2.pools, tBase, network2.gasPrice)
+      findMultiRouteExactIn(t0, t1, amountIn, network2.pools, tBase, network2.gasPrice)
     }
   })
 }
 
-makeTestForTiming(10, 0.5, 1000)
-makeTestForTiming(10, 0.9, 1000)
+makeTestForTiming(10, 0.5, 100)
+makeTestForTiming(10, 0.9, 100)
+
+debugger
+it(`Singlerouter for ${network.tokens.length} tokens and ${network.pools.length} pools (100 times)`, () => {
+  for (var i = 0; i < 100; ++i) {
+    const [t0, t1, tBase] = chooseRandomTokens(rnd, network)
+    const amountIn = getRandom(rnd, 1e6, 1e24)
+
+    const route = findSingleRouteExactIn(t0, t1, amountIn, network.pools, tBase, network.gasPrice, false)
+
+    checkRoute(network, t0, t1, amountIn, tBase, network.gasPrice, route)
+    const route2 = findMultiRouteExactIn(t0, t1, amountIn, network.pools, tBase, network.gasPrice)
+    expect(route.amountOut).toBeLessThan(route2.amountOut * 1.001)
+
+    checkRouteResult('single20-' + i, route.totalAmountOut)
+  }
+})

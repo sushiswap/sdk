@@ -41,13 +41,15 @@ export class CLRPool extends RPool {
     this.sqrtPrice = sqrtPrice
     this.nearestTick = nearestTick
     this.ticks = ticks
-  }
-
-  calcOutByIn(amountIn: number, direction: boolean): [number, number] {
-    if (this.ticks.length === 0) return [0, 0]
+    if (this.ticks.length === 0) {
+      this.ticks.push({ index: CL_MIN_TICK, DLiquidity: 0 })
+      this.ticks.push({ index: CL_MAX_TICK, DLiquidity: 0 })
+    }
     if (this.ticks[0].index > CL_MIN_TICK) this.ticks.unshift({ index: CL_MIN_TICK, DLiquidity: 0 })
     if (this.ticks[this.ticks.length - 1].index < CL_MAX_TICK) this.ticks.push({ index: CL_MAX_TICK, DLiquidity: 0 })
-  
+  }
+
+  calcOutByIn(amountIn: number, direction: boolean): {out: number, gasSpent: number} {
     let nextTickToCross = direction ? this.nearestTick : this.nearestTick + 1
     let currentPrice = this.sqrtPrice
     let currentLiquidity = this.liquidity
@@ -56,7 +58,7 @@ export class CLRPool extends RPool {
   
     while (input > 0) {
       if (nextTickToCross < 0 || nextTickToCross >= this.ticks.length)
-        return [outAmount, this.swapGasCost]
+        return {out: outAmount, gasSpent: this.swapGasCost}
   
       const nextTickPrice = Math.sqrt(Math.pow(1.0001, this.ticks[nextTickToCross].index))
       // console.log('L, P, tick, nextP', currentLiquidity,
@@ -104,13 +106,67 @@ export class CLRPool extends RPool {
       //console.log('out', outAmount);
     }
   
-    return [outAmount, this.swapGasCost]  // TODO: more accurate gas prediction 
+    return {out: outAmount, gasSpent: this.swapGasCost}  // TODO: more accurate gas prediction 
   }
 
-  calcInByOut(_amountOut: number, _direction: boolean): [number, number] {
-    return [0, 0] // not implemented
+  calcInByOut(amountOut: number, direction: boolean): {inp: number, gasSpent: number} {  
+    let nextTickToCross = direction ? this.nearestTick : this.nearestTick + 1
+    let currentPrice = this.sqrtPrice
+    let currentLiquidity = this.liquidity
+    let input = 0
+    let outBeforeFee = amountOut/(1-this.fee)    
+
+    while (outBeforeFee > 0) {
+      if (nextTickToCross < 0 || nextTickToCross >= this.ticks.length)
+        return {inp: input, gasSpent: this.swapGasCost}
+  
+      const nextTickPrice = Math.sqrt(Math.pow(1.0001, this.ticks[nextTickToCross].index))
+      // console.log('L, P, tick, nextP', currentLiquidity,
+      //     currentPrice, this.ticks[nextTickToCross].index, nextTickPrice);
+  
+      if (direction) {
+        const maxDy = currentLiquidity * (currentPrice - nextTickPrice)
+        //console.log('input, maxDy', input, maxDy);
+        if (outBeforeFee <= maxDy) {
+          input += outBeforeFee / currentPrice / (currentPrice - outBeforeFee / currentLiquidity)
+          outBeforeFee = 0
+        } else {
+          input += (currentLiquidity * (currentPrice - nextTickPrice)) / currentPrice / nextTickPrice
+          currentPrice = nextTickPrice
+          outBeforeFee -= maxDy
+          if (this.ticks[nextTickToCross].index % 2 === 0) {
+            currentLiquidity -= this.ticks[nextTickToCross].DLiquidity
+          } else {
+            currentLiquidity += this.ticks[nextTickToCross].DLiquidity
+          }
+          nextTickToCross--
+        }
+      } else {
+        const maxDx = (currentLiquidity * (nextTickPrice - currentPrice)) / currentPrice / nextTickPrice
+        //console.log('outBeforeFee, maxDx', outBeforeFee, maxDx);
+  
+        if (outBeforeFee <= maxDx) {
+          input += (currentLiquidity * currentPrice * outBeforeFee) / (currentLiquidity / currentPrice - outBeforeFee)
+          outBeforeFee = 0
+        } else {
+          input += currentLiquidity * (nextTickPrice - currentPrice)
+          currentPrice = nextTickPrice
+          outBeforeFee -= maxDx
+          if (this.ticks[nextTickToCross].index % 2 === 0) {
+            currentLiquidity += this.ticks[nextTickToCross].DLiquidity
+          } else {
+            currentLiquidity -= this.ticks[nextTickToCross].DLiquidity
+          }
+          nextTickToCross++
+        }
+      }
+    }
+  
+    return {inp: input, gasSpent: this.swapGasCost}
   }
-  calcCurrentPriceWithoutFee(_direction: boolean): number {
-    return 0 //not implemented
+  
+  calcCurrentPriceWithoutFee(direction: boolean): number {
+    const p = this.sqrtPrice*this.sqrtPrice
+    return direction ? p : 1/p
   }
 }

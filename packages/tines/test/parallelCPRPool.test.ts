@@ -1,7 +1,7 @@
 import { ConstantProductRPool } from "../src/PrimaryPools"
 import { getBigNumber } from "../src/Utils"
 import { ParallelCPRPool } from "../src/ParallelCPRPool"
-import { findMultiRouting } from "../src";
+import { findMultiRouteExactIn } from "../src";
 import seedrandom from "seedrandom";
 
 const testSeed = "0"; // Change it to change random generator values
@@ -41,15 +41,15 @@ describe('Parallel ConstuntProduct Combo Pool', () => {
 
     for (let i = 0; i < 10; ++i) {
       const amountIn = getRandom(rnd, 1e3, 1e17)
-      const out1 = comboPool1.calcOutByIn(amountIn, true)[0]
-      const out2 = findMultiRouting(token0, token1, amountIn, [pool], token1, gasPrice).amountOut
+      const out1 = comboPool1.calcOutByIn(amountIn, true).out
+      const out2 = findMultiRouteExactIn(token0, token1, amountIn, [pool], token1, gasPrice).amountOut
       expect(Math.abs(out1/out2-1)).toBeLessThan(1e-12)
     }
 
     for (let i = 0; i < 10; ++i) {
       const amountIn = getRandom(rnd, 1e3, 1e17)
-      const out1 = comboPool1.calcOutByIn(amountIn, false)[0]
-      const out2 = findMultiRouting(token1, token0, amountIn, [pool], token1, gasPrice).amountOut
+      const out1 = comboPool1.calcOutByIn(amountIn, false).out
+      const out2 = findMultiRouteExactIn(token1, token0, amountIn, [pool], token1, gasPrice).amountOut
       expect(Math.abs(out1/out2-1)).toBeLessThan(1e-12)
     }
 
@@ -57,15 +57,15 @@ describe('Parallel ConstuntProduct Combo Pool', () => {
 
     for (let i = 0; i < 10; ++i) {
       const amountIn = getRandom(rnd, 1e3, 1e17)
-      const out1 = comboPool2.calcOutByIn(amountIn, false)[0]
-      const out2 = findMultiRouting(token0, token1, amountIn, [pool], token1, gasPrice).amountOut
+      const out1 = comboPool2.calcOutByIn(amountIn, false).out
+      const out2 = findMultiRouteExactIn(token0, token1, amountIn, [pool], token1, gasPrice).amountOut
       expect(Math.abs(out1/out2-1)).toBeLessThan(1e-12)
     }
 
     for (let i = 0; i < 10; ++i) {
       const amountIn = getRandom(rnd, 1e3, 1e17)
-      const out1 = comboPool2.calcOutByIn(amountIn, true)[0]
-      const out2 = findMultiRouting(token1, token0, amountIn, [pool], token1, gasPrice).amountOut
+      const out1 = comboPool2.calcOutByIn(amountIn, true).out
+      const out2 = findMultiRouteExactIn(token1, token0, amountIn, [pool], token1, gasPrice).amountOut
       expect(Math.abs(out1/out2-1)).toBeLessThan(1e-12)
     }
   })
@@ -78,9 +78,9 @@ describe('Parallel ConstuntProduct Combo Pool', () => {
 
       for (let i = 0; i < 100; ++i) {
         const amountIn = getRandom(rnd, 1e3, 1e20)
-        const [out1, gas] = comboPool.calcOutByIn(amountIn, true)
-        const ta = out1 - gas*gasPrice
-        const {totalAmountOut} = findMultiRouting(token0, token1, amountIn, pools, token1, gasPrice)
+        const {out, gasSpent} = comboPool.calcOutByIn(amountIn, true)
+        const ta = out - gasSpent*gasPrice
+        const {totalAmountOut} = findMultiRouteExactIn(token0, token1, amountIn, pools, token1, gasPrice)
         expect(totalAmountOut).toBeLessThanOrEqual(ta > 0 ? ta*(1+1e-12):ta*(1-1e-12))
       }
     }    
@@ -97,9 +97,9 @@ describe('Parallel ConstuntProduct Combo Pool', () => {
     
     for (let i = 0; i < 100; ++i) {
       const amountIn = getRandom(rnd, 1e3, 1e20)
-      const [out1, gas] = comboPool.calcOutByIn(amountIn, true)
-      const ta = out1 - gas*gasPrice
-      const {totalAmountOut} = findMultiRouting(token0, token1, amountIn, pools, token1, gasPrice)
+      const {out, gasSpent} = comboPool.calcOutByIn(amountIn, true)
+      const ta = out - gasSpent*gasPrice
+      const {totalAmountOut} = findMultiRouteExactIn(token0, token1, amountIn, pools, token1, gasPrice)
       expect(totalAmountOut).toBeLessThanOrEqual(ta > 0 ? ta*(1+1e-12):ta*(1-1e-12))
     } 
   })
@@ -115,9 +115,9 @@ describe('Parallel ConstuntProduct Combo Pool', () => {
     
     for (let i = 0; i < 100; ++i) {
       const amountIn = getRandom(rnd, 1e3, 1e20)
-      const [out1, gas] = comboPool.calcOutByIn(amountIn, true)
-      const ta = out1 - gas*gasPrice
-      const {totalAmountOut} = findMultiRouting(token0, token1, amountIn, pools, token1, gasPrice)
+      const {out, gasSpent} = comboPool.calcOutByIn(amountIn, true)
+      const ta = out - gasSpent*gasPrice
+      const {totalAmountOut} = findMultiRouteExactIn(token0, token1, amountIn, pools, token1, gasPrice)
       expect(totalAmountOut).toBeLessThanOrEqual(ta > 0 ? ta*(1+1e-12):ta*(1-1e-12))
     } 
   })
@@ -133,9 +133,9 @@ describe('Parallel ConstuntProduct Combo Pool', () => {
     
     for (let i = 0; i < 100; ++i) {
       const amountIn = getRandom(rnd, 1e3, 1e25)
-      const [out1, gas] = comboPool.calcOutByIn(amountIn, true)        
-      const ta = out1 - gas*gasPrice
-      const {totalAmountOut} = findMultiRouting(token0, token1, amountIn, pools, token1, gasPrice)
+      const {out, gasSpent} = comboPool.calcOutByIn(amountIn, true)        
+      const ta = out - gasSpent*gasPrice
+      const {totalAmountOut} = findMultiRouteExactIn(token0, token1, amountIn, pools, token1, gasPrice)
       expect(totalAmountOut).toBeLessThanOrEqual(ta > 0 ? ta*(1+1e-12):ta*(1-1e-12))
     } 
   })
@@ -151,9 +151,9 @@ describe('Parallel ConstuntProduct Combo Pool', () => {
     
     for (let i = 0; i < 100; ++i) {
       const amountIn = getRandom(rnd, 1e3, 1e25)
-      const [out1, gas] = comboPool.calcOutByIn(amountIn, true)        
-      const ta = out1 - gas*gasPrice
-      const {totalAmountOut} = findMultiRouting(token0, token1, amountIn, pools, token1, gasPrice)
+      const {out, gasSpent} = comboPool.calcOutByIn(amountIn, true)        
+      const ta = out - gasSpent*gasPrice
+      const {totalAmountOut} = findMultiRouteExactIn(token0, token1, amountIn, pools, token1, gasPrice)
       expect(totalAmountOut).toBeLessThanOrEqual(ta > 0 ? ta*(1+1e-12):ta*(1-1e-12))
     } 
   })
