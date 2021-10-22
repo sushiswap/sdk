@@ -4,7 +4,7 @@ import {
 } from "./Utils";
 
 import { BigNumber } from "@ethersproject/bignumber";
-import { RPool, RToken } from "./PrimaryPools";
+import { RPool, RToken, TYPICAL_SWAP_GAS_COST } from "./PrimaryPools";
 import { getBigNumber } from "./Utils";
 
 export class Edge {
@@ -25,6 +25,16 @@ export class Edge {
     this.pool = p;
     this.vert0 = v0;
     this.vert1 = v1;
+    this.amountInPrevious = 0;
+    this.amountOutPrevious = 0;
+    this.canBeUsed = true;
+    this.direction = true;
+    this.spentGas = 0;
+    this.spentGasNew = 0;
+    this.bestEdgeIncome = 0;
+  }
+
+  cleanTmpData() {
     this.amountInPrevious = 0;
     this.amountOutPrevious = 0;
     this.canBeUsed = true;
@@ -215,6 +225,14 @@ export class Vertice {
     this.checkLine = -1
   }
 
+  cleanTmpData() {
+    this.bestIncome = 0
+    this.gasSpent = 0
+    this.bestTotal = 0
+    this.bestSource = undefined
+    this.checkLine = -1
+  }
+
   getNeibour(e?: Edge) {
     if (!e) return
     return e.vert0 === this ? e.vert1 : e.vert0
@@ -242,6 +260,11 @@ export class Graph {
     if (baseVert) {
       this.setPrices(baseVert, 1, gasPrice)
     }
+  }
+
+  cleanTmpData() {
+    this.edges.forEach(e => e.cleanTmpData())
+    this.vertices.forEach(v => v.cleanTmpData())
   }
 
   setPrices(from: Vertice, price: number, gasPrice: number) {
@@ -831,6 +854,32 @@ export interface MultiRoute {
   totalAmountOutBN: BigNumber;
 }
 
+// Assumes route is a single path
+function calcPriceImactWithoutFee(route: MultiRoute) {
+  if (route.primaryPrice === undefined || route.swapPrice === undefined) {
+    return undefined
+  } else {
+    let oneMinusCombinedFee = 1
+    route.legs.forEach(l => oneMinusCombinedFee *= (1-l.poolFee))
+    //const combinedFee = 1-oneMinusCombinedFee
+    return Math.max(0, 1-route.swapPrice/route.primaryPrice/oneMinusCombinedFee)
+  }
+}
+
+const defaultFlowNumber = 12
+const maxFlowNumber = 100
+function calcBestFlowNumber(bestSingleRoute: MultiRoute, amountIn: number, gasPriceIn?: number): number {
+  const priceImpact = calcPriceImactWithoutFee(bestSingleRoute)
+  if (!priceImpact) return defaultFlowNumber
+
+  const bestFlowAmount = Math.sqrt(TYPICAL_SWAP_GAS_COST*(gasPriceIn || 0)*amountIn/priceImpact)
+  const bestFlowNumber = Math.round(amountIn/bestFlowAmount)
+  if (!isFinite(bestFlowNumber)) return defaultFlowNumber
+
+  const realFlowNumber = Math.max(1, Math.min(bestFlowNumber, maxFlowNumber))
+  return realFlowNumber
+}
+
 export function findMultiRouteExactIn(
   from: RToken,
   to: RToken,
@@ -838,21 +887,29 @@ export function findMultiRouteExactIn(
   pools: RPool[],
   baseToken: RToken,
   gasPrice: number,
-  steps: number | number[] = 12
+  flows?: number | number[]
 ): MultiRoute {
+  if (amountIn instanceof BigNumber) {
+    amountIn = parseInt(amountIn.toString())
+  }
+
   const g = new Graph(pools, baseToken, gasPrice)
   const fromV = g.tokens.get(from.address)
   if (fromV?.price === 0) {
     g.setPrices(fromV, 1, 0)
   }
 
-  if (amountIn instanceof BigNumber) {
-    amountIn = parseInt(amountIn.toString())
-  }
+  if (flows !== undefined) return g.findBestRouteExactIn(from, to, amountIn, flows)
 
-  const out = g.findBestRouteExactIn(from, to, amountIn, steps)
-  
-  return out
+  const outSingle = g.findBestRouteExactIn(from, to, amountIn, 1)
+  if (flows === 1) return outSingle
+  g.cleanTmpData()
+
+  const bestFlowNumber = calcBestFlowNumber(outSingle, amountIn, fromV?.gasPrice)
+  if (bestFlowNumber === 1) return outSingle
+
+  const outMulti = g.findBestRouteExactIn(from, to, amountIn, bestFlowNumber)
+  return outSingle.totalAmountOut > outMulti.totalAmountOut ? outSingle : outMulti
 }
 
 export function findSingleRouteExactIn(
@@ -861,8 +918,7 @@ export function findSingleRouteExactIn(
   amountIn: BigNumber | number,
   pools: RPool[],
   baseToken: RToken,
-  gasPrice: number,
-  compareWithMultirouting = true
+  gasPrice: number
 ): MultiRoute {
   const g = new Graph(pools, baseToken, gasPrice)
   const fromV = g.tokens.get(from.address)
@@ -875,11 +931,6 @@ export function findSingleRouteExactIn(
   }
 
   const out = g.findBestRouteExactIn(from, to, amountIn, 1)
-
-  if (compareWithMultirouting) {
-    const outMultiRoute = findMultiRouteExactIn(from, to, amountIn, pools, baseToken, gasPrice)
-    console.assert(out.amountIn <= outMultiRoute.amountIn*1.001)
-  }
   
   return out
 }

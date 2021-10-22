@@ -6,6 +6,8 @@ const REPORT_FILE = 'report'
 let dataWasRead = false
 let snapshotMap = new Map<string, number>()
 let newReportWasStarted = false
+let totalIncrease = 0
+let testCount = 0
 
 export function checkRouteResult(id: string, amountOut: number) {
   if (!dataWasRead) {
@@ -35,8 +37,11 @@ export function checkRouteResult(id: string, amountOut: number) {
     fs.writeFileSync(__dirname + '/' + SNAPSHOT_FILE, `"${id}" ${amountOut}\n`, { encoding: 'utf8', flag: 'a' })
   } else {
     const increase = prevOut === 0 ? amountOut - prevOut : (amountOut / prevOut - 1) * 100
+    totalIncrease += increase
+    testCount++
+    const avgInc = totalIncrease/testCount
     console.assert(increase >= -1e-4, `Routing result ${id} ${increase}%`)
-    fs.writeFileSync(__dirname + '/' + REPORT_FILE, `"${id}": ${prevOut} -> ${amountOut} (${increase}%)\n`, {
+    fs.writeFileSync(__dirname + '/' + REPORT_FILE, `${testCount}:"${id}": ${prevOut} -> ${amountOut} (${increase}%) avg:${avgInc}%\n`, {
       encoding: 'utf8',
       flag: newReportWasStarted ? 'a' : 'w',
     })

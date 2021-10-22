@@ -483,7 +483,7 @@ it(`Singlerouter for ${network.tokens.length} tokens and ${network.pools.length}
     const [t0, t1, tBase] = chooseRandomTokens(rnd, network)
     const amountIn = getRandom(rnd, 1e6, 1e24)
 
-    const route = findSingleRouteExactIn(t0, t1, amountIn, network.pools, tBase, network.gasPrice, false)
+    const route = findSingleRouteExactIn(t0, t1, amountIn, network.pools, tBase, network.gasPrice)
 
     checkRoute(network, t0, t1, amountIn, tBase, network.gasPrice, route)
     const route2 = findMultiRouteExactIn(t0, t1, amountIn, network.pools, tBase, network.gasPrice)
