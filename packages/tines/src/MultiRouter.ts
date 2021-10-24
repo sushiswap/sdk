@@ -366,7 +366,8 @@ export class Graph {
   findBestPathExactIn(
     from: RToken,
     to: RToken,
-    amountIn: number
+    amountIn: number,
+    _gasPrice?: number
   ):
     | {
         path: Edge[]
@@ -378,6 +379,8 @@ export class Graph {
     const start = this.tokens.get(from.address)
     const finish = this.tokens.get(to.address)
     if (!start || !finish) return
+
+    const gasPrice = _gasPrice !== undefined ? _gasPrice : finish.gasPrice
 
     this.edges.forEach((e) => {
       e.bestEdgeIncome = 0
@@ -446,7 +449,7 @@ export class Graph {
         }
         const newGasSpent = (closestVert as Vertice).gasSpent + gas
         const price = v2.price / finish.price
-        const newTotal = newIncome * price - newGasSpent * finish.gasPrice
+        const newTotal = newIncome * price - newGasSpent * gasPrice
 
         console.assert(e.bestEdgeIncome === 0, "Error 373");
         e.bestEdgeIncome = newIncome * price;
@@ -903,6 +906,8 @@ export function findMultiRouteExactIn(
 
   const outSingle = g.findBestRouteExactIn(from, to, amountIn, 1)
   if (flows === 1) return outSingle
+  // Possible optimization of timing
+  // if (g.findBestPathExactIn(from, to, amountIn/100 + 10_000, 0)?.gasSpent === 0) return outSingle
   g.cleanTmpData()
 
   const bestFlowNumber = calcBestFlowNumber(outSingle, amountIn, fromV?.gasPrice)
