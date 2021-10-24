@@ -34,34 +34,6 @@ export class Edge {
     return v === this.vert0 ? this.pool.reserve0 : this.pool.reserve1
   }
 
-<<<<<<< HEAD
-  calcOutput(v: Vertice, amountIn: number) {
-    let out, gas
-    if (v === this.vert1) {
-      if (this.direction) {
-        if (amountIn < this.amountOutPrevious) {
-          ;[out, gas] = this.pool.calcInByOut(this.amountOutPrevious - amountIn, true)
-          out = this.amountInPrevious - out
-        } else {
-          ;[out, gas] = this.pool.calcOutByIn(amountIn - this.amountOutPrevious, false)
-          out = out + this.amountInPrevious
-        }
-      } else {
-        ;[out, gas] = this.pool.calcOutByIn(this.amountOutPrevious + amountIn, false)
-        out = out - this.amountInPrevious
-      }
-    } else {
-      if (this.direction) {
-        ;[out, gas] = this.pool.calcOutByIn(this.amountInPrevious + amountIn, true)
-        out = out - this.amountOutPrevious
-      } else {
-        if (amountIn < this.amountInPrevious) {
-          ;[out, gas] = this.pool.calcInByOut(this.amountInPrevious - amountIn, false)
-          out = this.amountOutPrevious - out
-        } else {
-          ;[out, gas] = this.pool.calcOutByIn(amountIn - this.amountInPrevious, true)
-          out = out + this.amountOutPrevious
-=======
   calcOutput(v: Vertice, amountIn: number): {out: number, gasSpent: number} {
     let res, gas;
     if (v === this.vert1) {
@@ -94,18 +66,13 @@ export class Edge {
           const {out, gasSpent} = this.pool.calcOutByIn(amountIn - this.amountInPrevious, true)
           res = out + this.amountOutPrevious
           gas = gasSpent
->>>>>>> origin/master
         }
       }
     }
 
     // this.testApply(v, amountIn, out);
 
-<<<<<<< HEAD
-    return [out, gas - this.spentGas]
-=======
     return {out: res, gasSpent: gas - this.spentGas};
->>>>>>> origin/master
   }
 
   checkMinimalLiquidityExceededAfterSwap(from: Vertice, amountOut: number): boolean {
@@ -154,17 +121,6 @@ export class Edge {
     } else console.error('Error 221')
 
     if (directionNew) {
-<<<<<<< HEAD
-      const calc = this.pool.calcOutByIn(amountInNew, true)[0]
-      const res = closeValues(amountOutNew, calc, 1e-6)
-      if (!res) console.log('Err 225-1 !!', amountOutNew, calc, Math.abs(calc / amountOutNew - 1))
-      return res
-    } else {
-      const calc = this.pool.calcOutByIn(amountOutNew, false)[0]
-      const res = closeValues(amountInNew, calc, 1e-6)
-      if (!res) console.log('Err 225-2!!', amountInNew, calc, Math.abs(calc / amountInNew - 1))
-      return res
-=======
       const calc = this.pool.calcOutByIn(amountInNew, true).out;
       const res = closeValues(amountOutNew, calc, 1e-6);
       if (!res)
@@ -186,7 +142,6 @@ export class Edge {
           Math.abs(calc / amountInNew - 1)
         );
       return res;
->>>>>>> origin/master
     }
   }
 
@@ -688,26 +643,6 @@ export class Graph {
     const amounts = new Map<string, number>()
     amounts.set(legs[0].tokenFrom.address, amountIn)
     legs.forEach((l) => {
-<<<<<<< HEAD
-      const vert = this.tokens.get(l.token.address)
-      console.assert(vert !== undefined, 'Internal Error 570')
-      const edge = (vert as Vertice).edges.find((e) => e.pool.address === l.address)
-      console.assert(edge !== undefined, 'Internel Error 569')
-      const pool = (edge as Edge).pool
-      const direction = vert === (edge as Edge).vert0
-
-      const inputTotal = amounts.get(l.token.address)
-      console.assert(inputTotal !== undefined, 'Internal Error 564')
-      const input = (inputTotal as number) * l.swapPortion
-      amounts.set(l.token.address, (inputTotal as number) - input)
-      const output = pool.calcOutByIn(input, direction)[0]
-
-      const vertNext = (vert as Vertice).getNeibour(edge) as Vertice
-      const prevAmount = amounts.get(vertNext.token.address)
-      amounts.set(vertNext.token.address, (prevAmount || 0) + output)
-    })
-    return amounts.get(to.address) || 0
-=======
       const vert = this.tokens.get(l.tokenFrom.address);
       console.assert(vert !== undefined, "Internal Error 570");
       const edge = (vert as Vertice).edges.find(
@@ -728,7 +663,6 @@ export class Graph {
       amounts.set(vertNext.token.address, (prevAmount || 0) + output);
     });
     return amounts.get(to.address) || 0;
->>>>>>> origin/master
   }
 
   // removes all cycles if there are any, then removes all dead end could appear after cycle removing
@@ -856,13 +790,6 @@ export class Graph {
   }
 }
 
-<<<<<<< HEAD
-export interface RouteLeg {
-  address: string
-  token: RToken
-  swapPortion: number // For router contract
-  absolutePortion: number // To depict at webpage for user
-=======
 // Routing info about each one swap
 export interface RouteLeg {
   poolAddress: string       // which pool use for swap
@@ -876,7 +803,6 @@ export interface RouteLeg {
 
   swapPortion: number       // for router contract
   absolutePortion: number   // to depict at webpage for user
->>>>>>> origin/master
 }
 
 export enum RouteStatus {
@@ -885,16 +811,6 @@ export enum RouteStatus {
   Partial = 'Partial',
 }
 export interface MultiRoute {
-<<<<<<< HEAD
-  status: RouteStatus
-  fromToken: RToken
-  toToken: RToken
-  amountIn: number
-  amountOut: number
-  legs: RouteLeg[]
-  gasSpent: number
-  totalAmountOut: number
-=======
   status: RouteStatus;
   fromToken: RToken;
   toToken: RToken;
@@ -909,7 +825,6 @@ export interface MultiRoute {
   gasSpent: number;
   totalAmountOut: number;
   totalAmountOutBN: BigNumber;
->>>>>>> origin/master
 }
 
 export function findMultiRouteExactIn(
