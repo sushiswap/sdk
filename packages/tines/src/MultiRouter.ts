@@ -4,7 +4,7 @@ import {
 } from "./Utils";
 
 import { BigNumber } from "@ethersproject/bignumber";
-import { RPool, RToken, TYPICAL_SWAP_GAS_COST } from "./PrimaryPools";
+import { RPool, RToken } from "./PrimaryPools";
 import { getBigNumber } from "./Utils";
 
 export class Edge {
@@ -872,7 +872,7 @@ function calcBestFlowNumber(bestSingleRoute: MultiRoute, amountIn: number, gasPr
   const priceImpact = calcPriceImactWithoutFee(bestSingleRoute)
   if (!priceImpact) return defaultFlowNumber
 
-  const bestFlowAmount = Math.sqrt(TYPICAL_SWAP_GAS_COST*(gasPriceIn || 0)*amountIn/priceImpact)
+  const bestFlowAmount = Math.sqrt(bestSingleRoute.gasSpent*(gasPriceIn || 0)*amountIn/priceImpact)
   const bestFlowNumber = Math.round(amountIn/bestFlowAmount)
   if (!isFinite(bestFlowNumber)) return defaultFlowNumber
 
