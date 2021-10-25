@@ -1,8 +1,7 @@
 import { checkRouteResult } from './snapshots/snapshot'
-import { findMultiRouteExactIn, /*findMultiRouteExactOut,*/ RouteStatus } from '../src/MultiRouter'
 import { RToken, ConstantProductRPool } from '../src/PrimaryPools'
 import { USDC, WNATIVE } from '@sushiswap/core-sdk'
-import { /*closeValues,*/ getBigNumber } from '../src'
+import { getBigNumber, RouteStatus, findMultiRouteExactIn } from '../src'
 import { BigNumber } from '@ethersproject/bignumber'
 
 const gasPrice = 1 * 200 * 1e-9
