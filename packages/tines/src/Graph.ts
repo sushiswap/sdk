@@ -125,7 +125,7 @@ export class Edge {
   calcInput(v: Vertice, amountOut: number): {inp: number, gasSpent: number}  {
     let res, gas;
     if (v === this.vert1) {
-      if (this.direction) {
+      if (!this.direction) {
         if (amountOut < this.amountInPrevious) {
           const {out, gasSpent} = this.pool.calcOutByIn(this.amountInPrevious - amountOut, true)
           res = this.amountOutPrevious - out
@@ -136,14 +136,14 @@ export class Edge {
           gas = gasSpent
         }
       } else {
-        const {inp, gasSpent} = this.pool.calcInByOut(this.amountInPrevious + amountOut, false)
-        res = inp - this.amountOutPrevious
+        const {inp, gasSpent} = this.pool.calcInByOut(this.amountOutPrevious + amountOut, true)
+        res = inp - this.amountInPrevious
         gas = gasSpent
       }
     } else {
-      if (this.direction) {
-        const {inp, gasSpent} = this.pool.calcInByOut(this.amountOutPrevious + amountOut, true)
-        res = inp - this.amountInPrevious
+      if (!this.direction) {
+        const {inp, gasSpent} = this.pool.calcInByOut(this.amountInPrevious + amountOut, false)
+        res = inp - this.amountOutPrevious
         gas = gasSpent
       } else {
         if (amountOut < this.amountOutPrevious) {
