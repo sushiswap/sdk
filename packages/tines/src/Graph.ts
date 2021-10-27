@@ -126,13 +126,13 @@ export class Edge {
     let res, gas;
     if (v === this.vert1) {
       if (!this.direction) {
-        if (amountOut < this.amountInPrevious) {
-          const {out, gasSpent} = this.pool.calcOutByIn(this.amountInPrevious - amountOut, true)
-          res = this.amountOutPrevious - out
+        if (amountOut < this.amountOutPrevious) {
+          const {out, gasSpent}  = this.pool.calcOutByIn(this.amountOutPrevious - amountOut, false)
+          res = this.amountInPrevious - out
           gas = gasSpent
         } else {
-          const {inp, gasSpent} = this.pool.calcInByOut(amountOut - this.amountInPrevious, false)
-          res = inp + this.amountOutPrevious
+          const {inp, gasSpent} = this.pool.calcInByOut(amountOut - this.amountOutPrevious, true)
+          res = inp + this.amountInPrevious
           gas = gasSpent
         }
       } else {
@@ -146,13 +146,13 @@ export class Edge {
         res = inp - this.amountOutPrevious
         gas = gasSpent
       } else {
-        if (amountOut < this.amountOutPrevious) {
-          const {out, gasSpent}  = this.pool.calcOutByIn(this.amountOutPrevious - amountOut, false)
-          res = this.amountInPrevious - out
+        if (amountOut < this.amountInPrevious) {
+          const {out, gasSpent} = this.pool.calcOutByIn(this.amountInPrevious - amountOut, true)
+          res = this.amountOutPrevious - out
           gas = gasSpent
         } else {
-          const {inp, gasSpent} = this.pool.calcInByOut(amountOut - this.amountOutPrevious, true)
-          res = inp + this.amountInPrevious
+          const {inp, gasSpent} = this.pool.calcInByOut(amountOut - this.amountInPrevious, false)
+          res = inp + this.amountOutPrevious
           gas = gasSpent
         }
       }
