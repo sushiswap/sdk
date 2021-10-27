@@ -1,4 +1,4 @@
-import { Edge, Graph, Vertice } from "../src/MultiRouter";
+import { Edge, Graph, Vertice } from "../src";
 
 import { BigNumber } from "@ethersproject/bignumber";
 import seedrandom from "seedrandom";

@@ -1,8 +1,7 @@
 import { checkRouteResult } from './snapshots/snapshot'
-import { findMultiRouteExactIn, RouteStatus } from '../src/MultiRouter'
 import { RToken, ConstantProductRPool } from '../src/PrimaryPools'
 import { USDC, WNATIVE } from '@sushiswap/core-sdk'
-import { getBigNumber } from '../src'
+import { getBigNumber, RouteStatus, findMultiRouteExactIn, findMultiRouteExactOut, closeValues, MultiRoute } from '../src'
 import { BigNumber } from '@ethersproject/bignumber'
 
 const gasPrice = 1 * 200 * 1e-9
@@ -53,13 +52,25 @@ const tokens2 = price2.map((_, i) => ({
   address: 'token_addres ' + (i + 1),
 }))
 
-const testPool0_1_2 = getPool(tokens2, 0, 1, price2, 1_500_0)
-const testPool0_2_2 = getPool(tokens2, 0, 2, price2, 1_000_00)
+const testPool0_1_2 = getPool(tokens2, 0, 1, price2, 15_000)
+const testPool0_2_2 = getPool(tokens2, 0, 2, price2, 100_000)
 const testPool1_2_2 = getPool(tokens2, 1, 2, price2, 1_000_000_000)
-const testPool1_3_2 = getPool(tokens2, 1, 3, price2, 800_00)
-const testPool2_3_2 = getPool(tokens2, 2, 3, price2, 1_500_0)
+const testPool1_3_2 = getPool(tokens2, 1, 3, price2, 80_000)
+const testPool2_3_2 = getPool(tokens2, 2, 3, price2, 15_000)
 
 const testPools2 = [testPool0_1_2, testPool0_2_2, testPool1_3_2, testPool2_3_2, testPool1_2_2]
+
+function checkExactOut(
+  routeIn: MultiRoute,
+  routeOut: MultiRoute
+) {
+  expect(routeOut).toBeDefined()
+  expect(closeValues(routeIn.amountIn as number, routeOut.amountIn as number, 1e-12)).toBeTruthy
+  expect(closeValues(routeIn.amountOut as number, routeOut.amountOut as number, 1e-12)).toBeTruthy
+  expect(closeValues(routeIn.priceImpact as number, routeOut.priceImpact as number, 1e-12)).toBeTruthy
+  expect(closeValues(routeIn.primaryPrice as number, routeOut.primaryPrice as number, 1e-12)).toBeTruthy
+  expect(closeValues(routeIn.swapPrice as number, routeOut.swapPrice as number, 1e-12)).toBeTruthy
+}
 
 describe('Multirouting for bridge topology', () => {
   it('works correct for equal prices', () => {
@@ -70,6 +81,9 @@ describe('Multirouting for bridge topology', () => {
     expect(res?.legs.length).toEqual(testPools.length)
     expect(res?.legs[res.legs.length - 1].swapPortion).toEqual(1)
     expect(res.priceImpact).toBeGreaterThan(0)
+
+    const res2 = findMultiRouteExactOut(tokens[0], tokens[3], res.amountOut, testPools, tokens[2], gasPrice)
+    checkExactOut(res, res2)
 
     checkRouteResult('bridge-1', res.totalAmountOut)
   })
@@ -82,6 +96,9 @@ describe('Multirouting for bridge topology', () => {
     expect(res?.legs.length).toEqual(testPools.length)
     expect(res?.legs[res.legs.length - 1].swapPortion).toEqual(1)
     expect(res.priceImpact).toBeGreaterThan(0)
+
+    const res2 = findMultiRouteExactOut(tokens[0], tokens[3], res.amountOut, testPools, tokens[4], gasPrice)
+    checkExactOut(res, res2)
 
     checkRouteResult('bridge-2', res.totalAmountOut)
   })
@@ -112,9 +129,12 @@ describe('Multirouting for bridge topology', () => {
 
   it('not connected tokens', () => {
     const res = findMultiRouteExactIn(tokens[0], tokens[4], 20000, testPools, tokens[2], gasPrice, 100)
-
     expect(res).toBeDefined()
     expect(res?.status).toEqual(RouteStatus.NoWay)
+
+    const res2 = findMultiRouteExactOut(tokens[0], tokens[4], 10000, testPools, tokens[2], gasPrice)
+    expect(res2).toBeDefined()
+    expect(res2?.status).toEqual(RouteStatus.NoWay)
   })
 
   it('partial routing', () => {
@@ -126,6 +146,11 @@ describe('Multirouting for bridge topology', () => {
     expect(res?.legs.length).toEqual(testPools.length)
     expect(res?.legs[res.legs.length - 1].swapPortion).toEqual(1)
     expect(res.priceImpact).toBeGreaterThan(0)
+
+    // TODO
+    // const res2 = findMultiRouteExactOut(tokens[0], tokens[3], res.amountOut*2, testPools, tokens[2], gasPrice)
+    // expect(res2).toBeDefined()
+    // expect(res2?.status).toEqual(RouteStatus.Partial)
 
     checkRouteResult('bridge-3', res.totalAmountOut)
   })
@@ -146,6 +171,10 @@ describe('Multirouting for bridge topology', () => {
     expect(res?.legs[res.legs.length - 1].swapPortion).toEqual(1)
     expect(res.priceImpact).toBeGreaterThan(0)
 
+    const res2 = findMultiRouteExactOut(tokens[0], tokens[3], res.amountOut, testPools, tokens[2], gasPrice,
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12])
+    checkExactOut(res, res2)
+
     checkRouteResult('bridge-4', res.totalAmountOut)
   })
 
@@ -158,6 +187,9 @@ describe('Multirouting for bridge topology', () => {
       expect(res?.status).toEqual(RouteStatus.Success)
       expect(res?.legs[res.legs.length - 1].swapPortion).toEqual(1)
       expect(res.priceImpact).toBeGreaterThan(0)
+
+      const res2 = findMultiRouteExactOut(tokens[0], tokens[3], res.amountOut, testPools, tokens[2], gasPrice, s)
+      checkExactOut(res, res2)
 
       checkRouteResult('bridge-5-' + s, res.totalAmountOut)
     })
@@ -172,6 +204,9 @@ describe('Multirouting for bridge topology', () => {
     expect(res?.legs[res.legs.length - 1].swapPortion).toEqual(1)
     expect(res.priceImpact).toBeGreaterThan(0)
 
+    const res2 = findMultiRouteExactOut(tokens2[0], tokens2[3], res.amountOut, testPools2, tokens2[2], gasPrice)
+    checkExactOut(res, res2)
+
     checkRouteResult('bridge-6', res.totalAmountOut)
   })
 
@@ -185,6 +220,9 @@ describe('Multirouting for bridge topology', () => {
       expect(res?.legs[res.legs.length - 1].swapPortion).toEqual(1)
       expect(res.priceImpact).toBeGreaterThan(0)
 
+      const res2 = findMultiRouteExactOut(tokens2[0], tokens2[3], res.amountOut, testPools2, tokens2[2], gasPrice, s)
+      checkExactOut(res, res2)
+
       checkRouteResult('bridge-7-' + s, res.totalAmountOut)
     })
   })
@@ -196,5 +234,8 @@ describe('Multirouting for bridge topology', () => {
     const res = findMultiRouteExactIn(token0, token1, 100, [pool], token1, 200)
     expect(res.amountOut).toBeGreaterThan(0)
     expect(res.priceImpact).toBeGreaterThan(0)
+
+    const res2 = findMultiRouteExactOut(token0, token1, res.amountOut, [pool], token1, 200)
+    checkExactOut(res, res2)
   })
 })

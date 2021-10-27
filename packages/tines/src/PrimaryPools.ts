@@ -78,7 +78,7 @@ export class ConstantProductRPool extends RPool {
     const x = direction ? this.reserve0Number : this.reserve1Number
     const y = direction ? this.reserve1Number : this.reserve0Number
     let input = (x * amountOut) / (1 - this.fee) / (y - amountOut)
-    if (input < 1) input = 1
+    //if (input < 1) input = 1
     return {inp: input, gasSpent: this.swapGasCost}
   }
 
@@ -206,7 +206,7 @@ export class HybridRPool extends RPool {
     const xNewBN = this.computeY(yNewBN)
     let input = Math.round(parseInt(xNewBN.sub(xBN).toString()) / (1 - this.fee))
 
-    if (input < 1) input = 1
+    //if (input < 1) input = 1
     return {inp: input, gasSpent: this.swapGasCost}
   }
 
