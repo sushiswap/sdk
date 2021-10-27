@@ -52,11 +52,11 @@ const tokens2 = price2.map((_, i) => ({
   address: 'token_addres ' + (i + 1),
 }))
 
-const testPool0_1_2 = getPool(tokens2, 0, 1, price2, 1_500_0)
-const testPool0_2_2 = getPool(tokens2, 0, 2, price2, 1_000_00)
+const testPool0_1_2 = getPool(tokens2, 0, 1, price2, 15_000)
+const testPool0_2_2 = getPool(tokens2, 0, 2, price2, 100_000)
 const testPool1_2_2 = getPool(tokens2, 1, 2, price2, 1_000_000_000)
-const testPool1_3_2 = getPool(tokens2, 1, 3, price2, 800_00)
-const testPool2_3_2 = getPool(tokens2, 2, 3, price2, 1_500_0)
+const testPool1_3_2 = getPool(tokens2, 1, 3, price2, 80_000)
+const testPool2_3_2 = getPool(tokens2, 2, 3, price2, 15_000)
 
 const testPools2 = [testPool0_1_2, testPool0_2_2, testPool1_3_2, testPool2_3_2, testPool1_2_2]
 
@@ -97,8 +97,8 @@ describe('Multirouting for bridge topology', () => {
     expect(res?.legs[res.legs.length - 1].swapPortion).toEqual(1)
     expect(res.priceImpact).toBeGreaterThan(0)
 
-    // const res2 = findMultiRouteExactOut(tokens[0], tokens[3], res.amountOut, testPools, tokens[4], gasPrice)
-    // checkExactOut(res, res2)
+    const res2 = findMultiRouteExactOut(tokens[0], tokens[3], res.amountOut, testPools, tokens[4], gasPrice)
+    checkExactOut(res, res2)
 
     checkRouteResult('bridge-2', res.totalAmountOut)
   })
@@ -147,7 +147,8 @@ describe('Multirouting for bridge topology', () => {
     expect(res?.legs[res.legs.length - 1].swapPortion).toEqual(1)
     expect(res.priceImpact).toBeGreaterThan(0)
 
-    // const res2 = findMultiRouteExactOut(tokens[0], tokens[3], res.amountOut*10, testPools, tokens[2], gasPrice)
+    // TODO
+    // const res2 = findMultiRouteExactOut(tokens[0], tokens[3], res.amountOut*2, testPools, tokens[2], gasPrice)
     // expect(res2).toBeDefined()
     // expect(res2?.status).toEqual(RouteStatus.Partial)
 

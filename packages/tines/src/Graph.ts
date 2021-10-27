@@ -615,17 +615,13 @@ export class Graph {
           const {inp, gasSpent} = e.calcInput(closestVert as Vertice, (closestVert as Vertice).bestIncome)
           if (!isFinite(inp) || !isFinite(gasSpent))   // Math errors protection
             return
+          if (inp < 0) return // No enouph liquidity in the pool
           newIncome = inp
           gas = gasSpent
         } catch (e) {
           // Any arithmetic error or out-of-liquidity
           return
         }
-        // TODO: check loo low liquidity case
-        // if (e.checkMinimalLiquidityExceededAfterSwap(closestVert as Vertice, newIncome)) {
-        //   e.bestEdgeIncome = -1
-        //   return
-        // }
         const newGasSpent = (closestVert as Vertice).gasSpent + gas
         const price = v2.price / finish.price
         const newTotal = newIncome * price + newGasSpent * gasPrice
