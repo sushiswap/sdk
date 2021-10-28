@@ -3059,7 +3059,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sushiswap/core-sdk@1.0.0-canary.5, @sushiswap/core-sdk@workspace:packages/core":
+"@sushiswap/core-sdk@npm:1.0.0-canary.5":
+  version: 1.0.0-canary.5
+  resolution: "@sushiswap/core-sdk@npm:1.0.0-canary.5"
+  dependencies:
+    "@ethersproject/address": ^5.4.0
+    "@ethersproject/bignumber": ^5.4.0
+    "@ethersproject/providers": ^5.4.0
+    "@ethersproject/solidity": ^5.4.0
+    big.js: ^6.1.0
+    decimal.js-light: ^2.5.0
+    jsbi: ^3.2.0
+    tiny-invariant: ^1.1.0
+    tiny-warning: ^1.0.0
+    toformat: ^2.0.0
+  checksum: 9dc44ca640c9a234fe22091273424d28c456dce3a37cefd095aaca3dd454ed0be66aa3ec55a6709356e2b337861a644856f8c003762403adeac6d8bd740a5504
+  languageName: node
+  linkType: hard
+
+"@sushiswap/core-sdk@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@sushiswap/core-sdk@workspace:packages/core"
   dependencies:
@@ -3123,7 +3141,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sushiswap/tines@0.1.15, @sushiswap/tines@workspace:packages/tines":
+"@sushiswap/tines@0.1.16, @sushiswap/tines@workspace:packages/tines":
   version: 0.0.0-use.local
   resolution: "@sushiswap/tines@workspace:packages/tines"
   dependencies:
@@ -3142,17 +3160,17 @@ __metadata:
     "@ethersproject/abi": ^5.4.0
     "@ethersproject/bignumber": ^5.4.0
     "@sushiswap/core-sdk": 1.0.0-canary.5
-    "@sushiswap/tines": 0.1.15
-    "@sushiswap/trident": 1.0.0-canary.23
+    "@sushiswap/tines": 0.1.16
+    "@sushiswap/trident": 1.0.0-canary.24
     tiny-invariant: ^1.1.0
     tsdx: ^0.14.1
   languageName: unknown
   linkType: soft
 
-"@sushiswap/trident@npm:1.0.0-canary.23":
-  version: 1.0.0-canary.23
-  resolution: "@sushiswap/trident@npm:1.0.0-canary.23"
-  checksum: ba882ec7107defca97b1c31a9c91adb2e667d3c731ce039d5daa80e9db8c1c238b30ee66905072393a23e3ed04320d90e5eb71273f6ee48d00a7f8f4ec4d1fd8
+"@sushiswap/trident@npm:1.0.0-canary.24":
+  version: 1.0.0-canary.24
+  resolution: "@sushiswap/trident@npm:1.0.0-canary.24"
+  checksum: 7b908199cffb2be525c713654b43ea5fb6e73cb289ea71de5d537dc82872a95c687ebce337d0279b9591d7ffd393259e86663cab4de3c8d0e0852d454e57e8ac
   languageName: node
   linkType: hard
 
