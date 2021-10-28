@@ -147,10 +147,9 @@ describe('Multirouting for bridge topology', () => {
     expect(res?.legs[res.legs.length - 1].swapPortion).toEqual(1)
     expect(res.priceImpact).toBeGreaterThan(0)
 
-    // TODO
-    // const res2 = findMultiRouteExactOut(tokens[0], tokens[3], res.amountOut*2, testPools, tokens[2], gasPrice)
-    // expect(res2).toBeDefined()
-    // expect(res2?.status).toEqual(RouteStatus.Partial)
+    const res2 = findMultiRouteExactOut(tokens[0], tokens[3], res.amountOut*2, testPools, tokens[2], gasPrice)
+    expect(res2).toBeDefined()
+    expect(res2?.status).toEqual(RouteStatus.Partial)
 
     checkRouteResult('bridge-3', res.totalAmountOut)
   })
