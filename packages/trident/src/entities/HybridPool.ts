@@ -12,9 +12,9 @@ import { computeHybridLiquidity, computeHybridPoolAddress } from '../functions'
 import { A_PRECISION } from '../constants'
 import { Fee } from '../enums'
 import JSBI from 'jsbi'
-import { Pool } from '../interfaces'
-import all from '@sushiswap/trident/exports/all.json'
+import EXPORTS from '@sushiswap/trident/exports/all.json'
 import invariant from 'tiny-invariant'
+import { Pool } from './Pool'
 
 export class HybridPool implements Pool {
   public readonly liquidityToken: Token
@@ -23,7 +23,7 @@ export class HybridPool implements Pool {
   private readonly tokenAmounts: [CurrencyAmount<Token>, CurrencyAmount<Token>]
   public static getAddress(tokenA: Token, tokenB: Token, fee: Fee = Fee.DEFAULT, a: JSBI = A_PRECISION): string {
     return computeHybridPoolAddress({
-      factoryAddress: all[ChainId.KOVAN][ChainKey.KOVAN].contracts.HybridPoolFactory.address,
+      factoryAddress: EXPORTS[ChainId.KOVAN][ChainKey.KOVAN].contracts.HybridPoolFactory.address,
       tokenA,
       tokenB,
       fee,
@@ -101,8 +101,12 @@ export class HybridPool implements Pool {
     return this.tokenAmounts[1].currency
   }
 
-  public get getAssets(): Token[] {
+  public get assets(): Token[] {
     return [this.tokenAmounts[0].currency, this.tokenAmounts[1].currency]
+  }
+
+  public get reserves(): CurrencyAmount<Token>[] {
+    return [this.reserve0, this.reserve1]
   }
 
   public get reserve0(): CurrencyAmount<Token> {

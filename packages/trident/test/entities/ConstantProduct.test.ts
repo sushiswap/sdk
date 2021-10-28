@@ -26,13 +26,13 @@ describe('computePoolAddress', () => {
 
     const twap = true
 
-    console.log({
-      constantProductFactoryAddress: all[ChainId.KOVAN][ChainKey.KOVAN].contracts.ConstantProductPoolFactory.address,
-      masterDeployerAddress: all[ChainId.KOVAN][ChainKey.KOVAN].contracts.MasterDeployer.address,
-      tokens: [tokenA.address, tokenB.address].sort(),
-      fee,
-      twap,
-    })
+    // console.log({
+    //   constantProductFactoryAddress: all[ChainId.KOVAN][ChainKey.KOVAN].contracts.ConstantProductPoolFactory.address,
+    //   masterDeployerAddress: all[ChainId.KOVAN][ChainKey.KOVAN].contracts.MasterDeployer.address,
+    //   tokens: [tokenA.address, tokenB.address].sort(),
+    //   fee,
+    //   twap,
+    // })
 
     const address = computeConstantProductPoolAddress({
       factoryAddress: all[ChainId.KOVAN][ChainKey.KOVAN].contracts.ConstantProductPoolFactory.address,
@@ -42,7 +42,13 @@ describe('computePoolAddress', () => {
       twap,
     })
 
-    expect(address).toEqual('0x83a19C45358De3611cf297969AEDf8E5Ba7E10FB')
+    console.log({
+      tokenA: tokenA.symbol,
+      tokenB: tokenB.symbol,
+      address,
+    })
+
+    expect(address).toEqual('0x253029F0D3593Afd4187500F1CB243F1EceaABAB')
   })
 })
 
@@ -64,7 +70,7 @@ describe('ConstantProductPool', () => {
 
   describe('#getAddress', () => {
     it('returns the correct address', () => {
-      expect(ConstantProductPool.getAddress(USDC, DAI)).toEqual('0xd3266C4dB97DBC08F1AA2B14ACD53485368ff7D4')
+      expect(ConstantProductPool.getAddress(USDC, DAI)).toEqual('0xb275FE26420b6D35af968E6D320Fdf7343E27068')
     })
   })
 

@@ -45,6 +45,13 @@ export class Token extends AbstractCurrency {
   public get wrapped(): Token {
     return this
   }
+
+  /**
+   * Return logo
+   */
+  // public get logo(): string | null {
+  //   return this.chainId in CHAIN_KEY ? `https://raw.githubusercontent.com/sushiswap/logos/main/network/${CHAIN_KEY[this.chainId]}/.jpg` : undefined
+  // }
 }
 
 /**

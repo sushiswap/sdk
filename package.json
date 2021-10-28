@@ -5,7 +5,9 @@
     "packages/*"
   ],
   "scripts": {
-    "lerna": "lerna"
+    "lerna": "lerna",
+    "build": "lerna run build --stream",
+    "watch": "lerna run watch --stream"
   },
   "devDependencies": {
     "@sushiswap/prettier-config": "^0.1.0",

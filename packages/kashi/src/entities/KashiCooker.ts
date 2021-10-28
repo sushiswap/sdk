@@ -4,7 +4,7 @@ import { Web3Provider } from '@ethersproject/providers'
 import { defaultAbiCoder } from '@ethersproject/abi'
 import JSBI from 'jsbi'
 
-import { ChainId, WNATIVE, getProviderOrSigner, toElastic, ZERO } from '@sushiswap/core-sdk'
+import { ChainId, WNATIVE_ADDRESS, getProviderOrSigner, toElastic, ZERO } from '@sushiswap/core-sdk'
 import { toShare } from '@sushiswap/bentobox-sdk'
 
 import KASHIPAIR_ABI from '../constants/abis/kashipair.json'
@@ -64,7 +64,7 @@ export default class KashiCooker {
   }
 
   bentoDepositCollateral(amount: JSBI): KashiCooker {
-    const useNative = this.pair.collateral.address === WNATIVE[this.chainId].address
+    const useNative = this.pair.collateral.address === WNATIVE_ADDRESS[this.chainId]
 
     this.add(
       KashiAction.BENTO_DEPOSIT,
@@ -79,7 +79,7 @@ export default class KashiCooker {
   }
 
   bentoWithdrawCollateral(amount: JSBI, share: JSBI): KashiCooker {
-    const useNative = this.pair.collateral.address === WNATIVE[this.chainId].address
+    const useNative = this.pair.collateral.address === WNATIVE_ADDRESS[this.chainId]
 
     this.add(
       KashiAction.BENTO_WITHDRAW,
@@ -113,7 +113,7 @@ export default class KashiCooker {
     if (fromBento) {
       share = JSBI.lessThan(amount, ZERO) ? amount : toShare(this.pair.collateral, amount)
     } else {
-      const useNative = this.pair.collateral.address === WNATIVE[this.chainId].address
+      const useNative = this.pair.collateral.address === WNATIVE_ADDRESS[this.chainId]
 
       this.add(
         KashiAction.BENTO_DEPOSIT,
@@ -138,7 +138,7 @@ export default class KashiCooker {
     if (fromBento) {
       share = toShare(this.pair.asset, amount)
     } else {
-      const useNative = this.pair.asset.address === WNATIVE[this.chainId].address
+      const useNative = this.pair.asset.address === WNATIVE_ADDRESS[this.chainId]
 
       this.add(
         KashiAction.BENTO_DEPOSIT,
@@ -158,7 +158,7 @@ export default class KashiCooker {
   removeAsset(fraction: JSBI, toBento: boolean): KashiCooker {
     this.add(KashiAction.REMOVE_ASSET, defaultAbiCoder.encode(['int256', 'address'], [fraction, this.account]))
     if (!toBento) {
-      const useNative = this.pair.asset.address === WNATIVE[this.chainId].address
+      const useNative = this.pair.asset.address === WNATIVE_ADDRESS[this.chainId]
 
       this.add(
         KashiAction.BENTO_WITHDRAW,
@@ -174,7 +174,7 @@ export default class KashiCooker {
   removeCollateral(share: JSBI, toBento: boolean): KashiCooker {
     this.add(KashiAction.REMOVE_COLLATERAL, defaultAbiCoder.encode(['int256', 'address'], [share, this.account]))
     if (!toBento) {
-      const useNative = this.pair.collateral.address === WNATIVE[this.chainId].address
+      const useNative = this.pair.collateral.address === WNATIVE_ADDRESS[this.chainId]
 
       this.add(
         KashiAction.BENTO_WITHDRAW,
@@ -190,7 +190,7 @@ export default class KashiCooker {
   removeCollateralFraction(fraction: JSBI, toBento: boolean): KashiCooker {
     this.add(KashiAction.REMOVE_COLLATERAL, defaultAbiCoder.encode(['int256', 'address'], [fraction, this.account]))
     if (!toBento) {
-      const useNative = this.pair.collateral.address === WNATIVE[this.chainId].address
+      const useNative = this.pair.collateral.address === WNATIVE_ADDRESS[this.chainId]
 
       this.add(
         KashiAction.BENTO_WITHDRAW,
@@ -209,7 +209,7 @@ export default class KashiCooker {
       defaultAbiCoder.encode(['int256', 'address'], [amount, toAddress && toBento ? toAddress : this.account])
     )
     if (!toBento) {
-      const useNative = this.pair.asset.address === WNATIVE[this.chainId].address
+      const useNative = this.pair.asset.address === WNATIVE_ADDRESS[this.chainId]
 
       this.add(
         KashiAction.BENTO_WITHDRAW,
@@ -224,7 +224,7 @@ export default class KashiCooker {
 
   repay(amount: JSBI, fromBento: boolean): KashiCooker {
     if (!fromBento) {
-      const useNative = this.pair.asset.address === WNATIVE[this.chainId].address
+      const useNative = this.pair.asset.address === WNATIVE_ADDRESS[this.chainId]
 
       this.add(
         KashiAction.BENTO_DEPOSIT,
@@ -242,7 +242,7 @@ export default class KashiCooker {
 
   repayPart(part: JSBI, fromBento: boolean): KashiCooker {
     if (!fromBento) {
-      const useNative = this.pair.asset.address === WNATIVE[this.chainId].address
+      const useNative = this.pair.asset.address === WNATIVE_ADDRESS[this.chainId]
 
       this.add(KashiAction.GET_REPAY_SHARE, defaultAbiCoder.encode(['int256'], [part]))
       this.add(

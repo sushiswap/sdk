@@ -1,7 +1,7 @@
 import { keccak256, pack } from '@ethersproject/solidity'
 
 import { INIT_CODE_HASH } from '../constants'
-import { Token } from '../entities'
+import { Token } from '../entities/Token'
 import { getCreate2Address } from '@ethersproject/address'
 
 export const computePairAddress = ({

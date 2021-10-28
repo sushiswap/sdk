@@ -3123,7 +3123,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sushiswap/tines@workspace:packages/tines":
+"@sushiswap/tines@0.1.15, @sushiswap/tines@workspace:packages/tines":
   version: 0.0.0-use.local
   resolution: "@sushiswap/tines@workspace:packages/tines"
   dependencies:
@@ -3140,16 +3140,19 @@ __metadata:
   resolution: "@sushiswap/trident-sdk@workspace:packages/trident"
   dependencies:
     "@ethersproject/abi": ^5.4.0
+    "@ethersproject/bignumber": ^5.4.0
     "@sushiswap/core-sdk": 1.0.0-canary.5
-    "@sushiswap/trident": 1.0.0-canary.19
+    "@sushiswap/tines": 0.1.15
+    "@sushiswap/trident": 1.0.0-canary.23
+    tiny-invariant: ^1.1.0
     tsdx: ^0.14.1
   languageName: unknown
   linkType: soft
 
-"@sushiswap/trident@npm:1.0.0-canary.19":
-  version: 1.0.0-canary.19
-  resolution: "@sushiswap/trident@npm:1.0.0-canary.19"
-  checksum: ac9a960b78f01057f6c80bb35c6a22b76864778dc88fe2d9564abe058a78831dcf33255daf8d57ac1ac389a7164bddc5fbfe0d0a0836bd06ae3935f1376255e9
+"@sushiswap/trident@npm:1.0.0-canary.23":
+  version: 1.0.0-canary.23
+  resolution: "@sushiswap/trident@npm:1.0.0-canary.23"
+  checksum: ba882ec7107defca97b1c31a9c91adb2e667d3c731ce039d5daa80e9db8c1c238b30ee66905072393a23e3ed04320d90e5eb71273f6ee48d00a7f8f4ec4d1fd8
   languageName: node
   linkType: hard
 
