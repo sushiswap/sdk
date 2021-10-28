@@ -1,5 +1,5 @@
 import { BigNumber } from "@ethersproject/bignumber";
-import { MultiRoute, Graph } from "./Graph";
+import { MultiRoute, Graph, RouteStatus } from "./Graph";
 import { RPool, RToken } from "./PrimaryPools";  
 
 // Assumes route is a single path
@@ -26,6 +26,14 @@ function calcBestFlowNumber(bestSingleRoute: MultiRoute, amountIn: number, gasPr
 
   const realFlowNumber = Math.max(1, Math.min(bestFlowNumber, maxFlowNumber))
   return realFlowNumber
+}
+
+function getBetterRouteExactIn(route1: MultiRoute, route2: MultiRoute): MultiRoute {
+  if (route1.status == RouteStatus.NoWay) return route2
+  if (route2.status == RouteStatus.NoWay) return route1
+  if (route1.status == RouteStatus.Partial && route2.status == RouteStatus.Success) return route2
+  if (route2.status == RouteStatus.Partial && route1.status == RouteStatus.Success) return route1
+  return route1.totalAmountOut > route2.totalAmountOut ? route1 : route2
 }
 
 export function findMultiRouteExactIn(
@@ -58,7 +66,17 @@ export function findMultiRouteExactIn(
   if (bestFlowNumber === 1) return outSingle
 
   const outMulti = g.findBestRouteExactIn(from, to, amountIn, bestFlowNumber)
-  return outSingle.totalAmountOut > outMulti.totalAmountOut ? outSingle : outMulti
+  return getBetterRouteExactIn(outSingle, outMulti)
+}
+
+function getBetterRouteExactOut(route1: MultiRoute, route2: MultiRoute, gasPrice: number): MultiRoute {
+  if (route1.status == RouteStatus.NoWay) return route2
+  if (route2.status == RouteStatus.NoWay) return route1
+  if (route1.status == RouteStatus.Partial && route2.status == RouteStatus.Success) return route2
+  if (route2.status == RouteStatus.Partial && route1.status == RouteStatus.Success) return route1
+  const totalAmountIn1 = route1.amountIn + route1.gasSpent*gasPrice
+  const totalAmountIn2 = route2.amountIn + route2.gasSpent*gasPrice
+  return totalAmountIn1 < totalAmountIn2 ? route1 : route2
 }
 
 export function findMultiRouteExactOut(
@@ -91,9 +109,7 @@ export function findMultiRouteExactOut(
   if (bestFlowNumber === 1) return inSingle
 
   const inMulti = g.findBestRouteExactOut(from, to, amountOut, bestFlowNumber)
-  const totalAmountSingle = inSingle.amountIn + inSingle.gasSpent*gasPrice
-  const totalAmountMulti = inMulti.amountIn + inMulti.gasSpent*gasPrice
-  return totalAmountSingle < totalAmountMulti ? inSingle : inMulti
+  return getBetterRouteExactOut(inSingle, inMulti, gasPrice)
 }
 
 export function findSingleRouteExactIn(
