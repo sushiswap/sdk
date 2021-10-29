@@ -65,11 +65,11 @@ function checkExactOut(
   routeOut: MultiRoute
 ) {
   expect(routeOut).toBeDefined()
-  expect(closeValues(routeIn.amountIn as number, routeOut.amountIn as number, 1e-12)).toBeTruthy
-  expect(closeValues(routeIn.amountOut as number, routeOut.amountOut as number, 1e-12)).toBeTruthy
-  expect(closeValues(routeIn.priceImpact as number, routeOut.priceImpact as number, 1e-12)).toBeTruthy
-  expect(closeValues(routeIn.primaryPrice as number, routeOut.primaryPrice as number, 1e-12)).toBeTruthy
-  expect(closeValues(routeIn.swapPrice as number, routeOut.swapPrice as number, 1e-12)).toBeTruthy
+  expect(closeValues(routeIn.amountIn as number, routeOut.amountIn as number, 5e-2)).toBeTruthy()
+  expect(closeValues(routeIn.amountOut as number, routeOut.amountOut as number, 1e-12)).toBeTruthy()
+  expect(closeValues(routeIn.priceImpact as number, routeOut.priceImpact as number, 5e-2)).toBeTruthy()
+  expect(closeValues(routeIn.primaryPrice as number, routeOut.primaryPrice as number, 5e-2)).toBeTruthy()
+  expect(closeValues(routeIn.swapPrice as number, routeOut.swapPrice as number, 5e-2)).toBeTruthy()
 }
 
 describe('Multirouting for bridge topology', () => {

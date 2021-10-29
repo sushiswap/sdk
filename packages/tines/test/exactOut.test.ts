@@ -63,11 +63,11 @@ function checkExactOut(
   expect(resIn).toBeDefined()
   expect(resIn?.status).toEqual(RouteStatus.Success)
   expect(resIn?.legs.length).toEqual(1)
-  expect(closeValues(resIn.amountIn as number, resOut.amountIn as number, 1e-12)).toBeTruthy
-  expect(closeValues(resIn.amountOut as number, resOut.amountOut as number, 1e-12)).toBeTruthy
-  expect(closeValues(resIn.priceImpact as number, resOut.priceImpact as number, 1e-12)).toBeTruthy
-  expect(closeValues(resIn.primaryPrice as number, resOut.primaryPrice as number, 1e-12)).toBeTruthy
-  expect(closeValues(resIn.swapPrice as number, resOut.swapPrice as number, 1e-12)).toBeTruthy
+  expect(closeValues(resIn.amountIn as number, resOut.amountIn as number, 1e-12)).toBeTruthy()
+  expect(closeValues(resIn.amountOut as number, resOut.amountOut as number, 1e-12)).toBeTruthy()
+  expect(closeValues(resIn.priceImpact as number, resOut.priceImpact as number, 1e-12)).toBeTruthy()
+  expect(closeValues(resIn.primaryPrice as number, resOut.primaryPrice as number, 1e-12)).toBeTruthy()
+  expect(closeValues(resIn.swapPrice as number, resOut.swapPrice as number, 1e-12)).toBeTruthy()
 }
 
 describe('ExactOut', () => {

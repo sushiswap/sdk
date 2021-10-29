@@ -5,7 +5,9 @@ import {
   RToken,
   RouteLeg,
   RouteStatus, 
-  findSingleRouteExactIn
+  findSingleRouteExactIn,
+  closeValues,
+  findMultiRouteExactOut
 } from "../src";
 
 import { checkRouteResult } from "./snapshots/snapshot";
@@ -389,6 +391,19 @@ function exportNetwork(
   fs.writeFileSync('D:/Info/Notes/GraphVisualization/data.js', nodes + edges + data)
 }
 
+const InOutAccuracy = 5e-2
+function checkExactOut(
+  routeIn: MultiRoute,
+  routeOut: MultiRoute
+) {
+  expect(routeOut).toBeDefined()
+  expect(closeValues(routeIn.amountIn as number, routeOut.amountIn as number, InOutAccuracy)).toBeTruthy()
+  expect(closeValues(routeIn.amountOut as number, routeOut.amountOut as number, 1e-12)).toBeTruthy()
+  expect(closeValues(routeIn.priceImpact as number, routeOut.priceImpact as number, InOutAccuracy)).toBeTruthy()
+  expect(closeValues(routeIn.primaryPrice as number, routeOut.primaryPrice as number, InOutAccuracy)).toBeTruthy()
+  expect(closeValues(routeIn.swapPrice as number, routeOut.swapPrice as number, InOutAccuracy)).toBeTruthy()
+}
+
 function chooseRandomTokens(rnd: () => number, network: Network): [RToken, RToken, RToken] {
   const num = network.tokens.length
   const token0 = Math.floor(rnd() * num)
@@ -419,15 +434,21 @@ it('Token price calculation is correct', () => {
 })
 
 it(`Multirouter for ${network.tokens.length} tokens and ${network.pools.length} pools (200 times)`, () => {
+  debugger
   for (var i = 0; i < 200; ++i) {
     const [t0, t1, tBase] = chooseRandomTokens(rnd, network)
     const amountIn = getRandom(rnd, 1e6, 1e24)
 
     const route = findMultiRouteExactIn(t0, t1, amountIn, network.pools, tBase, network.gasPrice)
-
     checkRoute(network, t0, t1, amountIn, tBase, network.gasPrice, route)
-
     checkRouteResult('top20-' + i, route.totalAmountOut)
+
+    const routeOut = findMultiRouteExactOut(t0, t1, route.amountOut, network.pools, tBase, network.gasPrice)
+    checkRoute(network, t0, t1,
+      //routeOut.status == RouteStatus.Partial ? amountIn : routeOut.amountIn,
+      routeOut.amountIn*(1+1e-14),
+      tBase, network.gasPrice, routeOut)
+    checkExactOut(routeOut, routeOut) // TODO: add check
   }
 })
 
@@ -477,7 +498,6 @@ function makeTestForTiming(tokens: number, density: number, tests: number) {
 makeTestForTiming(10, 0.5, 100)
 makeTestForTiming(10, 0.9, 100)
 
-debugger
 it(`Singlerouter for ${network.tokens.length} tokens and ${network.pools.length} pools (100 times)`, () => {
   for (var i = 0; i < 100; ++i) {
     const [t0, t1, tBase] = chooseRandomTokens(rnd, network)
