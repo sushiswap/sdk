@@ -7,7 +7,8 @@ import {
   RouteStatus, 
   findSingleRouteExactIn,
   findMultiRouteExactOut,
-  findSingleRouteExactOut
+  findSingleRouteExactOut,
+  closeValues
 } from "../src";
 
 import { checkRouteResult } from "./snapshots/snapshot";
@@ -391,18 +392,18 @@ function exportNetwork(
   fs.writeFileSync('D:/Info/Notes/GraphVisualization/data.js', nodes + edges + data)
 }
 
-// const InOutAccuracy = 5e-2
-// function checkExactOut(
-//   routeIn: MultiRoute,
-//   routeOut: MultiRoute
-// ) {
-//   expect(routeOut).toBeDefined()
-//   expect(closeValues(routeIn.amountIn as number, routeOut.amountIn as number, InOutAccuracy)).toBeTruthy()
-//   expect(closeValues(routeIn.amountOut as number, routeOut.amountOut as number, 1e-12)).toBeTruthy()
-//   expect(closeValues(routeIn.priceImpact as number, routeOut.priceImpact as number, InOutAccuracy)).toBeTruthy()
-//   expect(closeValues(routeIn.primaryPrice as number, routeOut.primaryPrice as number, InOutAccuracy)).toBeTruthy()
-//   expect(closeValues(routeIn.swapPrice as number, routeOut.swapPrice as number, InOutAccuracy)).toBeTruthy()
-// }
+const routingQuality = 1e-2
+function checkExactOut(
+  routeIn: MultiRoute,
+  routeOut: MultiRoute
+) {
+  expect(routeOut).toBeDefined()
+  expect(closeValues(routeIn.amountIn as number, routeOut.amountIn as number, routingQuality)).toBeTruthy()
+  expect(closeValues(routeIn.amountOut as number, routeOut.amountOut as number, 1e-12)).toBeTruthy()
+  expect(closeValues(routeIn.priceImpact as number, routeOut.priceImpact as number, routingQuality)).toBeTruthy()
+  expect(closeValues(routeIn.primaryPrice as number, routeOut.primaryPrice as number, routingQuality)).toBeTruthy()
+  expect(closeValues(routeIn.swapPrice as number, routeOut.swapPrice as number, routingQuality)).toBeTruthy()
+}
 
 function chooseRandomTokens(rnd: () => number, network: Network): [RToken, RToken, RToken] {
   const num = network.tokens.length
@@ -442,12 +443,13 @@ it(`Multirouter for ${network.tokens.length} tokens and ${network.pools.length} 
     checkRoute(network, t0, t1, amountIn, tBase, network.gasPrice, route)
     checkRouteResult('top20-' + i, route.totalAmountOut)
 
-    const routeOut = findMultiRouteExactOut(t0, t1, route.amountOut, network.pools, tBase, network.gasPrice)
-    checkRoute(network, t0, t1,
-      //routeOut.status == RouteStatus.Partial ? amountIn : routeOut.amountIn,
-      routeOut.amountIn*(1+1e-14),
-      tBase, network.gasPrice, routeOut)
-    // checkExactOut(route, routeOut) // TODO: add check
+    if (route.priceImpact !== undefined && route.priceImpact < 0.1) {  // otherwise exactOut could return too bad value
+      const routeOut = findMultiRouteExactOut(t0, t1, route.amountOut, network.pools, tBase, network.gasPrice)
+      checkRoute(network, t0, t1,
+        routeOut.amountIn*(1+1e-14),
+        tBase, network.gasPrice, routeOut)
+      checkExactOut(route, routeOut)
+    }
   }
 })
 
@@ -460,12 +462,13 @@ it(`Multirouter-100 for ${network.tokens.length} tokens and ${network.pools.leng
     checkRoute(network, t0, t1, amountIn, tBase, network.gasPrice, route)
     checkRouteResult('m100-' + i, route.totalAmountOut)
 
-    const routeOut = findMultiRouteExactOut(t0, t1, route.amountOut, network.pools, tBase, network.gasPrice, 100)
-    checkRoute(network, t0, t1,
-      //routeOut.status == RouteStatus.Partial ? amountIn : routeOut.amountIn,
-      routeOut.amountIn*(1+1e-14),
-      tBase, network.gasPrice, routeOut)
-    // checkExactOut(route, routeOut) // TODO: add check
+    if (route.priceImpact !== undefined && route.priceImpact < 0.1) {  // otherwise exactOut could return too bad value
+      const routeOut = findMultiRouteExactOut(t0, t1, route.amountOut, network.pools, tBase, network.gasPrice, 100)
+      checkRoute(network, t0, t1,
+        routeOut.amountIn*(1+1e-14),
+        tBase, network.gasPrice, routeOut)
+      checkExactOut(route, routeOut)
+    }
   }
 })
 
@@ -516,9 +519,8 @@ it(`Singlerouter for ${network.tokens.length} tokens and ${network.pools.length}
 
     const routeOut = findSingleRouteExactOut(t0, t1, route.amountOut, network.pools, tBase, network.gasPrice)
     checkRoute(network, t0, t1,
-      //routeOut.status == RouteStatus.Partial ? amountIn : routeOut.amountIn,
       routeOut.amountIn*(1+1e-14),
       tBase, network.gasPrice, routeOut)
-    // checkExactOut(route, routeOut) // TODO: add check
+    checkExactOut(route, routeOut)
   }
 })
