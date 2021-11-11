@@ -1,8 +1,3 @@
-import JSBI from 'jsbi'
-import { BigNumber } from '@ethersproject/bignumber'
-
-import { ZERO } from '@sushiswap/core-sdk'
-
 import {
   FACTOR_PRECISION,
   FULL_UTILIZATION_MINUS_MAX,
@@ -15,7 +10,11 @@ import {
   PROTOCOL_FEE_DIVISOR,
   STARTING_INTEREST_PER_YEAR,
 } from '../constants'
+
+import { BigNumber } from '@ethersproject/bignumber'
+import JSBI from 'jsbi'
 import { KashiMediumRiskLendingPair } from 'src/entities'
+import { ZERO } from '@sushiswap/core-sdk'
 
 export function accrue(pair: KashiMediumRiskLendingPair, amount: JSBI, includePrincipal = false): JSBI {
   return JSBI.add(
