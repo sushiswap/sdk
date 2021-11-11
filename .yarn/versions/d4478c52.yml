@@ -1,0 +1,5 @@
+undecided:
+  - "@sushiswap/core-sdk"
+  - "@sushiswap/kashi-sdk"
+  - "@sushiswap/miso-sdk"
+  - "@sushiswap/trident-sdk"
