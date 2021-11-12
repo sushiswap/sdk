@@ -311,6 +311,24 @@ export class Vertice {
     if (!e) return
     return e.vert0 === this ? e.vert1 : e.vert0
   }
+
+  getOutputEdges(): Edge[] {
+    return this.edges.filter((e) => {
+      if (!e.canBeUsed) return false
+      if (e.amountInPrevious === 0) return false
+      if (e.direction !== (e.vert0 === this)) return false
+      return true
+    })
+  }
+
+  getInputEdges(): Edge[] {
+    return this.edges.filter((e) => {
+      if (!e.canBeUsed) return false
+      if (e.amountInPrevious === 0) return false
+      if (e.direction === (e.vert0 === this)) return false
+      return true
+    })
+  }
 }
 
 export class Graph {
@@ -876,7 +894,7 @@ export class Graph {
     const legs: RouteLeg[] = []
     let gasSpent = 0
     vertices.forEach((n) => {
-      const outEdges = this.getOutputEdges(n).map((e) => {
+      const outEdges = n.getOutputEdges().map((e) => {
         const from = this.edgeFrom(e)
         return from ? [e, from.vert, from.amount] : [e]
       })
@@ -910,24 +928,6 @@ export class Graph {
   edgeFrom(e: Edge): {vert: Vertice, amount: number} | undefined {
     if (e.amountInPrevious === 0) return undefined
     return e.direction ? {vert: e.vert0, amount: e.amountInPrevious} : {vert: e.vert1, amount: e.amountOutPrevious}
-  }
-
-  getOutputEdges(v: Vertice): Edge[] {
-    return v.edges.filter((e) => {
-      if (!e.canBeUsed) return false
-      if (e.amountInPrevious === 0) return false
-      if (e.direction !== (e.vert0 === v)) return false
-      return true
-    })
-  }
-
-  getInputEdges(v: Vertice): Edge[] {
-    return v.edges.filter((e) => {
-      if (!e.canBeUsed) return false
-      if (e.amountInPrevious === 0) return false
-      if (e.direction === (e.vert0 === v)) return false
-      return true
-    })
   }
 
   // TODO: make full test coverage!
@@ -1016,7 +1016,7 @@ export class Graph {
 
   removeDeadEnds(verts: Vertice[]) {
     verts.forEach((v) => {
-      this.getInputEdges(v).forEach((e) => {
+      v.getInputEdges().forEach((e) => {
         e.canBeUsed = false
       })
     })
@@ -1028,7 +1028,7 @@ export class Graph {
     verts.forEach((v1, i) => {
       const v2 = i === 0 ? verts[verts.length - 1] : verts[i - 1]
       let out = 0
-      this.getOutputEdges(v1).forEach((e) => {
+      v1.getOutputEdges().forEach((e) => {
         if (v1.getNeibour(e) !== v2) return
         out += e.direction ? e.amountOutPrevious : e.amountInPrevious
       })
@@ -1039,7 +1039,7 @@ export class Graph {
       }
     })
     // @ts-ignore
-    this.getOutputEdges(minVert).forEach((e) => {
+    minVert.getOutputEdges().forEach((e) => {
       if (minVert.getNeibour(e) !== minVertNext) return
       e.canBeUsed = false
     })
@@ -1056,7 +1056,6 @@ export class Graph {
     const foundCycle: Vertice[] = []
     const foundDeadEndVerts: Vertice[] = []
 
-    const that = this
     // 0 - cycle was found and created, return
     // 1 - during cycle creating
     // 2 - vertex is processed ok
@@ -1072,7 +1071,7 @@ export class Graph {
       vertState.set(current, 1)
 
       let successors2Exist = false
-      const outEdges = that.getOutputEdges(current)
+      const outEdges = current.getOutputEdges()
       for (let i = 0; i < outEdges.length; ++i) {
         const e = outEdges[i]
         const res = topSortRecursive(current.getNeibour(e) as Vertice)
