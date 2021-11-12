@@ -193,46 +193,28 @@ export class ConstantProductPool {
     // Expected balances after minting
     const balance0 = JSBI.add(tokenAmounts[0].quotient, this.reserve0.quotient)
     const balance1 = JSBI.add(tokenAmounts[1].quotient, this.reserve1.quotient)
-
-    const [fee0, fee1] = this.getNonOptimalMintFee(
-      tokenAmounts[0].quotient,
-      tokenAmounts[1].quotient,
-      this.reserve0.quotient,
-      this.reserve1.quotient
-    )
-
-    const computed = sqrt(JSBI.multiply(JSBI.subtract(balance0, fee0), JSBI.subtract(balance1, fee1)))
+    const computed = sqrt(JSBI.multiply(balance0, balance1))
 
     if (JSBI.equal(totalSupply.quotient, ZERO)) {
       liquidity = JSBI.subtract(computed, MINIMUM_LIQUIDITY)
     } else {
-      const k = sqrt(JSBI.multiply(this.reserve0.quotient, this.reserve1.quotient))
 
-      const mintFee = this.getMintFee(this.reserve0.quotient, this.reserve1.quotient, totalSupply.quotient)
+      const [fee0, fee1] = this.getNonOptimalMintFee(
+        tokenAmounts[0].quotient,
+        tokenAmounts[1].quotient,
+        this.reserve0.quotient,
+        this.reserve1.quotient
+      )
+
+      const reserve0 = JSBI.add(this.reserve0.quotient, fee0)
+      const reserve1 = JSBI.add(this.reserve1.quotient, fee1)
+
+      const k = sqrt(JSBI.multiply(reserve0, reserve1))
+
+      const mintFee = this.getMintFee(reserve0, reserve1, totalSupply.quotient)
 
       liquidity = JSBI.divide(JSBI.multiply(JSBI.subtract(computed, k), JSBI.add(totalSupply.quotient, mintFee)), k)
 
-      // console.log({
-      //   mintFee: mintFee.toString(),
-      //   totalSupply: totalSupply.quotient.toString(),
-      //   totalSupplyAfterMintFee: JSBI.add(
-      //     totalSupply.quotient,
-      //     this.getMintFee(this.reserve0.quotient, this.reserve1.quotient, totalSupply.quotient)
-      //   ).toString(),
-      //   computed: computed.toString(),
-      //   token0Amount: tokenAmounts[0].quotient.toString(),
-      //   token1Amount: tokenAmounts[1].quotient.toString(),
-      //   reserve0: this.reserve0.quotient.toString(),
-      //   reserve1: this.reserve1.quotient.toString(),
-      //   balance0: balance0.toString(),
-      //   balance1: balance1.toString(),
-      //   fee0: fee0.toString(),
-      //   fee1: fee1.toString(),
-      //   kLast: this.kLast.toString(),
-      //   k: k.toString(),
-      //   kNext: sqrt(JSBI.multiply(balance0, balance1)).toString(),
-      //   liquidity: liquidity.toString(),
-      // })
     }
 
     if (!JSBI.greaterThan(liquidity, ZERO)) {
