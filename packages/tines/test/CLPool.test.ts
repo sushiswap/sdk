@@ -110,37 +110,24 @@ describe('CL pool test', () => {
     expect(pool.calcInByOut(0, false).inp).toEqual(0)
   })
 
+  const expectedCalculationPrecision = 1e-12
   it('in->out->in2 = in', () => {
-    const calcTestNumber = 100
-    for (let p = 0; p < 1; ++p) {
-      const pool = getRandomCLPool(rnd, 2, 100, 1e6)
+    const calcTestNumber = 400
+    for (let p = 0; p < 100; ++p) {
+      const pool = getRandomCLPool(rnd, 100, 100, 1e6)
       const maxXInput = getMaxInputApprox(pool, true)
       const maxYInput = getMaxInputApprox(pool, false)
-      //console.log(pool.ticks, pool.nearestTick, pool.sqrtPrice, maxXInput, maxYInput)
-      let xLiquidityOverflow = 0, yLiquidityOverflow = 0
       for (let i = 0; i < calcTestNumber; ++i) {
         const direction = rnd() > 0.5
         const maxInput = direction ? maxXInput : maxYInput
         const input = getRandomExp(rnd, 1, maxInput * 1.2)
         const output = pool.calcOutByIn(input, direction).out
         const input2 = pool.calcInByOut(output, direction).inp
-        const precision = Math.abs(input/input2 - 1)
-        if (precision > 1e-7) {
-          const output3 = pool.calcOutByIn(input * 1.1, direction).out
-          // if (output !== output3) {
-          //   console.log(input, output, input2, precision);
-          // }
-          expect(output).toEqual(output3) // pool overflow
-          if (direction) {
-            xLiquidityOverflow++
-          } else {
-            yLiquidityOverflow++
-          }
-        }
+        const output2 = pool.calcOutByIn(input2, direction).out
+        const precision1 = Math.abs(input/input2 - 1)
+        const precision2 = Math.abs(output/output2 - 1)
+        expect(precision1 < expectedCalculationPrecision || precision2 < expectedCalculationPrecision)
       }
-      expect(xLiquidityOverflow).toBeGreaterThan(0)   // otherwise not much enough input was used for testing
-      expect(yLiquidityOverflow).toBeGreaterThan(0)   // otherwise not much enough input was used for testing
-      //console.log(maxXInput, maxYInput, xLiquidityOverflow/calcTestNumber, yLiquidityOverflow/calcTestNumber);
     }
   })
 })
