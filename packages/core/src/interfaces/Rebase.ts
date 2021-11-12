@@ -1,4 +1,4 @@
-import JSBI from 'jsbi'
+import { JSBI } from '..'
 
 export interface Rebase {
   base: JSBI

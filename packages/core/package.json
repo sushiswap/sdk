@@ -1,6 +1,6 @@
 {
   "name": "@sushiswap/core-sdk",
-  "version": "1.0.0-canary.7",
+  "version": "1.0.0-canary.13",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -18,6 +18,7 @@
     "watch": "tsdx watch",
     "test": "tsdx test",
     "prepublishOnly": "tsdx build",
+    "version:canary": "yarn version prerelease",
     "publish:canary": "npm publish --access public --tag canary"
   },
   "dependencies": {
@@ -25,7 +26,7 @@
     "@ethersproject/bignumber": "^5.4.0",
     "@ethersproject/providers": "^5.4.0",
     "@ethersproject/solidity": "^5.4.0",
-    "big.js": "^6.1.0",
+    "big.js": "^6.1.1",
     "decimal.js-light": "^2.5.0",
     "jsbi": "^3.2.0",
     "tiny-invariant": "^1.1.0",
@@ -35,5 +36,6 @@
   "devDependencies": {
     "@types/big.js": "^6.1.0",
     "tsdx": "^0.14.1"
-  }
+  },
+  "stableVersion": "1.0.0-canary.10"
 }

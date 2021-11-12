@@ -27,4 +27,5 @@ export enum ChainId {
   PALM_TESTNET = 11297108099,
   MOONRIVER = 1285,
   FUSE = 122,
+  TELOS = 40,
 }

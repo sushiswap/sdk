@@ -18,6 +18,7 @@
     "watch": "tsdx watch",
     "test": "tsdx test",
     "prepublishOnly": "tsdx build",
+    "version:canary": "yarn version prerelease",
     "publish:canary": "npm publish --access public --tag canary"
   },
   "dependencies": {

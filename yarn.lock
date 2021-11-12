@@ -3059,6 +3059,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@sushiswap/core-sdk@1.0.0-canary.13, @sushiswap/core-sdk@workspace:packages/core":
+  version: 0.0.0-use.local
+  resolution: "@sushiswap/core-sdk@workspace:packages/core"
+  dependencies:
+    "@ethersproject/address": ^5.4.0
+    "@ethersproject/bignumber": ^5.4.0
+    "@ethersproject/providers": ^5.4.0
+    "@ethersproject/solidity": ^5.4.0
+    "@types/big.js": ^6.1.0
+    big.js: ^6.1.1
+    decimal.js-light: ^2.5.0
+    jsbi: ^3.2.0
+    tiny-invariant: ^1.1.0
+    tiny-warning: ^1.0.0
+    toformat: ^2.0.0
+    tsdx: ^0.14.1
+  languageName: unknown
+  linkType: soft
+
 "@sushiswap/core-sdk@npm:1.0.0-canary.5":
   version: 1.0.0-canary.5
   resolution: "@sushiswap/core-sdk@npm:1.0.0-canary.5"
@@ -3076,25 +3095,6 @@ __metadata:
   checksum: 9dc44ca640c9a234fe22091273424d28c456dce3a37cefd095aaca3dd454ed0be66aa3ec55a6709356e2b337861a644856f8c003762403adeac6d8bd740a5504
   languageName: node
   linkType: hard
-
-"@sushiswap/core-sdk@workspace:packages/core":
-  version: 0.0.0-use.local
-  resolution: "@sushiswap/core-sdk@workspace:packages/core"
-  dependencies:
-    "@ethersproject/address": ^5.4.0
-    "@ethersproject/bignumber": ^5.4.0
-    "@ethersproject/providers": ^5.4.0
-    "@ethersproject/solidity": ^5.4.0
-    "@types/big.js": ^6.1.0
-    big.js: ^6.1.0
-    decimal.js-light: ^2.5.0
-    jsbi: ^3.2.0
-    tiny-invariant: ^1.1.0
-    tiny-warning: ^1.0.0
-    toformat: ^2.0.0
-    tsdx: ^0.14.1
-  languageName: unknown
-  linkType: soft
 
 "@sushiswap/kashi-sdk@workspace:packages/kashi":
   version: 0.0.0-use.local
@@ -3117,7 +3117,7 @@ __metadata:
     "@ethersproject/experimental": ^5.4.0
     "@ethersproject/signing-key": ^5.4.0
     "@ethersproject/transactions": ^5.4.0
-    "@sushiswap/core-sdk": 1.0.0-canary.5
+    "@sushiswap/core-sdk": 1.0.0-canary.13
     eip-712: ^0.4.0
     isomorphic-unfetch: ^3.0.0
     tsdx: ^0.14.1
@@ -3141,7 +3141,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sushiswap/tines@0.1.16, @sushiswap/tines@workspace:packages/tines":
+"@sushiswap/tines@npm:0.1.16":
+  version: 0.1.16
+  resolution: "@sushiswap/tines@npm:0.1.16"
+  dependencies:
+    "@ethersproject/bignumber": ^5.4.0
+    "@sushiswap/core-sdk": 1.0.0-canary.5
+  checksum: 128dfe9e9b116a54e4cdbe2c2f9264f474e30c0c92a0b9c9ba5c4b4e44ef4e393d1bef6106dfcd8f752fdeaa2d7ad638fed20fa580452c8708404ea172917bae
+  languageName: node
+  linkType: hard
+
+"@sushiswap/tines@workspace:packages/tines":
   version: 0.0.0-use.local
   resolution: "@sushiswap/tines@workspace:packages/tines"
   dependencies:
@@ -4150,7 +4160,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"big.js@npm:^6.1.0":
+"big.js@npm:^6.1.0, big.js@npm:^6.1.1":
   version: 6.1.1
   resolution: "big.js@npm:6.1.1"
   checksum: ba5db278e7d6700d7f92b7421e851bb65b6336d90b882869696c50574623c6be31f81500c3195fb1b391045163ffe62745e1c2bc30b35cb15e1b3e3ed135266b

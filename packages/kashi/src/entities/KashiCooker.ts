@@ -1,17 +1,16 @@
+import { ChainId, WNATIVE_ADDRESS, ZERO, getProviderOrSigner, toElastic } from '@sushiswap/core-sdk'
+
 import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
+import JSBI from 'jsbi'
+import KASHIPAIR_ABI from '../constants/abis/kashipair.json'
+import { KashiAction } from '../enums'
+import { KashiPermit } from '../interfaces'
 import { Web3Provider } from '@ethersproject/providers'
 import { defaultAbiCoder } from '@ethersproject/abi'
-import JSBI from 'jsbi'
-
-import { ChainId, WNATIVE_ADDRESS, getProviderOrSigner, toElastic, ZERO } from '@sushiswap/core-sdk'
 import { toShare } from '@sushiswap/bentobox-sdk'
 
-import KASHIPAIR_ABI from '../constants/abis/kashipair.json'
-import { KashiPermit } from '../interfaces'
-import { KashiAction } from '../enums'
-
-export default class KashiCooker {
+export class KashiCooker {
   private pair: any
   private account: string
   private library: Web3Provider | undefined

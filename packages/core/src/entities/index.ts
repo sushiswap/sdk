@@ -11,3 +11,5 @@ export * from './Trade'
 
 // TODO: This is actually a type...
 export * from './Currency'
+
+export * from './Native'
