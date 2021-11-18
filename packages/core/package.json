@@ -1,6 +1,6 @@
 {
   "name": "@sushiswap/core-sdk",
-  "version": "1.0.0-canary.13",
+  "version": "1.0.0-canary.14",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -28,7 +28,7 @@
     "@ethersproject/solidity": "^5.4.0",
     "big.js": "^6.1.1",
     "decimal.js-light": "^2.5.0",
-    "jsbi": "^3.2.0",
+    "jsbi": "^4.1.0",
     "tiny-invariant": "^1.1.0",
     "tiny-warning": "^1.0.0",
     "toformat": "^2.0.0"
@@ -37,5 +37,5 @@
     "@types/big.js": "^6.1.0",
     "tsdx": "^0.14.1"
   },
-  "stableVersion": "1.0.0-canary.10"
+  "stableVersion": "1.0.0-canary.13"
 }
