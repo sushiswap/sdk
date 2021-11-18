@@ -273,6 +273,23 @@ describe('ConstantProductPool', () => {
           )
           .quotient.toString()
       ).toEqual('2000')
+
+      const tokenC = new Token(3, '0x0000000000000000000000000000000000000001', 6)
+      const tokenD = new Token(3, '0x0000000000000000000000000000000000000002', 18)
+      const pool2 = new ConstantProductPool(
+          CurrencyAmount.fromRawAmount(tokenC, '18877425'),
+          CurrencyAmount.fromRawAmount(tokenD, '1553748331383265154')
+      )
+
+      expect(
+          pool2
+              .getLiquidityMinted(
+                  CurrencyAmount.fromRawAmount(pool2.liquidityToken, '5295740579331'),
+                  CurrencyAmount.fromRawAmount(tokenA, '5000000'),
+                  CurrencyAmount.fromRawAmount(tokenB, '90909073894706722')
+              )
+              .quotient.toString()
+      ).toEqual('830997285723')
     })
 
     it('getLiquidityValue', async () => {
@@ -313,6 +330,35 @@ describe('ConstantProductPool', () => {
         )
         expect(liquidityValue.currency.equals(tokenB)).toBe(true)
         expect(liquidityValue.quotient.toString()).toBe('1000')
+      }
+    })
+
+    it('getLiquidityValueSingleToken', () => {
+      const tokenA = new Token(3, '0x0000000000000000000000000000000000000001', 6)
+      const tokenB = new Token(3, '0x0000000000000000000000000000000000000002', 18)
+      const pair = new ConstantProductPool(
+        CurrencyAmount.fromRawAmount(tokenA, '18877425'),
+        CurrencyAmount.fromRawAmount(tokenB, '1553748331383265154')
+      )
+
+      {
+        const liquidityValue = pair.getLiquidityValueSingleToken(
+          tokenA,
+          CurrencyAmount.fromRawAmount(pair.liquidityToken, '5295740579331'),
+          CurrencyAmount.fromRawAmount(pair.liquidityToken, '1003705801313')
+        )
+        expect(liquidityValue.currency.equals(tokenA)).toBe(true)
+        expect(liquidityValue.quotient.toString()).toBe('6470535')
+      }
+
+      {
+        const liquidityValue = pair.getLiquidityValueSingleToken(
+          tokenB,
+          CurrencyAmount.fromRawAmount(pair.liquidityToken, '1000'),
+          CurrencyAmount.fromRawAmount(pair.liquidityToken, '500')
+        )
+        expect(liquidityValue.currency.equals(tokenB)).toBe(true)
+        expect(liquidityValue.quotient.toString()).toBe('749')
       }
     })
   })
