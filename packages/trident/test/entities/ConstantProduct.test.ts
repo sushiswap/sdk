@@ -42,13 +42,13 @@ describe('computePoolAddress', () => {
       twap,
     })
 
-    console.log({
-      tokenA: tokenA.symbol,
-      tokenB: tokenB.symbol,
-      address,
-    })
+    // console.log({
+    //   tokenA: tokenA.symbol,
+    //   tokenB: tokenB.symbol,
+    //   address,
+    // })
 
-    expect(address).toEqual('0x253029F0D3593Afd4187500F1CB243F1EceaABAB')
+    expect(address).toEqual('0x04A7B1D08228C284442d34d72c16bA1CBA7C462A')
   })
 })
 
@@ -70,7 +70,7 @@ describe('ConstantProductPool', () => {
 
   describe('#getAddress', () => {
     it('returns the correct address', () => {
-      expect(ConstantProductPool.getAddress(USDC, DAI)).toEqual('0xb275FE26420b6D35af968E6D320Fdf7343E27068')
+      expect(ConstantProductPool.getAddress(USDC, DAI)).toEqual('0x1ceb0D21f15e2f8c883856f2066CbCFFDd85217E')
     })
   })
 
@@ -254,6 +254,31 @@ describe('ConstantProductPool', () => {
       )
 
       expect(liquidity.quotient.toString()).toEqual('1')
+    })
+
+    it('getLiquidityMinted dai/weth', async () => {
+      // const tokenA = DAI[ChainId.KOVAN]
+      // const tokenB = WETH9[ChainId.KOVAN]
+
+      const tokenA = new Token(ChainId.KOVAN, '0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa', 18, 'DAI', 'DAI Stablecoin')
+      const tokenB = new Token(ChainId.KOVAN, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WETH', 'Wrapped Ether')
+
+      const pool = new ConstantProductPool(
+        // CurrencyAmount.fromRawAmount(tokenB, '32009705094632063941'),
+        // CurrencyAmount.fromRawAmount(tokenA, '428510510388'),
+        CurrencyAmount.fromRawAmount(tokenA, '9705094632063941'),
+        CurrencyAmount.fromRawAmount(tokenB, '1409090645367953')
+      )
+
+      expect(
+        pool
+          .getLiquidityMinted(
+            CurrencyAmount.fromRawAmount(pool.liquidityToken, '3696544951575847'),
+            CurrencyAmount.fromRawAmount(tokenA, '25000000000000000000'),
+            CurrencyAmount.fromRawAmount(tokenB, '909090738947067')
+          )
+          .quotient.toString()
+      ).toEqual('83927339236905609')
     })
 
     it('getLiquidityMinted:!0', async () => {
