@@ -3059,43 +3059,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sushiswap/core-sdk@npm:1.0.0-canary.11":
-  version: 1.0.0-canary.11
-  resolution: "@sushiswap/core-sdk@npm:1.0.0-canary.11"
-  dependencies:
-    "@ethersproject/address": ^5.4.0
-    "@ethersproject/bignumber": ^5.4.0
-    "@ethersproject/providers": ^5.4.0
-    "@ethersproject/solidity": ^5.4.0
-    big.js: ^6.1.0
-    decimal.js-light: ^2.5.0
-    jsbi: ^3.2.0
-    tiny-invariant: ^1.1.0
-    tiny-warning: ^1.0.0
-    toformat: ^2.0.0
-  checksum: 071fc5970bbaebcd0dd113dd43534039ae5fb749c47faa49a27307dfa06d18da117ff463337ba88033b9cb9019fd21735dfda68dff93dfe59f1b7fc92b57104c
-  languageName: node
-  linkType: hard
-
-"@sushiswap/core-sdk@npm:1.0.0-canary.5":
-  version: 1.0.0-canary.5
-  resolution: "@sushiswap/core-sdk@npm:1.0.0-canary.5"
-  dependencies:
-    "@ethersproject/address": ^5.4.0
-    "@ethersproject/bignumber": ^5.4.0
-    "@ethersproject/providers": ^5.4.0
-    "@ethersproject/solidity": ^5.4.0
-    big.js: ^6.1.0
-    decimal.js-light: ^2.5.0
-    jsbi: ^3.2.0
-    tiny-invariant: ^1.1.0
-    tiny-warning: ^1.0.0
-    toformat: ^2.0.0
-  checksum: 9dc44ca640c9a234fe22091273424d28c456dce3a37cefd095aaca3dd454ed0be66aa3ec55a6709356e2b337861a644856f8c003762403adeac6d8bd740a5504
-  languageName: node
-  linkType: hard
-
-"@sushiswap/core-sdk@workspace:packages/core":
+"@sushiswap/core-sdk@1.0.0-canary.14, @sushiswap/core-sdk@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@sushiswap/core-sdk@workspace:packages/core"
   dependencies:
@@ -3113,6 +3077,24 @@ __metadata:
     tsdx: ^0.14.1
   languageName: unknown
   linkType: soft
+
+"@sushiswap/core-sdk@npm:1.0.0-canary.11":
+  version: 1.0.0-canary.11
+  resolution: "@sushiswap/core-sdk@npm:1.0.0-canary.11"
+  dependencies:
+    "@ethersproject/address": ^5.4.0
+    "@ethersproject/bignumber": ^5.4.0
+    "@ethersproject/providers": ^5.4.0
+    "@ethersproject/solidity": ^5.4.0
+    big.js: ^6.1.0
+    decimal.js-light: ^2.5.0
+    jsbi: ^3.2.0
+    tiny-invariant: ^1.1.0
+    tiny-warning: ^1.0.0
+    toformat: ^2.0.0
+  checksum: 071fc5970bbaebcd0dd113dd43534039ae5fb749c47faa49a27307dfa06d18da117ff463337ba88033b9cb9019fd21735dfda68dff93dfe59f1b7fc92b57104c
+  languageName: node
+  linkType: hard
 
 "@sushiswap/kashi-sdk@workspace:packages/kashi":
   version: 0.0.0-use.local
@@ -3159,22 +3141,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sushiswap/tines@npm:0.1.16":
-  version: 0.1.16
-  resolution: "@sushiswap/tines@npm:0.1.16"
-  dependencies:
-    "@ethersproject/bignumber": ^5.4.0
-    "@sushiswap/core-sdk": 1.0.0-canary.5
-  checksum: 128dfe9e9b116a54e4cdbe2c2f9264f474e30c0c92a0b9c9ba5c4b4e44ef4e393d1bef6106dfcd8f752fdeaa2d7ad638fed20fa580452c8708404ea172917bae
-  languageName: node
-  linkType: hard
-
-"@sushiswap/tines@workspace:packages/tines":
+"@sushiswap/tines@1.0.0-canary.0, @sushiswap/tines@workspace:packages/tines":
   version: 0.0.0-use.local
   resolution: "@sushiswap/tines@workspace:packages/tines"
   dependencies:
     "@ethersproject/bignumber": ^5.4.0
-    "@sushiswap/core-sdk": 1.0.0-canary.5
+    "@sushiswap/core-sdk": 1.0.0-canary.14
     "@types/seedrandom": ^3.0.1
     seedrandom: ^3.0.5
     tsdx: ^0.14.1
@@ -3187,8 +3159,8 @@ __metadata:
   dependencies:
     "@ethersproject/abi": ^5.4.0
     "@ethersproject/bignumber": ^5.4.0
-    "@sushiswap/core-sdk": 1.0.0-canary.5
-    "@sushiswap/tines": 0.1.16
+    "@sushiswap/core-sdk": 1.0.0-canary.14
+    "@sushiswap/tines": 1.0.0-canary.0
     "@sushiswap/trident": 1.0.0-canary.24
     tiny-invariant: ^1.1.0
     tsdx: ^0.14.1
