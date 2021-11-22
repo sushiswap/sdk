@@ -3161,16 +3161,16 @@ __metadata:
     "@ethersproject/bignumber": ^5.4.0
     "@sushiswap/core-sdk": 1.0.0-canary.14
     "@sushiswap/tines": 1.0.0-canary.0
-    "@sushiswap/trident": 1.0.0-canary.24
+    "@sushiswap/trident": 1.0.0-canary.26
     tiny-invariant: ^1.1.0
     tsdx: ^0.14.1
   languageName: unknown
   linkType: soft
 
-"@sushiswap/trident@npm:1.0.0-canary.24":
-  version: 1.0.0-canary.24
-  resolution: "@sushiswap/trident@npm:1.0.0-canary.24"
-  checksum: 7b908199cffb2be525c713654b43ea5fb6e73cb289ea71de5d537dc82872a95c687ebce337d0279b9591d7ffd393259e86663cab4de3c8d0e0852d454e57e8ac
+"@sushiswap/trident@npm:1.0.0-canary.26":
+  version: 1.0.0-canary.26
+  resolution: "@sushiswap/trident@npm:1.0.0-canary.26"
+  checksum: eeb8e9e44d3bd2e65e80a14c73b3f0653c13c8385363cae0366bcbddc8c67f5cd4d7e977fb36389464a017b8ceda26107d0faca6274904b032ce9704f44bac3c
   languageName: node
   linkType: hard
 
