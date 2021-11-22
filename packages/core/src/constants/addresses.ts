@@ -21,6 +21,7 @@ export const SUSHI_ADDRESS: AddressMap = {
   [ChainId.PALM]: '',
   [ChainId.PALM_TESTNET]: '',
   [ChainId.MOONRIVER]: '0xf390830DF829cf22c53c8840554B98eafC5dCBc2',
+  [ChainId.TELOS]: '0x922D641a426DcFFaeF11680e5358F34d97d112E1',
 }
 
 export const USDC_ADDRESS: AddressMap = {
