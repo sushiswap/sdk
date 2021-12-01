@@ -33,7 +33,7 @@ function addTick(ticks: CLTick[], index: number, L: number) {
 
 function addLiquidity(pool: CLRPool, from: number, to: number, L: number) {
   console.assert(from >= CL_MIN_TICK && from < to && to <= CL_MAX_TICK)
-  console.assert(from%2 === 0 && to%2 !== 0, `${from} - ${to}`)
+  console.assert((from/pool.tickSpacing)%2 === 0 && (to/pool.tickSpacing)%2 !== 0, `${from} - ${to}`)
   console.assert(L >= 0)
   addTick(pool.ticks, from, L)
   addTick(pool.ticks, to, L)
@@ -55,12 +55,27 @@ function getTickLiquidity(pool: CLRPool, tick: number): number {
   return L
 }
 
+function getRandomRange(rnd: () => number, tickSpacing: number) {
+  const min = Math.floor(CL_MIN_TICK / 2 / tickSpacing);
+  const max = Math.floor(CL_MAX_TICK / 2 / tickSpacing);
+  for (;;) {
+    const tick1 = Math.floor(getRandomLin(rnd, min, max + 1));
+    const tick2 = Math.floor(getRandomLin(rnd, min, max + 1));
+    if (tick1 == tick2) continue;
+    const lower = Math.min(tick1, tick2) * 2 * tickSpacing;
+    const upper = Math.max(tick1, tick2) * 2 * tickSpacing + tickSpacing;
+    return [lower, upper];
+  }
+}
+
 function getRandomCLPool(rnd: () => number, rangeNumber: number, minLiquidity: number, maxLiquidity: number): CLRPool {
+  const tickSpacing = rnd() > 0.5 ? 5 : 60
   const pool = new CLRPool(
     'CLRPool',
     {name: 'Token0', address: 'Token0'},
     {name: 'Token1', address: 'Token1'},
     0.003,
+    tickSpacing,
     BigNumber.from(0),
     BigNumber.from(0),
     0,
@@ -70,10 +85,7 @@ function getRandomCLPool(rnd: () => number, rangeNumber: number, minLiquidity: n
   )
 
   for (let i = 0; i < rangeNumber; ++i) {
-    const tick1 = Math.floor(getRandomLin(rnd, CL_MIN_TICK, CL_MAX_TICK + 1))
-    const tick2 = Math.floor(getRandomLin(rnd, CL_MIN_TICK, CL_MAX_TICK + 1))
-    const low = Math.min(tick1, tick2)>>1<<1
-    const high = (Math.max(tick1, tick2)>>1<<1) + 1
+    const [low, high] = getRandomRange(rnd, tickSpacing)
     const liquidity = getRandomExp(rnd, minLiquidity, maxLiquidity)
     addLiquidity(pool, low, high, liquidity)
   }
