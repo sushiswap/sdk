@@ -3141,7 +3141,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sushiswap/tines@1.0.0-canary.0, @sushiswap/tines@workspace:packages/tines":
+"@sushiswap/tines@1.0.0-canary.1, @sushiswap/tines@workspace:packages/tines":
   version: 0.0.0-use.local
   resolution: "@sushiswap/tines@workspace:packages/tines"
   dependencies:
@@ -3160,7 +3160,7 @@ __metadata:
     "@ethersproject/abi": ^5.4.0
     "@ethersproject/bignumber": ^5.4.0
     "@sushiswap/core-sdk": 1.0.0-canary.14
-    "@sushiswap/tines": 1.0.0-canary.0
+    "@sushiswap/tines": 1.0.0-canary.1
     "@sushiswap/trident": 1.0.0-canary.27
     tiny-invariant: ^1.1.0
     tsdx: ^0.14.1

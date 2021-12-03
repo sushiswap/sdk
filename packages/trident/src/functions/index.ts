@@ -2,3 +2,4 @@ export { computeConstantProductPoolAddress } from './computeConstantProductPoolA
 export { computeHybridPoolAddress } from './computeHybridPoolAddress'
 export { computePoolInitCodeHash } from './computePoolInitCodeHash'
 export { computeHybridLiquidity } from './computeHybridLiquidity'
+export * from './wrapTines'
