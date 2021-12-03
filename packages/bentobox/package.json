@@ -21,7 +21,7 @@
     "publish:canary": "npm publish --access public --tag canary"
   },
   "dependencies": {
-    "@sushiswap/core-sdk": "1.0.0-canary.16"
+    "@sushiswap/core-sdk": "1.0.0-canary.18"
   },
   "devDependencies": {
     "tsdx": "^0.14.1"

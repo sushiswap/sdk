@@ -36,6 +36,5 @@
   "devDependencies": {
     "@types/big.js": "^6.1.0",
     "tsdx": "^0.14.1"
-  },
-  "stableVersion": "1.0.0-canary.16"
+  }
 }
