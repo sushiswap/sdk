@@ -3068,30 +3068,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@sushiswap/bentobox-sdk@workspace:packages/bentobox"
   dependencies:
-    "@sushiswap/core-sdk": 1.0.0-canary.16
+    "@sushiswap/core-sdk": 1.0.0-canary.21
     tsdx: ^0.14.1
   languageName: unknown
   linkType: soft
 
-"@sushiswap/core-sdk@npm:1.0.0-canary.16":
-  version: 1.0.0-canary.16
-  resolution: "@sushiswap/core-sdk@npm:1.0.0-canary.16"
-  dependencies:
-    "@ethersproject/address": ^5.4.0
-    "@ethersproject/bignumber": ^5.4.0
-    "@ethersproject/providers": ^5.4.0
-    "@ethersproject/solidity": ^5.4.0
-    big.js: ^6.1.1
-    decimal.js-light: ^2.5.0
-    jsbi: ^4.1.0
-    tiny-invariant: ^1.1.0
-    tiny-warning: ^1.0.0
-    toformat: ^2.0.0
-  checksum: 0be26f180abe9ed736cdab60a43839151456c3491fe01b9027874fc66778af4281e2524f09a684d6a15374b20d2a36d9a9cd4d0b0ac301c4bc75ba0ef1e238cf
-  languageName: node
-  linkType: hard
-
-"@sushiswap/core-sdk@workspace:packages/core":
+"@sushiswap/core-sdk@1.0.0-canary.21, @sushiswap/core-sdk@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@sushiswap/core-sdk@workspace:packages/core"
   dependencies:
@@ -3131,7 +3113,7 @@ __metadata:
     "@ethersproject/experimental": ^5.4.0
     "@ethersproject/signing-key": ^5.4.0
     "@ethersproject/transactions": ^5.4.0
-    "@sushiswap/core-sdk": 1.0.0-canary.16
+    "@sushiswap/core-sdk": 1.0.0-canary.21
     eip-712: ^0.4.0
     isomorphic-unfetch: ^3.0.0
     tsdx: ^0.14.1
@@ -3155,12 +3137,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sushiswap/tines@1.0.0-canary.0, @sushiswap/tines@workspace:packages/tines":
+"@sushiswap/tines@1.0.0-canary.4, @sushiswap/tines@workspace:packages/tines":
   version: 0.0.0-use.local
   resolution: "@sushiswap/tines@workspace:packages/tines"
   dependencies:
     "@ethersproject/bignumber": ^5.4.0
-    "@sushiswap/core-sdk": 1.0.0-canary.16
+    "@sushiswap/core-sdk": 1.0.0-canary.21
     "@types/seedrandom": ^3.0.1
     seedrandom: ^3.0.5
     tsdx: ^0.14.1
@@ -3173,8 +3155,8 @@ __metadata:
   dependencies:
     "@ethersproject/abi": ^5.4.0
     "@ethersproject/bignumber": ^5.4.0
-    "@sushiswap/core-sdk": 1.0.0-canary.16
-    "@sushiswap/tines": 1.0.0-canary.0
+    "@sushiswap/core-sdk": 1.0.0-canary.21
+    "@sushiswap/tines": 1.0.0-canary.4
     "@sushiswap/trident": 1.0.0-canary.27
     tiny-invariant: ^1.1.0
     tsdx: ^0.14.1
