@@ -1,5 +1,5 @@
 import { BigNumber } from "@ethersproject/bignumber";
-import { Token } from "@sushiswap/core-sdk";
+import { Pair, Token } from "@sushiswap/core-sdk";
 import {
   ConstantProductRPool, 
   findMultiRouteExactIn as TinesFindMultiRouteExactIn, 
@@ -10,24 +10,37 @@ import {
   RPool, 
   RToken
 } from "@sushiswap/tines"
-import { IPool } from "src";
+import { ConstantProductPool, Fee, Pool } from "src";
 
-function convertIPooltoRPool(pool: IPool): RPool {
-  return new ConstantProductRPool(
-    pool.liquidityToken.address,
-    pool.assets[0].wrapped as RToken,
-    pool.assets[1].wrapped as RToken,
-    pool.fee / 10000,
-    BigNumber.from(pool.reserves[0].quotient.toString()),
-    BigNumber.from(pool.reserves[1].quotient.toString())
-  )
+function convertPoolOrPairtoRPool(pool: Pool | Pair): RPool {
+  if (pool instanceof ConstantProductPool) {
+    return new ConstantProductRPool(
+      pool.liquidityToken.address,
+      pool.assets[0].wrapped as RToken,
+      pool.assets[1].wrapped as RToken,
+      pool.fee / 10000,
+      BigNumber.from(pool.reserves[0].quotient.toString()),
+      BigNumber.from(pool.reserves[1].quotient.toString())
+    )
+  } else if (pool instanceof Pair) {
+    return new ConstantProductRPool(
+      pool.liquidityToken.address,
+      pool.token0 as RToken,
+      pool.token1 as RToken,
+      Fee.DEFAULT / 10000,
+      BigNumber.from(pool.reserve0.quotient.toString()),
+      BigNumber.from(pool.reserve1.quotient.toString())
+    )
+  } else {
+    throw new Error("Unsupported type of pool !!!")
+  }
 }
 
 export function findMultiRouteExactIn(
   from: Token,
   to: Token,
   amountIn: BigNumber | number,
-  pools: IPool[],
+  pools: (Pool | Pair)[],
   baseToken: Token,
   gasPrice: number
 ): MultiRoute {
@@ -35,7 +48,7 @@ export function findMultiRouteExactIn(
     from as RToken,
     to as RToken,
     amountIn,
-    pools.map(convertIPooltoRPool),
+    pools.map(convertPoolOrPairtoRPool),
     baseToken as RToken,
     gasPrice
   )
@@ -45,7 +58,7 @@ export function findMultiRouteExactOut(
   from: Token,
   to: Token,
   amountIn: BigNumber | number,
-  pools: IPool[],
+  pools: (Pool | Pair)[],
   baseToken: Token,
   gasPrice: number
 ): MultiRoute {
@@ -53,7 +66,7 @@ export function findMultiRouteExactOut(
     from as RToken,
     to as RToken,
     amountIn,
-    pools.map(convertIPooltoRPool),
+    pools.map(convertPoolOrPairtoRPool),
     baseToken as RToken,
     gasPrice
   )
@@ -63,7 +76,7 @@ export function findSingleRouteExactIn(
   from: Token,
   to: Token,
   amountIn: BigNumber | number,
-  pools: IPool[],
+  pools: (Pool | Pair)[],
   baseToken: Token,
   gasPrice: number
 ): MultiRoute {
@@ -71,7 +84,7 @@ export function findSingleRouteExactIn(
     from as RToken,
     to as RToken,
     amountIn,
-    pools.map(convertIPooltoRPool),
+    pools.map(convertPoolOrPairtoRPool),
     baseToken as RToken,
     gasPrice
   )
@@ -81,7 +94,7 @@ export function findSingleRouteExactOut(
   from: Token,
   to: Token,
   amountIn: BigNumber | number,
-  pools: IPool[],
+  pools: (Pool | Pair)[],
   baseToken: Token,
   gasPrice: number
 ): MultiRoute {
@@ -89,7 +102,7 @@ export function findSingleRouteExactOut(
     from as RToken,
     to as RToken,
     amountIn,
-    pools.map(convertIPooltoRPool),
+    pools.map(convertPoolOrPairtoRPool),
     baseToken as RToken,
     gasPrice
   )
