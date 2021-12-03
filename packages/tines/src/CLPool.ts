@@ -10,6 +10,7 @@ export interface CLTick {
 }
 
 export class CLRPool extends RPool {
+  tickSpacing: number
   liquidity: number
   sqrtPrice: number
   nearestTick: number
@@ -20,6 +21,7 @@ export class CLRPool extends RPool {
     token0: RToken,
     token1: RToken,
     fee: number,
+    tickSpacing: number,
     reserve0: BigNumber,
     reserve1: BigNumber,
     liquidity: number,
@@ -37,6 +39,7 @@ export class CLRPool extends RPool {
       TYPICAL_MINIMAL_LIQUIDITY,
       TYPICAL_SWAP_GAS_COST,
     )
+    this.tickSpacing = tickSpacing
     this.liquidity = liquidity
     this.sqrtPrice = sqrtPrice
     this.nearestTick = nearestTick
@@ -76,7 +79,7 @@ export class CLRPool extends RPool {
           output = currentLiquidity * (currentPrice - nextTickPrice)
           currentPrice = nextTickPrice
           input -= maxDx
-          if (this.ticks[nextTickToCross].index % 2 === 0) {
+          if ( (this.ticks[nextTickToCross].index/this.tickSpacing) % 2 === 0) {
             currentLiquidity -= this.ticks[nextTickToCross].DLiquidity
           } else {
             currentLiquidity += this.ticks[nextTickToCross].DLiquidity
@@ -93,7 +96,7 @@ export class CLRPool extends RPool {
           output = (currentLiquidity * (nextTickPrice - currentPrice)) / currentPrice / nextTickPrice
           currentPrice = nextTickPrice
           input -= maxDy
-          if (this.ticks[nextTickToCross].index % 2 === 0) {
+          if ( (this.ticks[nextTickToCross].index/this.tickSpacing) % 2 === 0) {
             currentLiquidity += this.ticks[nextTickToCross].DLiquidity
           } else {
             currentLiquidity -= this.ticks[nextTickToCross].DLiquidity
@@ -134,7 +137,7 @@ export class CLRPool extends RPool {
           input += (currentLiquidity * (currentPrice - nextTickPrice)) / currentPrice / nextTickPrice
           currentPrice = nextTickPrice
           outBeforeFee -= maxDy
-          if (this.ticks[nextTickToCross].index % 2 === 0) {
+          if ( (this.ticks[nextTickToCross].index/this.tickSpacing) % 2 === 0) {
             currentLiquidity -= this.ticks[nextTickToCross].DLiquidity
           } else {
             currentLiquidity += this.ticks[nextTickToCross].DLiquidity
@@ -152,7 +155,7 @@ export class CLRPool extends RPool {
           input += currentLiquidity * (nextTickPrice - currentPrice)
           currentPrice = nextTickPrice
           outBeforeFee -= maxDx
-          if (this.ticks[nextTickToCross].index % 2 === 0) {
+          if ( (this.ticks[nextTickToCross].index/this.tickSpacing) % 2 === 0) {
             currentLiquidity += this.ticks[nextTickToCross].DLiquidity
           } else {
             currentLiquidity -= this.ticks[nextTickToCross].DLiquidity
