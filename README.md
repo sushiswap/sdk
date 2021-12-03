@@ -5,6 +5,15 @@
 - Yarn v3 (If unfamilair consult https://yarnpkg.com/getting-started/install to get started and familiarise yourself)
 - Node v14 and above
 
+## Versioning (Canary)
+
+yarn lerna version --conventional-commits --conventional-prerelease --preid canary
+
+## Publishing (Canary)
+
+yarn lerna publish --conventional-commits --conventional-prerelease --preid canary
+
+
 ## Core SDK
 
 ### Testing
