@@ -66,30 +66,6 @@ export class Trade<TInput extends Currency, TOutput extends Currency, TTradeType
     this.route = route
     this.tradeType = tradeType
 
-    // const tokenAmounts: CurrencyAmount<Token>[] = new Array(route.legs.length)
-    // invariant(amount.currency.equals(route.input), 'INPUT')
-    // tokenAmounts[0] = amount.wrapped
-    // for (let i = 0; i < route.path.length - 1; i++) {
-    //   const pair = route.pairs[i]
-    //   const [outputAmount] = pool.getOutputAmount(tokenAmounts[i])
-    //   tokenAmounts[i + 1] = outputAmount
-    // }
-    // this.inputAmount = CurrencyAmount.fromFractionalAmount(route.input, amount.numerator, amount.denominator)
-    // this.outputAmount = CurrencyAmount.fromFractionalAmount(
-    //   route.output,
-    //   tokenAmounts[tokenAmounts.length - 1].numerator,
-    //   tokenAmounts[tokenAmounts.length - 1].denominator
-    // )
-
-    // const amountIn = CurrencyAmount.fromRawAmount(
-    //   (tradeType === TradeType.EXACT_INPUT ? route.fromToken : route.toToken) as TInput,
-    //   tradeType === TradeType.EXACT_INPUT ? route.amountIn.toFixed(0) : route.amountOut.toFixed(0)
-    // )
-    // const amountOut = CurrencyAmount.fromRawAmount(
-    //   (tradeType === TradeType.EXACT_INPUT ? route.toToken : route.fromToken) as TOutput,
-    //   tradeType === TradeType.EXACT_INPUT ? route.amountOut.toFixed(0) : route.amountIn.toFixed(0)
-    // )
-
     const amountIn = CurrencyAmount.fromRawAmount(route.fromToken as TInput, route.amountIn.toFixed(0))
 
     const amountOut = CurrencyAmount.fromRawAmount(route.toToken as TOutput, route.amountOut.toFixed(0))
@@ -117,13 +93,6 @@ export class Trade<TInput extends Currency, TOutput extends Currency, TTradeType
         amountIn.denominator
       )
     }
-
-    // this.inputAmount = CurrencyAmount.fromFractionalAmount(amountIn.currency, amountIn.numerator, amountIn.denominator)
-    // this.outputAmount = CurrencyAmount.fromFractionalAmount(
-    //   amountOut.currency,
-    //   amountOut.numerator,
-    //   amountOut.denominator
-    // )
 
     this.executionPrice = new Price(
       this.inputAmount.currency,

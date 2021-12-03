@@ -233,10 +233,12 @@ export class KashiMediumRiskLendingPair {
     }
 
     const min = minimum(...Object.values(max))
+
     const safe = JSBI.subtract(
       JSBI.divide(JSBI.multiply(min, JSBI.BigInt(95)), JSBI.BigInt(100)),
       this.currentUserBorrowAmount
     )
+    
     const possible = minimum(safe, this.maxAssetAvailable)
 
     return {

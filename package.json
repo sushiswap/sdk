@@ -7,7 +7,8 @@
   "scripts": {
     "lerna": "lerna",
     "build": "lerna run build --stream",
-    "watch": "lerna run watch --stream"
+    "watch": "lerna run watch --stream",
+    "publish": "lerna publish --canary --preid canary"
   },
   "devDependencies": {
     "@sushiswap/prettier-config": "^0.1.0",
@@ -18,5 +19,5 @@
   "engines": {
     "node": ">=12.0.0"
   },
-  "packageManager": "yarn@3.0.2"
+  "packageManager": "yarn@3.1.1"
 }
