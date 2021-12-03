@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.17](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.16...@sushiswap/trident-sdk@1.0.0-canary.17) (2021-12-03)
+
+
+### Features
+
+* add fee tiers ([5243fb0](https://github.com/sushiswap/sdk/commit/5243fb0566a556d35d62093e0ec6d5cac4688fad))
+
+
+
+
+
 # 1.0.0-canary.16 (2021-12-03)
 
 
