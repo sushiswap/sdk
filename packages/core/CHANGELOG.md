@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.21](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.18...@sushiswap/core-sdk@1.0.0-canary.21) (2021-12-03)
+
+
+### Bug Fixes
+
+* comment out tests until we pass kLast ([f1ed1d4](https://github.com/sushiswap/sdk/commit/f1ed1d4afed8a60c605eac8663466d7078771976))
+* update chainkeys according to hardhat config ([f41fd9a](https://github.com/sushiswap/sdk/commit/f41fd9a8453de1d7b3bd23db5f75420af2744684))
+
+
+
+
+
 # [1.0.0-canary.20](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.18...@sushiswap/core-sdk@1.0.0-canary.20) (2021-12-03)
 
 
