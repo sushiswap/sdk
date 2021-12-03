@@ -10,7 +10,8 @@ import {
   RPool, 
   RToken
 } from "@sushiswap/tines"
-import { ConstantProductPool, Fee, Pool } from "src";
+import { ConstantProductPool, Pool } from "../entities";
+import { Fee } from "../enums";
 
 function convertPoolOrPairtoRPool(pool: Pool | Pair): RPool {
   if (pool instanceof ConstantProductPool) {
