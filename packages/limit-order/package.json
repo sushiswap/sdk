@@ -1,6 +1,6 @@
 {
   "name": "@sushiswap/limit-order-sdk",
-  "version": "1.0.0-canary.4",
+  "version": "1.0.0-canary.12",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -29,12 +29,11 @@
     "@ethersproject/experimental": "^5.4.0",
     "@ethersproject/signing-key": "^5.4.0",
     "@ethersproject/transactions": "^5.4.0",
-    "@sushiswap/core-sdk": "1.0.0-canary.11",
+    "@sushiswap/core-sdk": "1.0.0-canary.21",
     "eip-712": "^0.4.0",
     "isomorphic-unfetch": "^3.0.0"
   },
   "devDependencies": {
     "tsdx": "^0.14.1"
-  },
-  "stableVersion": "1.0.0-canary.3"
+  }
 }

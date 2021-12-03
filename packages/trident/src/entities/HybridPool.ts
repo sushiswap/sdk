@@ -184,18 +184,18 @@ export class HybridPool implements Pool {
         oldLiquidity
       )
 
-      console.log({
-        oldLiquidity: oldLiquidity.toString(),
-      })
+      // console.log({
+      //   oldLiquidity: oldLiquidity.toString(),
+      // })
     }
 
-    console.log({
-      tokenAmountA: tokenAmountA.quotient.toString(),
-      tokenAmountB: tokenAmountB.quotient.toString(),
-      totalSupply: totalSupply.quotient.toString(),
-      newLiquidity: newLiquidity.toString(),
-      liquidity: liquidity.toString(),
-    })
+    // console.log({
+    //   tokenAmountA: tokenAmountA.quotient.toString(),
+    //   tokenAmountB: tokenAmountB.quotient.toString(),
+    //   totalSupply: totalSupply.quotient.toString(),
+    //   newLiquidity: newLiquidity.toString(),
+    //   liquidity: liquidity.toString(),
+    // })
 
     if (!JSBI.greaterThan(liquidity, ZERO)) {
       throw new InsufficientInputAmountError()

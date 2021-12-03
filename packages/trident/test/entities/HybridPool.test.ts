@@ -33,7 +33,7 @@ describe('computePoolAddress', () => {
       a: A_PRECISION,
     })
 
-    expect(address).toEqual('0xb2cC39b226db71cA08F10C966d1aD90e25CDf417')
+    expect(address).toEqual('0x4cC623e9fA03Af618a2d38D83C13f491946A5c4c')
   })
 })
 
@@ -51,7 +51,7 @@ describe('HybridPool', () => {
 
   describe('#getAddress', () => {
     it('returns the correct address', () => {
-      expect(HybridPool.getAddress(USDC, DAI)).toEqual('0x6498b2C7eb4Ff304b3956C5b7c5aF62c7C480f0a')
+      expect(HybridPool.getAddress(USDC, DAI)).toEqual('0xaAA280a629B12C5F9731c4C403504C8Ea87f6E68')
     })
   })
 

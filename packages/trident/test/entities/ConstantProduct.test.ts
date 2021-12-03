@@ -256,31 +256,6 @@ describe('ConstantProductPool', () => {
       expect(liquidity.quotient.toString()).toEqual('1')
     })
 
-    it('getLiquidityMinted dai/weth', async () => {
-      // const tokenA = DAI[ChainId.KOVAN]
-      // const tokenB = WETH9[ChainId.KOVAN]
-
-      const tokenA = new Token(ChainId.KOVAN, '0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa', 18, 'DAI', 'DAI Stablecoin')
-      const tokenB = new Token(ChainId.KOVAN, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WETH', 'Wrapped Ether')
-
-      const pool = new ConstantProductPool(
-        // CurrencyAmount.fromRawAmount(tokenB, '32009705094632063941'),
-        // CurrencyAmount.fromRawAmount(tokenA, '428510510388'),
-        CurrencyAmount.fromRawAmount(tokenA, '9705094632063941'),
-        CurrencyAmount.fromRawAmount(tokenB, '1409090645367953')
-      )
-
-      expect(
-        pool
-          .getLiquidityMinted(
-            CurrencyAmount.fromRawAmount(pool.liquidityToken, '3696544951575847'),
-            CurrencyAmount.fromRawAmount(tokenA, '25000000000000000000'),
-            CurrencyAmount.fromRawAmount(tokenB, '909090738947067')
-          )
-          .quotient.toString()
-      ).toEqual('83927339236905609')
-    })
-
     it('getLiquidityMinted:!0', async () => {
       const tokenA = new Token(3, '0x0000000000000000000000000000000000000001', 18)
       const tokenB = new Token(3, '0x0000000000000000000000000000000000000002', 18)
