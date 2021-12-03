@@ -7,9 +7,7 @@
   "scripts": {
     "lerna": "lerna",
     "build": "lerna run build --stream",
-    "watch": "lerna run watch --stream",
-    "version": "lerna version --conventional-commits --conventional-prerelease --preid canary",
-    "publish": "lerna version --conventional-commits --conventional-prerelease --preid canary"
+    "watch": "lerna run watch --stream"
   },
   "devDependencies": {
     "@sushiswap/prettier-config": "^0.1.0",
