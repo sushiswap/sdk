@@ -81,7 +81,7 @@ export class Trade<
    */
   public readonly priceImpact: Percent
 
-  public constructor(route: MultiRoute, tradeType: TTradeType, tradeVersion: TTradeVersion = TradeVersion.V2TRADE) {
+  public constructor(route: MultiRoute, tradeType: TTradeType, tradeVersion: TTradeVersion = TradeVersion.LEGACY) {
     this.route = route
     this.tradeType = tradeType
     this.tradeVersion = tradeVersion
