@@ -1,16 +1,16 @@
 import {
   Currency,
   CurrencyAmount,
+  Fraction,
+  JSBI,
+  ONE,
   Percent,
   Price,
   TradeType,
   TradeVersion,
   ZERO,
-  JSBI,
-  Fraction,
-  ONE,
 } from '@sushiswap/core-sdk'
-import { MultiRoute, RToken } from '@sushiswap/tines'
+import {MultiRoute, RToken} from '@sushiswap/tines'
 import invariant from 'tiny-invariant'
 
 /**
@@ -20,8 +20,7 @@ import invariant from 'tiny-invariant'
 export class Trade<
   TInput extends Currency,
   TOutput extends Currency,
-  TTradeType extends TradeType,
-  TTradeVersion extends TradeVersion
+  TTradeType extends TradeType
 > {
   /**
    * The route of the trade, i.e. which pools the trade goes through and the input/output currencies.
@@ -36,7 +35,7 @@ export class Trade<
   /**
    * The version of the trade, either legacy or trident.
    */
-  public readonly tradeVersion: TTradeVersion
+  public readonly tradeVersion: TradeVersion
 
   /**
    * The input amount for the trade assuming no slippage.
@@ -57,10 +56,10 @@ export class Trade<
    * @param route route of the exact in trade
    * @param tradeVersion the version of the trade
    */
-  public static exactIn<TInput extends Currency, TOutput extends Currency, TTradeVersion extends TradeVersion>(
+  public static exactIn<TInput extends Currency, TOutput extends Currency>(
     route: MultiRoute,
-    tradeVersion?: TTradeVersion
-  ): Trade<TInput, TOutput, TradeType.EXACT_INPUT, TTradeVersion> {
+    tradeVersion: TradeVersion = TradeVersion.TRIDENT
+  ): Trade<TInput, TOutput, TradeType.EXACT_INPUT> {
     return new Trade(route, TradeType.EXACT_INPUT, tradeVersion)
   }
 
@@ -69,10 +68,10 @@ export class Trade<
    * @param route route of the exact out trade
    * @param tradeVersion the version of the trade
    */
-  public static exactOut<TInput extends Currency, TOutput extends Currency, TTradeVersion extends TradeVersion>(
+  public static exactOut<TInput extends Currency, TOutput extends Currency>(
     route: MultiRoute,
-    tradeVersion?: TTradeVersion
-  ): Trade<TInput, TOutput, TradeType.EXACT_OUTPUT, TTradeVersion> {
+    tradeVersion: TradeVersion = TradeVersion.TRIDENT
+  ): Trade<TInput, TOutput, TradeType.EXACT_OUTPUT> {
     return new Trade(route, TradeType.EXACT_OUTPUT, tradeVersion)
   }
 
@@ -81,7 +80,7 @@ export class Trade<
    */
   public readonly priceImpact: Percent
 
-  public constructor(route: MultiRoute, tradeType: TTradeType, tradeVersion: TTradeVersion = TradeVersion.TRIDENT) {
+  public constructor(route: MultiRoute, tradeType: TTradeType, tradeVersion: TradeVersion) {
     this.route = route
     this.tradeType = tradeType
     this.tradeVersion = tradeVersion
@@ -156,12 +155,12 @@ export class Trade<
     }
   }
 
-  public static bestTradeExactIn<TInput extends Currency, TOutput extends Currency, TTradeVersion extends TradeVersion>(
+  public static bestTradeExactIn<TInput extends Currency, TOutput extends Currency>(
     route: MultiRoute,
     currencyAmountIn: CurrencyAmount<TInput>,
     currencyOut: TOutput,
-    tradeVersion?: TTradeVersion
-  ): Trade<TInput, TOutput, TradeType.EXACT_INPUT, TTradeVersion> {
+    tradeVersion: TradeVersion = TradeVersion.TRIDENT
+  ): Trade<TInput, TOutput, TradeType.EXACT_INPUT> {
     return new Trade(
       { ...route, fromToken: currencyAmountIn.currency as RToken, toToken: currencyOut as RToken },
       TradeType.EXACT_INPUT,
@@ -172,13 +171,12 @@ export class Trade<
   public static bestTradeExactOut<
     TInput extends Currency,
     TOutput extends Currency,
-    TTradeVersion extends TradeVersion
   >(
     route: MultiRoute,
     currencyIn: TInput,
     currencyAmountOut: CurrencyAmount<TOutput>,
-    tradeVersion?: TTradeVersion
-  ): Trade<TInput, TOutput, TradeType.EXACT_OUTPUT, TTradeVersion> {
+    tradeVersion: TradeVersion = TradeVersion.TRIDENT
+  ): Trade<TInput, TOutput, TradeType.EXACT_OUTPUT> {
     return new Trade(
       { ...route, fromToken: currencyIn as RToken, toToken: currencyAmountOut.currency as RToken },
       TradeType.EXACT_OUTPUT,
