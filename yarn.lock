@@ -3073,7 +3073,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sushiswap/core-sdk@1.0.0-canary.21, @sushiswap/core-sdk@workspace:packages/core":
+"@sushiswap/core-sdk@1.0.0-canary.22, @sushiswap/core-sdk@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@sushiswap/core-sdk@workspace:packages/core"
   dependencies:
@@ -3091,6 +3091,24 @@ __metadata:
     tsdx: ^0.14.1
   languageName: unknown
   linkType: soft
+
+"@sushiswap/core-sdk@npm:1.0.0-canary.21":
+  version: 1.0.0-canary.21
+  resolution: "@sushiswap/core-sdk@npm:1.0.0-canary.21"
+  dependencies:
+    "@ethersproject/address": ^5.4.0
+    "@ethersproject/bignumber": ^5.4.0
+    "@ethersproject/providers": ^5.4.0
+    "@ethersproject/solidity": ^5.4.0
+    big.js: ^6.1.1
+    decimal.js-light: ^2.5.0
+    jsbi: ^4.1.0
+    tiny-invariant: ^1.1.0
+    tiny-warning: ^1.0.0
+    toformat: ^2.0.0
+  checksum: ce467d1f43861a94498ef013798ee87f56a9730de0b42d662057d2348d8be7bc87d7a34cdb2652069d97a6f1aae8119d2db48035bad798a2904f66130df57bfa
+  languageName: node
+  linkType: hard
 
 "@sushiswap/kashi-sdk@workspace:packages/kashi":
   version: 0.0.0-use.local
@@ -3155,7 +3173,7 @@ __metadata:
   dependencies:
     "@ethersproject/abi": ^5.4.0
     "@ethersproject/bignumber": ^5.4.0
-    "@sushiswap/core-sdk": 1.0.0-canary.21
+    "@sushiswap/core-sdk": 1.0.0-canary.22
     "@sushiswap/tines": 1.0.0-canary.4
     "@sushiswap/trident": 1.0.0-canary.27
     tiny-invariant: ^1.1.0
