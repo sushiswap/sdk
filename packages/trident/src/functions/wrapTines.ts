@@ -6,11 +6,13 @@ import {
   findMultiRouteExactOut as TinesFindMultiRouteExactOut, 
   findSingleRouteExactIn as TinesFindSingleRouteExactIn, 
   findSingleRouteExactOut as TinesFindSingleRouteExactOut, 
+  calcTokenPrices as TinesCalcTokenPrices,
   MultiRoute, 
   RPool, 
   RToken
 } from "@sushiswap/tines"
-import { ConstantProductPool, Pool } from "../entities";
+import { Pool } from "../entities/Pool";
+import { ConstantProductPool } from "../entities/ConstantProductPool";
 import { Fee } from "../enums";
 
 function convertPoolOrPairtoRPool(pool: Pool | Pair): RPool {
@@ -125,4 +127,8 @@ export function convertTinesSingleRouteToLegacyRoute<TInput extends Currency, TO
     return pair
   })
   return new Route(pairs, input, output)
+}
+
+export function calcTokenPrices(pools: (Pool | Pair)[], baseToken: Token): Map<Token, number> {
+  return TinesCalcTokenPrices(pools.map(convertPoolOrPairtoRPool), baseToken as RToken) as Map<Token, number>
 }
