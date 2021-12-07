@@ -350,7 +350,7 @@ export class Graph {
     })
     const baseVert = this.tokens.get(baseToken.address)
     if (baseVert) {
-      this.setPrices(baseVert, 1, gasPrice)
+      this.setPricesStable(baseVert, 1, gasPrice)
     }
   }
 
@@ -359,6 +359,42 @@ export class Graph {
     this.vertices.forEach(v => v.cleanTmpData())
   }
 
+  // Set prices by greedy algorithm
+  setPricesStable(from: Vertice, price: number, gasPrice: number) {
+    this.vertices.forEach(v => v.price = 0) // initialization
+    from.price = price
+    from.gasPrice = gasPrice
+    
+    const edgeValues = new Map<Edge, number>()
+    const value = (e: Edge): number => edgeValues.get(e) as number
+    
+    function addVertice(v: Vertice) {
+      const newEdges = v.edges.filter(e => v.getNeibour(e)?.price == 0)
+      newEdges.forEach(e => edgeValues.set(e, v.price*parseInt(e.reserve(from).toString())) )
+      newEdges.sort((e1, e2) => value(e1) - value(e2))
+      const res: Edge[] = []
+      while (nextEdges.length && newEdges.length) {
+        if (value(nextEdges[0]) < value(newEdges[0])) res.push(nextEdges.shift() as Edge)  
+        else res.push(newEdges.shift() as Edge)
+      }
+      nextEdges = [...res, ...nextEdges, ...newEdges]
+    }
+    
+    let nextEdges: Edge[] = []
+    addVertice(from)
+    while (nextEdges.length > 0) {
+      const bestEdge = nextEdges.pop() as Edge
+      const [vFrom, vTo] = bestEdge.vert1.price !== 0
+        ? [bestEdge.vert1, bestEdge.vert0] : [bestEdge.vert0, bestEdge.vert1]
+      if (vTo.price !== 0) continue
+      let p = bestEdge.pool.calcCurrentPriceWithoutFee(vFrom === bestEdge.vert1);
+      vTo.price = vFrom.price*p
+      vTo.gasPrice = vFrom.gasPrice/p
+      addVertice(vTo)
+    }
+  }
+
+  // Set prices by search in depth
   setPrices(from: Vertice, price: number, gasPrice: number) {
     if (from.price !== 0) return
     from.price = price

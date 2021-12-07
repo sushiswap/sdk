@@ -52,7 +52,7 @@ export function findMultiRouteExactIn(
   const g = new Graph(pools, baseToken, gasPrice)
   const fromV = g.tokens.get(from.address)
   if (fromV?.price === 0) {
-    g.setPrices(fromV, 1, 0)
+    g.setPricesStable(fromV, 1, 0)
   }
 
   if (flows !== undefined) return g.findBestRouteExactIn(from, to, amountIn, flows)
@@ -95,7 +95,7 @@ export function findMultiRouteExactOut(
   const g = new Graph(pools, baseToken, gasPrice)
   const fromV = g.tokens.get(from.address)
   if (fromV?.price === 0) {
-    g.setPrices(fromV, 1, 0)
+    g.setPricesStable(fromV, 1, 0)
   }
 
   if (flows !== undefined) return g.findBestRouteExactOut(from, to, amountOut, flows)
@@ -123,7 +123,7 @@ export function findSingleRouteExactIn(
   const g = new Graph(pools, baseToken, gasPrice)
   const fromV = g.tokens.get(from.address)
   if (fromV?.price === 0) {
-    g.setPrices(fromV, 1, 0)
+    g.setPricesStable(fromV, 1, 0)
   }
 
   if (amountIn instanceof BigNumber) {
@@ -145,7 +145,7 @@ export function findSingleRouteExactOut(
   const g = new Graph(pools, baseToken, gasPrice)
   const fromV = g.tokens.get(from.address)
   if (fromV?.price === 0) {
-    g.setPrices(fromV, 1, 0)
+    g.setPricesStable(fromV, 1, 0)
   }
 
   if (amountOut instanceof BigNumber) {
