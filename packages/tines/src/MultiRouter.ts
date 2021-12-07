@@ -155,3 +155,10 @@ export function findSingleRouteExactOut(
   const out = g.findBestRouteExactOut(from, to, amountOut, 1)
   return out
 }
+
+export function calcTokenPrices(pools: RPool[], baseToken: RToken): Map<RToken, number> {
+  const g = new Graph(pools, baseToken, 0)
+  const res = new Map<RToken, number>()
+  g.vertices.forEach(v => res.set(v.token, v.price))
+  return res
+}
