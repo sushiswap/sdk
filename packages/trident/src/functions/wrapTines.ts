@@ -134,7 +134,7 @@ export function calcTokenPrices<T extends Token>(pools: (Pool | Pair)[], baseTok
   const res: Record<string, Price<T, Token>> = {}
   Array.from(map.entries()).forEach(
     ([token, price]) => res[token.address] = 
-      new Price(baseToken, token as Token, 1e6, Math.round(price*1e6))
+      new Price(baseToken, token as Token, 1e18, Math.round(price*1e18))
   )
   return res
 }
