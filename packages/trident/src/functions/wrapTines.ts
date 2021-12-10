@@ -1,5 +1,5 @@
 import { BigNumber } from "@ethersproject/bignumber";
-import { Currency, Pair, Route, Token } from "@sushiswap/core-sdk";
+import { Currency, Pair, Price, Route, Token } from "@sushiswap/core-sdk";
 import {
   ConstantProductRPool, 
   findMultiRouteExactIn as TinesFindMultiRouteExactIn, 
@@ -129,6 +129,12 @@ export function convertTinesSingleRouteToLegacyRoute<TInput extends Currency, TO
   return new Route(pairs, input, output)
 }
 
-export function calcTokenPrices(pools: (Pool | Pair)[], baseToken: Token): Map<Token, number> {
-  return TinesCalcTokenPrices(pools.map(convertPoolOrPairtoRPool), baseToken as RToken) as Map<Token, number>
+export function calcTokenPrices<T extends Token>(pools: (Pool | Pair)[], baseToken: T): Record<string, Price<T, Token>> {
+  const map: Map<RToken, number> = TinesCalcTokenPrices(pools.map(convertPoolOrPairtoRPool), baseToken as RToken)
+  const res: Record<string, Price<T, Token>> = {}
+  Array.from(map.entries()).forEach(
+    ([token, price]) => res[token.address] = 
+      new Price(baseToken, token as Token, 1e6, Math.round(price*1e6))
+  )
+  return res
 }
