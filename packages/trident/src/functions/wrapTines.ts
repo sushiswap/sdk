@@ -129,12 +129,19 @@ export function convertTinesSingleRouteToLegacyRoute<TInput extends Currency, TO
   return new Route(pairs, input, output)
 }
 
-export function calcTokenPrices<T extends Token>(pools: (Pool | Pair)[], baseToken: T): Record<string, Price<T, Token>> {
+export function calcTokenPrices<T extends Token>(pools: (Pool | Pair)[], baseToken: T): Record<string, Price<Token, T>> {
   const map: Map<RToken, number> = TinesCalcTokenPrices(pools.map(convertPoolOrPairtoRPool), baseToken as RToken)
-  const res: Record<string, Price<T, Token>> = {}
+  const res: Record<string, Price<Token, T>> = {}
   Array.from(map.entries()).forEach(
-    ([token, price]) => res[token.address] = 
-      new Price(baseToken, token as Token, 1e18, Math.round(price*1e18))
+    ([token, price]) => {
+      const p = new Price(
+        token as Token, 
+        baseToken, 
+        Math.pow(10, baseToken.decimals + 18), 
+        Math.round(price*Math.pow(10, (token as Token).decimals + 18))
+      )
+      res[token.address] = p
+    }
   )
   return res
 }
