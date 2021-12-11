@@ -133,15 +133,7 @@ export function calcTokenPrices<T extends Token>(pools: (Pool | Pair)[], baseTok
   const map: Map<RToken, number> = TinesCalcTokenPrices(pools.map(convertPoolOrPairtoRPool), baseToken as RToken)
   const res: Record<string, Price<Token, T>> = {}
   Array.from(map.entries()).forEach(
-    ([token, price]) => {
-      const p = new Price(
-        token as Token, 
-        baseToken, 
-        Math.pow(10, baseToken.decimals + 18), 
-        Math.round(price*Math.pow(10, (token as Token).decimals + 18))
-      )
-      res[token.address] = p
-    }
+    ([token, price]) => res[token.address] = new Price(token as Token, baseToken, 1e18, Math.round(price*1e18))
   )
   return res
 }
