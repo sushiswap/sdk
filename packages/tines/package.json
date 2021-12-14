@@ -11,6 +11,10 @@
   "repository": {
     "url": "sushiswap/sdk",
     "directory": "packages/tines"
+  },  
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
     "lint": "tsdx lint src test",
@@ -29,5 +33,5 @@
     "seedrandom": "^3.0.5",
     "tsdx": "^0.14.1"
   },
-  "gitHead": "eaeb595cec7df484902d494d025eedd46ab5cf50"
+  "gitHead": "41419861cab7654d754238602fc917101f1794a2"
 }
