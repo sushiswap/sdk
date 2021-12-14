@@ -17,9 +17,7 @@
     "build": "tsdx build",
     "watch": "tsdx watch",
     "test": "tsdx test",
-    "prepublishOnly": "tsdx build",
-    "version:canary": "yarn version prerelease --immediate",
-    "publish:canary": "npm publish --access public --tag canary"
+    "prepublishOnly": "tsdx build"
   },
   "dependencies": {
     "@ethersproject/address": "^5.4.0",
@@ -36,5 +34,6 @@
   "devDependencies": {
     "@types/big.js": "^6.1.0",
     "tsdx": "^0.14.1"
-  }
+  },
+  "gitHead": "eaeb595cec7df484902d494d025eedd46ab5cf50"
 }
