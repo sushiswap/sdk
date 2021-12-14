@@ -16,6 +16,7 @@ export enum ChainKey {
   HECO = 'heco',
   HECO_TESTNET = 'heco-testnet',
   KOVAN = 'kovan',
+  ROPSTEN = 'ropsten',
   MATIC = 'polygon',
   MATIC_TESTNET = 'matic-testnet',
   MOONBEAM_TESTNET = 'moonbeam-testnet',
