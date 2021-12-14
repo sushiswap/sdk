@@ -1,6 +1,6 @@
 {
   "name": "@sushiswap/tines",
-  "version": "1.0.0-canary.9",
+  "version": "1.0.0-canary.10",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -11,7 +11,7 @@
   "repository": {
     "url": "sushiswap/sdk",
     "directory": "packages/tines"
-  },  
+  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
