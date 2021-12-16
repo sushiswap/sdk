@@ -3,6 +3,7 @@ import { ChainKey } from '../enums'
 
 export const CHAIN_KEY: { [chainId: number]: ChainKey } = {
   [ChainId.ETHEREUM]: ChainKey.ETHEREUM,
+  [ChainId.ROPSTEN]: ChainKey.ROPSTEN,
   [ChainId.RINKEBY]: ChainKey.RINKEBY,
   [ChainId.GÖRLI]: ChainKey.GÖRLI,
   [ChainId.KOVAN]: ChainKey.KOVAN,
