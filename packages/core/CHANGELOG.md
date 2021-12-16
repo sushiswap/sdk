@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.28](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.27...@sushiswap/core-sdk@1.0.0-canary.28) (2021-12-16)
+
+
+### Bug Fixes
+
+* missing ropsten key in chains ([d92fc10](https://github.com/sushiswap/sdk/commit/d92fc100854600af742c01826db6e126dc55426a))
+
+
+
+
+
 # [1.0.0-canary.27](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.26...@sushiswap/core-sdk@1.0.0-canary.27) (2021-12-14)
 
 **Note:** Version bump only for package @sushiswap/core-sdk
