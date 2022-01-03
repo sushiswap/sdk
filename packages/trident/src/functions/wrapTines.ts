@@ -15,7 +15,7 @@ import { Pool } from "../entities/Pool";
 import { ConstantProductPool } from "../entities/ConstantProductPool";
 import { Fee } from "../enums";
 
-function convertPoolOrPairtoRPool(pool: Pool | Pair): RPool {
+export function convertPoolOrPairtoRPool(pool: Pool | Pair): RPool {
   if (pool instanceof ConstantProductPool) {
     return new ConstantProductRPool(
       pool.liquidityToken.address,
