@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.30](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.29...@sushiswap/core-sdk@1.0.0-canary.30) (2022-01-03)
+
+
+### Features
+
+* balance fetcher ([037d443](https://github.com/sushiswap/sdk/commit/037d443296a5ae1bc9c11f537a3aab5ab6bdee9b))
+
+
+
+
+
 # [1.0.0-canary.29](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.28...@sushiswap/core-sdk@1.0.0-canary.29) (2021-12-16)
 
 **Note:** Version bump only for package @sushiswap/core-sdk
