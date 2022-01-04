@@ -1,4 +1,4 @@
-import JSBI from 'jsbi'
+import { JSBI } from '@sushiswap/core-sdk'
 
 export interface AccrueInfo {
   interestPerSecond: JSBI

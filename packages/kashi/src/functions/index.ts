@@ -12,9 +12,8 @@ import {
 } from '../constants'
 
 import { BigNumber } from '@ethersproject/bignumber'
-import JSBI from 'jsbi'
-import { KashiMediumRiskLendingPair } from 'src/entities'
-import { ZERO } from '@sushiswap/core-sdk'
+import { KashiMediumRiskLendingPair } from '../entities'
+import { ZERO, JSBI } from '@sushiswap/core-sdk'
 
 export function accrue(pair: KashiMediumRiskLendingPair, amount: JSBI, includePrincipal = false): JSBI {
   return JSBI.add(
@@ -96,3 +95,5 @@ export function takeFee(amount: JSBI): JSBI {
 export function addBorrowFee(amount: BigNumber): BigNumber {
   return amount.mul(BigNumber.from(10005)).div(BigNumber.from(10000))
 }
+
+export { computePairAddress } from './computePairAddress'

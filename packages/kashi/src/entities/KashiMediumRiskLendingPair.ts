@@ -1,9 +1,8 @@
 import { JSBI, Rebase, ZERO, maximum, minimum, toElastic, Token } from '@sushiswap/core-sdk'
-import { accrue, accrueTotalAssetWithFee, interestAccrue, takeFee } from '../functions'
+import { accrue, accrueTotalAssetWithFee, interestAccrue, takeFee, computePairAddress } from '../functions'
 import { toAmount, toShare } from '@sushiswap/bentobox-sdk'
 
 import { AccrueInfo } from '../interfaces'
-import { computePairAddress } from 'src/functions/computePairAddress'
 
 export class KashiMediumRiskLendingPair {
   public readonly accrueInfo: AccrueInfo
@@ -238,7 +237,7 @@ export class KashiMediumRiskLendingPair {
       JSBI.divide(JSBI.multiply(min, JSBI.BigInt(95)), JSBI.BigInt(100)),
       this.currentUserBorrowAmount
     )
-    
+
     const possible = minimum(safe, this.maxAssetAvailable)
 
     return {
