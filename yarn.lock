@@ -3169,7 +3169,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sushiswap/tines@^1.0.0-canary.15, @sushiswap/tines@workspace:^, @sushiswap/tines@workspace:packages/tines":
+"@sushiswap/tines@1.0.0-canary.15, @sushiswap/tines@^1.0.0-canary.15, @sushiswap/tines@workspace:packages/tines":
   version: 0.0.0-use.local
   resolution: "@sushiswap/tines@workspace:packages/tines"
   dependencies:
@@ -3189,7 +3189,7 @@ __metadata:
     "@ethersproject/abi": ^5.4.0
     "@ethersproject/bignumber": ^5.4.0
     "@sushiswap/core-sdk": 1.0.0-canary.33
-    "@sushiswap/tines": "workspace:^"
+    "@sushiswap/tines": 1.0.0-canary.15
     "@sushiswap/trident": 1.0.0-canary.27
     tiny-invariant: ^1.1.0
     tsdx: ^0.14.1
@@ -5324,9 +5324,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.17":
-  version: 1.4.34
-  resolution: "electron-to-chromium@npm:1.4.34"
-  checksum: 95598b02681c46fed8131c2265a9729963fdc10b628201c8cedf286c7268dee6074ca270628c10a52f5f5b62f2c59260fdbd1f0f6828a35438f329988fd1408c
+  version: 1.4.35
+  resolution: "electron-to-chromium@npm:1.4.35"
+  checksum: c4d7943abf370ca294129cda8432ea2f83c5b867e708aa33c7953e10f741803cfb23f83ba7341b6a76d76efb649f967b8e7b130ebe1e262971c764537ea5fd9b
   languageName: node
   linkType: hard
 
@@ -6583,9 +6583,9 @@ __metadata:
   linkType: hard
 
 "graceful-fs@npm:^4.1.11, graceful-fs@npm:^4.1.15, graceful-fs@npm:^4.1.2, graceful-fs@npm:^4.1.6, graceful-fs@npm:^4.2.0, graceful-fs@npm:^4.2.2, graceful-fs@npm:^4.2.3, graceful-fs@npm:^4.2.4, graceful-fs@npm:^4.2.6":
-  version: 4.2.8
-  resolution: "graceful-fs@npm:4.2.8"
-  checksum: 5d224c8969ad0581d551dfabdb06882706b31af2561bd5e2034b4097e67cc27d05232849b8643866585fd0a41c7af152950f8776f4dd5579e9853733f31461c6
+  version: 4.2.9
+  resolution: "graceful-fs@npm:4.2.9"
+  checksum: 68ea4e07ff2c041ada184f9278b830375f8e0b75154e3f080af6b70f66172fabb4108d19b3863a96b53fc068a310b9b6493d86d1291acc5f3861eb4b79d26ad6
   languageName: node
   linkType: hard
 
