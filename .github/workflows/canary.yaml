@@ -15,16 +15,12 @@ jobs:
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
-          scope: '@sushiswap'
       - uses: actions/checkout@v2
-
+      - run: yarn
       - name: Configure CI Git User
         run: |
           git config --global user.name '$GITHUB_ACTOR'
           git config --global user.email '$GITHUB_ACTOR@users.noreply.github.com'
-
-      - run: yarn
-
       - name: Authenticate with Registry
         run: |
           yarn logout
