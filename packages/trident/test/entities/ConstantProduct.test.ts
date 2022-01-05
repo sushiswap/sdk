@@ -10,9 +10,9 @@ import {
   WETH9_ADDRESS,
 } from '@sushiswap/core-sdk'
 
-import { ConstantProductPool } from '../../src/entities'
+import { ConstantProductPool } from '../../src/entities/ConstantProductPool'
 import all from '@sushiswap/trident/exports/all.json'
-import { computeConstantProductPoolAddress } from '../../src/functions'
+import { computeConstantProductPoolAddress } from '../../src/functions/computeConstantProductPoolAddress'
 
 describe('computePoolAddress', () => {
   it('should correctly compute the pool address', () => {

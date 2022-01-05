@@ -11,9 +11,9 @@ import {
 } from '@sushiswap/core-sdk'
 
 import { A_PRECISION } from '../../src/constants'
-import { HybridPool } from '../../src/entities'
+import { HybridPool } from '../../src/entities/HybridPool'
 import all from '@sushiswap/trident/exports/all.json'
-import { computeHybridPoolAddress } from '../../src/functions'
+import { computeHybridPoolAddress } from '../../src/functions/computeHybridPoolAddress'
 
 describe('computePoolAddress', () => {
   it('should correctly compute the pool address', () => {

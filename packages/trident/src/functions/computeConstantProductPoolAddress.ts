@@ -1,6 +1,6 @@
 import { ChainId, ChainKey, Token } from '@sushiswap/core-sdk'
 
-import { Fee } from '../enums'
+import { Fee } from '../enums/Fee'
 import EXPORTS from '@sushiswap/trident/exports/all.json'
 import constantProductPoolArtifact from '@sushiswap/trident/artifacts/contracts/pool/ConstantProductPool.sol/ConstantProductPool.json'
 import { computePoolInitCodeHash } from './computePoolInitCodeHash'
