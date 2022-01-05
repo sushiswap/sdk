@@ -8,7 +8,7 @@
       "exact": true
     },
     "publish": {
-      "npmClient": "yarn",
+      "npmClient": "npm",
       "conventionalCommits": true,
       "message": "chore: publish canary",
       "allowBranch": [
