@@ -9,7 +9,7 @@
     "test": "yarn workspaces foreach run test",
     "build": "yarn workspaces foreach run build",
     "watch": "yarn workspaces foreach run watch",
-    "prepublish": "yarn build",
+    "prepublish": "yarn build && yarn test",
     "publish": "yarn lerna publish --conventional-commits --conventional-prerelease --preid canary --yes"
   },
   "devDependencies": {
