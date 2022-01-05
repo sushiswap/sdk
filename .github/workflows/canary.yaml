@@ -8,34 +8,13 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+     - name: Checkout
+        uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: '16.x'
+          node-version: 16
 
-      - name: Ensure access
-        run: npm whoami --registry https://npm.pkg.github.com/
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Config git user
-        run: |
-          git config --global user.name "${{ github.actor }}"
-          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
-
-      - name: Yarn  
-        run: yarn
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          
-      - name: Build 
-        run: yarn build
-      
-      - name: Test 
-        run: yarn test
-
-      - name: Publish 
-        run: yarn publish
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
