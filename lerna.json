@@ -1,22 +1,20 @@
 {
+  "packages": ["packages/*"],
+  "version": "independent",
   "npmClient": "yarn",
   "useWorkspaces": true,
-  "packages": [
-    "packages/*"
-  ],
   "command": {
     "version": {
       "exact": true
     },
     "publish": {
-      "npmClient": "yarn",
-      "useWorkspaces": true,
+      "conventionalCommits": true,
+      "message": "chore(release): publish",
+      "registry": "https://npm.pkg.github.com",
       "allowBranch": [
         "master",
         "canary"
-      ],
-      "registry": "https://registry.npmjs.org/"
+      ]
     }
-  },
-  "version": "independent"
+  }
 }
