@@ -15,13 +15,8 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
         cache: 'yarn'
     - run: yarn install
-    - run: yarn build
+    # - run: yarn build
     # - run: yarn test
-    - name: Config git user
-      run: |
-        git config --global user.name "${{ github.actor }}"
-        git config --global user.email "${{ github.actor }}@users.noreply.github.com"
-
     - run: yarn publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.YARN_TOKEN }}
