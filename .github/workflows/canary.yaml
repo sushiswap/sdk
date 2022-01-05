@@ -12,14 +12,12 @@ jobs:
     steps:
       - name: Setup node
         uses: actions/setup-node@v2
-        if: ${{ steps.docs-change.outputs.docsChange != 'docs only change' }}
         with:
           node-version: 14
-
       - uses: actions/checkout@v2
         with:
           fetch-depth: 25
-      - run: yarn install --frozen-lockfile --check-files
+      - run: yarn install --frozen-lockfile
       # - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.YARN_TOKEN }}
