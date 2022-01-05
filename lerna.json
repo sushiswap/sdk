@@ -7,14 +7,14 @@
     "version": {
       "exact": true
     },
-    "publish": {
-      "npmClient": "yarn",
+    "publish:canary": {
+      "npmClient": "npm",
       "conventionalCommits": true,
       "message": "chore: publish canary",
       "allowBranch": [
-        "master",
         "canary"
-      ]
+      ],
+      "registry": "https://registry.npmjs.org/"
     }
   }
 }
