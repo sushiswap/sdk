@@ -1,6 +1,7 @@
-name: FeatureCI
-on:
+name: Canary CI
+on: 
   push:
+  pull_request:
     branches:
       - canary
 jobs:
