@@ -9,13 +9,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - uses: actions/setup-node@v2
         with:
           node-version: '16.x'
-      - run: yarn
-      - run: yarn build
-      - run: yarn test
-      - run: yarn test
-      - run: yarn publish
+
+      - name: Ensure access
+        run: npm whoami --registry https://npm.pkg.github.com/
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Config git user
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Yarn  
+        run: yarn
+
+      - name: Build 
+        run: yarn build
+      
+      - name: Test 
+        run: yarn test
+
+      - name: Publish 
+        run: yarn publish
+      
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
