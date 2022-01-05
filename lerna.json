@@ -9,7 +9,8 @@
       "exact": true
     },
     "publish": {
-      "npmClient": "npm",
+      "npmClient": "yarn",
+      "useWorkspaces": true,
       "allowBranch": [
         "master",
         "canary"
