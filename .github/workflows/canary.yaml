@@ -1,4 +1,4 @@
-name: Canary
+name: Canary CI
 
 on:
   push:
@@ -14,24 +14,5 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14
-          registry-url: https://registry.npmjs.org/
       - uses: actions/checkout@v2
       - run: yarn
-      - name: Configure CI Git User
-        run: |
-          git config --global user.name '$GITHUB_ACTOR'
-          git config --global user.email '$GITHUB_ACTOR@users.noreply.github.com'
-      - name: Authenticate with Registry
-        run: |
-          yarn logout
-          echo "@sushiswap:registry=http://registry.npmjs.org/" > .npmrc
-          echo "registry=http://registry.npmjs.org/" >> .npmrc
-          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
-          npm whoami
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - run: npm run publish:canary
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-          CI: true
