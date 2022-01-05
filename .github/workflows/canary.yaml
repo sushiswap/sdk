@@ -19,6 +19,6 @@ jobs:
       - run: yarn install
       - run: yarn build
       - run: yarn test
-      - run: yarn lerna publish --conventional-commits --conventional-prerelease --preid canary --yes
+      - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

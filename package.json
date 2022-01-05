@@ -5,9 +5,11 @@
     "packages/*"
   ],
   "scripts": {
+    "lerna": "lerna",
     "test": "yarn workspaces foreach run test",
     "build": "yarn workspaces foreach run build",
-    "watch": "yarn workspaces foreach run watch"
+    "watch": "yarn workspaces foreach run watch",
+    "publish": "yarn lerna publish --conventional-commits --conventional-prerelease --preid canary --yes"
   },
   "devDependencies": {
     "@sushiswap/prettier-config": "^0.1.0",
