@@ -16,9 +16,12 @@ jobs:
           node-version: 14
           registry-url: https://registry.npmjs.org/
       - uses: actions/checkout@v2
-      # - run: yarn install --frozen-lockfile
+      - run: yarn install --frozen-lockfile
       - run: npm whoami
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
           CI: true
-      # - run: npm run release:canary
+      - run: npm run release:canary
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+          CI: true
