@@ -5,10 +5,9 @@
     "packages/*"
   ],
   "scripts": {
-    "lerna": "lerna",
-    "test": "lerna run test --stream",
-    "build": "lerna run build --stream",
-    "watch": "lerna run watch --stream"
+    "test": "yarn workspaces foreach run test",
+    "build": "yarn workspaces foreach run build",
+    "watch": "yarn workspaces foreach run watch"
   },
   "devDependencies": {
     "@sushiswap/prettier-config": "^0.1.0",
