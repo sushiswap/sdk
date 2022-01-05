@@ -9,7 +9,7 @@
     "build": "yarn workspaces foreach run build",
     "watch": "yarn workspaces foreach run watch",
     "prepublish": "yarn build && yarn test",
-    "release:canary": "lerna publish --conventional-commits --conventional-prerelease --preid canary --yes"
+    "publish:canary": "lerna publish --conventional-commits --conventional-prerelease --preid canary --yes"
   },
   "devDependencies": {
     "@sushiswap/prettier-config": "^0.1.0",
