@@ -17,7 +17,7 @@ jobs:
       - name: Ensure access
         run: npm whoami --registry https://npm.pkg.github.com/
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Config git user
         run: |
@@ -35,6 +35,5 @@ jobs:
 
       - name: Publish 
         run: yarn publish
-      
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
