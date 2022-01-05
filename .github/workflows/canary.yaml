@@ -21,6 +21,12 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.YARN_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create commit with version number
+        run: |
+          git config user.name $GITHUB_ACTOR
+          git config user.email gh-actions-${GITHUB_ACTOR}@github.com
+          
       - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.YARN_TOKEN }}
