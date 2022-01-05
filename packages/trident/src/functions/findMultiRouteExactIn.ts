@@ -1,8 +1,9 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { Pair, Token } from '@sushiswap/core-sdk'
-import { Pool } from '@sushiswap/trident-sdk'
 import { MultiRoute, RToken, findMultiRouteExactIn as TinesFindMultiRouteExactIn } from '@sushiswap/tines'
+import { Pool } from '../entities/Pool'
 import { convertPoolOrPairtoRPool } from './convertPoolOrPairtoRPool'
+
 export function findMultiRouteExactIn(
   from: Token,
   to: Token,
