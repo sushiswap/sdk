@@ -11,7 +11,7 @@ yarn lerna version --conventional-commits --conventional-prerelease --preid cana
 
 ## Publishing (Canary)
 
-yarn lerna publish --conventional-commits --conventional-prerelease --preid canary
+yarn lerna publish --conventional-commits --conventional-prerelease --preid canary --yes
 
 
 ## Core SDK
