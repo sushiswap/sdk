@@ -9,12 +9,9 @@
     },
     "publish": {
       "npmClient": "npm",
-      "conventionalCommits": true,
-      "message": "chore: publish canary",
       "allowBranch": [
         "canary"
-      ],
-      "registry": "https://registry.npmjs.org/"
+      ]
     }
   }
 }
