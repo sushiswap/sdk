@@ -16,7 +16,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
           # Defaults to the user or organization that owns the workflow file
           scope: '@sushiswap'
-      - run: yarn
+      - run: yarn install
       - run: yarn test
       - run: yarn build
       - run: yarn lerna publish --conventional-commits --conventional-prerelease --preid canary --yes
