@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.34](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.33...@sushiswap/core-sdk@1.0.0-canary.34) (2022-01-05)
+
+
+### Features
+
+* telos ([433a686](https://github.com/sushiswap/sdk/commit/433a686e869a2f1aa1f64bb8b74712de033ade57))
+* telos native ([1ab0e86](https://github.com/sushiswap/sdk/commit/1ab0e86133858aef2081f8572ae743a8c545fcbc))
+
+
+
+
+
 # [1.0.0-canary.33](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.32...@sushiswap/core-sdk@1.0.0-canary.33) (2022-01-05)
 
 **Note:** Version bump only for package @sushiswap/core-sdk

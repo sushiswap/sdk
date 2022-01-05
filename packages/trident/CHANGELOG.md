@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.44](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.43...@sushiswap/trident-sdk@1.0.0-canary.44) (2022-01-05)
+
+
+### Bug Fixes
+
+* dep issue ([2201ce4](https://github.com/sushiswap/sdk/commit/2201ce4d4f0e3ab5b752eda89c70613f63aea236))
+* import ([ba09f2a](https://github.com/sushiswap/sdk/commit/ba09f2ab0d5d946acba1734601dfe91b92370ffa))
+* importing from self ([4287211](https://github.com/sushiswap/sdk/commit/4287211a636257a355b90e3ec340f99bec347c46))
+* tests ([782588a](https://github.com/sushiswap/sdk/commit/782588a4dc655756f0a25113fc6c83dfde0cc8de))
+
+
+
+
+
 # [1.0.0-canary.43](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.42...@sushiswap/trident-sdk@1.0.0-canary.43) (2022-01-05)
 
 **Note:** Version bump only for package @sushiswap/trident-sdk
