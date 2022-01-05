@@ -16,7 +16,7 @@ jobs:
           node-version: 14
           registry-url: https://registry.npmjs.org/
       - uses: actions/checkout@v2
-      - run: npm ci
+      - run: npm i
       - run: npm whoami
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
