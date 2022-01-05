@@ -1,6 +1,6 @@
 {
   "name": "@sushiswap/kashi-sdk",
-  "version": "1.0.0-canary.10",
+  "version": "1.0.0-canary.11",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
