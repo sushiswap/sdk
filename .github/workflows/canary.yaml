@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 25
-      - run: yarn install --immutable --immutable-cache
+      - run: yarn install --immutable
         env:
           NODE_AUTH_TOKEN: ${{ secrets.YARN_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
