@@ -1,9 +1,11 @@
-name: Canary CI
-on: 
+name: Canary
+
+on:  
   push:
   pull_request:
     branches:
       - canary
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -15,7 +17,7 @@ jobs:
           node-version: '16.x'
           registry-url: 'https://registry.npmjs.org'
           # Defaults to the user or organization that owns the workflow file
-          scope: '@sushiswap'
+          # scope: '@sushiswap'
       - run: yarn install
       - run: yarn publish
         env:
