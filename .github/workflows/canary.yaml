@@ -18,7 +18,7 @@ jobs:
         with:
           fetch-depth: 25
       - run: yarn install --frozen-lockfile
-      # - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.YARN_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: yarn publish
