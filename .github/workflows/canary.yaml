@@ -23,11 +23,8 @@ jobs:
           git config --global user.name '$GITHUB_ACTOR'
           git config --global user.email '$GITHUB_ACTOR@users.noreply.github.com'
 
-      - run: npm whoami
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-          CI: true
-          
+      - run: npm i
+
       - name: Authenticate with Registry
         run: |
           yarn logout
