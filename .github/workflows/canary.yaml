@@ -1,26 +1,26 @@
 name: Canary
 
-on:  
+on:
   push:
+    branches: [canary]
   pull_request:
-    branches:
-      - canary
+    types: [opened, synchronize]
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        if: ${{ steps.docs-change.outputs.docsChange != 'docs only change' }}
         with:
-          node-version: '16.x'
-          registry-url: 'https://registry.npmjs.org'
-          # Defaults to the user or organization that owns the workflow file
-          # scope: '@sushiswap'
-          cache: yarn
-      - run: yarn install
-      - run: yarn publish
+          node-version: 14
+
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 25
+      - run: yarn install --frozen-lockfile --check-files
+      # - run: yarn publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.YARN_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

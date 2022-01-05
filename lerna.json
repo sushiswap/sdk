@@ -7,7 +7,7 @@
     "version": {
       "exact": true
     },
-    "publish:canary": {
+    "publish": {
       "npmClient": "npm",
       "conventionalCommits": true,
       "message": "chore: publish canary",
