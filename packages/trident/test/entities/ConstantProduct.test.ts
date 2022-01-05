@@ -48,7 +48,7 @@ describe('computePoolAddress', () => {
     //   address,
     // })
 
-    expect(address).toEqual('0x04A7B1D08228C284442d34d72c16bA1CBA7C462A')
+    expect(address).toEqual('0xc1F60Ef13DD52904465746E87a9bECacfE76621A')
   })
 })
 
@@ -70,7 +70,7 @@ describe('ConstantProductPool', () => {
 
   describe('#getAddress', () => {
     it('returns the correct address', () => {
-      expect(ConstantProductPool.getAddress(USDC, DAI)).toEqual('0x1ceb0D21f15e2f8c883856f2066CbCFFDd85217E')
+      expect(ConstantProductPool.getAddress(USDC, DAI)).toEqual('0x614e51758495824A9D1aaA66192151e69E9c4ca6')
     })
   })
 
