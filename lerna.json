@@ -10,8 +10,7 @@
     "publish": {
       "npmClient": "yarn",
       "conventionalCommits": true,
-      "message": "chore(release): publish",
-      "registry": "https://npm.pkg.github.com",
+      "message": "chore: publish canary",
       "allowBranch": [
         "master",
         "canary"
