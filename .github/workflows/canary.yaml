@@ -16,12 +16,11 @@ jobs:
           node-version: 14
           registry-url: https://registry.npmjs.org/
       - uses: actions/checkout@v2
-      - run: npm i
-      - run: npm whoami
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
-          CI: true
-      - run: npm run release:canary
+      - run: |
+          yarn config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
+          yarn
+          yarn npm whoami
+          yarn release:canary
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
           CI: true
