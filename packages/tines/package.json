@@ -26,7 +26,8 @@
   },
   "dependencies": {
     "@ethersproject/bignumber": "^5.4.0",
-    "@sushiswap/core-sdk": "1.0.0-canary.33"
+    "@sushiswap/core-sdk": "1.0.0-canary.33",
+    "@sushiswap/tines": "^1.0.0-canary.15"
   },
   "devDependencies": {
     "@types/seedrandom": "^3.0.1",

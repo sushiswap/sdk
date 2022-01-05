@@ -1,19 +1,19 @@
-import { BigNumber } from "@ethersproject/bignumber";
-import { Currency, Pair, Price, Route, Token } from "@sushiswap/core-sdk";
+import { BigNumber } from '@ethersproject/bignumber'
+import { Currency, Pair, Price, Route, Token } from '@sushiswap/core-sdk'
 import {
-  ConstantProductRPool, 
-  findMultiRouteExactIn as TinesFindMultiRouteExactIn, 
-  findMultiRouteExactOut as TinesFindMultiRouteExactOut, 
-  findSingleRouteExactIn as TinesFindSingleRouteExactIn, 
-  findSingleRouteExactOut as TinesFindSingleRouteExactOut, 
+  ConstantProductRPool,
+  findMultiRouteExactIn as TinesFindMultiRouteExactIn,
+  findMultiRouteExactOut as TinesFindMultiRouteExactOut,
+  findSingleRouteExactIn as TinesFindSingleRouteExactIn,
+  findSingleRouteExactOut as TinesFindSingleRouteExactOut,
   calcTokenPrices as TinesCalcTokenPrices,
-  MultiRoute, 
-  RPool, 
-  RToken
-} from "@sushiswap/tines"
-import { Pool } from "../entities/Pool";
-import { ConstantProductPool } from "../entities/ConstantProductPool";
-import { Fee } from "../enums";
+  MultiRoute,
+  RPool,
+  RToken,
+} from '@sushiswap/tines'
+import { Pool } from '../entities/Pool'
+import { ConstantProductPool } from '../entities/ConstantProductPool'
+import { Fee } from '../enums'
 
 export function convertPoolOrPairtoRPool(pool: Pool | Pair): RPool {
   if (pool instanceof ConstantProductPool) {
@@ -35,7 +35,7 @@ export function convertPoolOrPairtoRPool(pool: Pool | Pair): RPool {
       BigNumber.from(pool.reserve1.quotient.toString())
     )
   } else {
-    throw new Error("Unsupported type of pool !!!")
+    throw new Error('Unsupported type of pool !!!')
   }
 }
 
@@ -113,13 +113,13 @@ export function findSingleRouteExactOut(
 
 export function convertTinesSingleRouteToLegacyRoute<TInput extends Currency, TOutput extends Currency>(
   route: MultiRoute,
-  allPairs: Pair[], 
-  input: TInput, 
+  allPairs: Pair[],
+  input: TInput,
   output: TOutput
 ): Route<TInput, TOutput> {
   const pairHash = new Map<string, Pair>()
-  allPairs.forEach(p => pairHash.set(p.liquidityToken.address, p))
-  const pairs = route.legs.map(l => {
+  allPairs.forEach((p) => pairHash.set(p.liquidityToken.address, p))
+  const pairs = route.legs.map((l) => {
     const pair = pairHash.get(l.poolAddress)
     if (pair === undefined) {
       throw new Error('Internal Error 119')
@@ -129,11 +129,14 @@ export function convertTinesSingleRouteToLegacyRoute<TInput extends Currency, TO
   return new Route(pairs, input, output)
 }
 
-export function calcTokenPrices<T extends Token>(pools: (Pool | Pair)[], baseToken: T): Record<string, Price<Token, T>> {
+export function calcTokenPrices<T extends Token>(
+  pools: (Pool | Pair)[],
+  baseToken: T
+): Record<string, Price<Token, T>> {
   const map: Map<RToken, number> = TinesCalcTokenPrices(pools.map(convertPoolOrPairtoRPool), baseToken as RToken)
   const res: Record<string, Price<Token, T>> = {}
   Array.from(map.entries()).forEach(
-    ([token, price]) => res[token.address] = new Price(token as Token, baseToken, 1e18, Math.round(price*1e18))
+    ([token, price]) => (res[token.address] = new Price(token as Token, baseToken, 1e18, Math.round(price * 1e18)))
   )
   return res
 }
