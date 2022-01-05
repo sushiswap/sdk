@@ -6,6 +6,7 @@
   ],
   "scripts": {
     "lerna": "lerna",
+    "test": "lerna run test --stream",
     "build": "lerna run build --stream",
     "watch": "lerna run watch --stream"
   },

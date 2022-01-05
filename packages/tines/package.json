@@ -21,7 +21,7 @@
     "build": "tsdx build",
     "watch": "tsdx watch",
     "test": "tsdx test",
-    "clear_jest_cache": "tsdx test --clearCache",
+    "clear_jest_cache": "tsdx test --clearCache --passWithNoTests",
     "prepublishOnly": "tsdx build"
   },
   "dependencies": {
