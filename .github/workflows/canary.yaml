@@ -21,8 +21,3 @@ jobs:
       - run: yarn
       - run: yarn build
       - run: yarn test
-      - run: git config --global user.email "hello@matthewLilley.com"
-      - run: git config --global user.name "Matthew Lilley"
-      - run: yarn publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -9,6 +9,8 @@
     },
     "publish": {
       "npmClient": "npm",
+      "conventionalCommits": true, 
+      "yes": true,
       "allowBranch": [
         "canary"
       ]
