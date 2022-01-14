@@ -3078,44 +3078,131 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sushiswap/bentobox-sdk@link:../bentobox::locator=%40sushiswap%2Fkashi-sdk%40workspace%3Apackages%2Fkashi":
-  version: 0.0.0-use.local
-  resolution: "@sushiswap/bentobox-sdk@link:../bentobox::locator=%40sushiswap%2Fkashi-sdk%40workspace%3Apackages%2Fkashi"
+"@sushiswap/bentobox-sdk@file:../bentobox::locator=%40sushiswap%2Fkashi-sdk%40workspace%3Apackages%2Fkashi":
+  version: 1.0.0-canary.24
+  resolution: "@sushiswap/bentobox-sdk@file:../bentobox#../bentobox::hash=505b9a&locator=%40sushiswap%2Fkashi-sdk%40workspace%3Apackages%2Fkashi"
+  dependencies:
+    "@sushiswap/core-sdk": "file:../core"
+  checksum: 3ea3366c3cdc02327f196bc57694afb9b3ad2e914c6f8280d0ebcdff0f8031b463c8f2a17e7b0b6a61f5be9392476925fd2508409d0d7691d3b6ec974488888a
   languageName: node
-  linkType: soft
+  linkType: hard
 
 "@sushiswap/bentobox-sdk@workspace:packages/bentobox":
   version: 0.0.0-use.local
   resolution: "@sushiswap/bentobox-sdk@workspace:packages/bentobox"
   dependencies:
-    "@sushiswap/core-sdk": "link:../core"
+    "@sushiswap/core-sdk": "file:../core"
     tsdx: ^0.14.1
   languageName: unknown
   linkType: soft
 
-"@sushiswap/core-sdk@link:../core::locator=%40sushiswap%2Fbentobox-sdk%40workspace%3Apackages%2Fbentobox":
-  version: 0.0.0-use.local
-  resolution: "@sushiswap/core-sdk@link:../core::locator=%40sushiswap%2Fbentobox-sdk%40workspace%3Apackages%2Fbentobox"
+"@sushiswap/core-sdk@file:../core::locator=%40sushiswap%2Fbentobox-sdk%40file%3A..%2Fbentobox%23..%2Fbentobox%3A%3Ahash%3D505b9a%26locator%3D%2540sushiswap%252Fkashi-sdk%2540workspace%253Apackages%252Fkashi":
+  version: 1.0.0-canary.39
+  resolution: "@sushiswap/core-sdk@file:../core#../core::hash=85bdde&locator=%40sushiswap%2Fbentobox-sdk%40file%3A..%2Fbentobox%23..%2Fbentobox%3A%3Ahash%3D505b9a%26locator%3D%2540sushiswap%252Fkashi-sdk%2540workspace%253Apackages%252Fkashi"
+  dependencies:
+    "@ethersproject/address": ^5.4.0
+    "@ethersproject/bignumber": ^5.4.0
+    "@ethersproject/providers": ^5.4.0
+    "@ethersproject/solidity": ^5.4.0
+    big.js: ^6.1.1
+    decimal.js-light: ^2.5.0
+    jsbi: ^4.1.0
+    tiny-invariant: ^1.1.0
+    tiny-warning: ^1.0.0
+    toformat: ^2.0.0
+  checksum: 1bbdd31de1d4432c1337685a833c139efc74b1a1e9f46c0883cff5db9d68c276724c3d069d1d28bfab6faccc8b9b3a50ecba5eb4d9cc0541b0eafaebfb822def
   languageName: node
-  linkType: soft
+  linkType: hard
 
-"@sushiswap/core-sdk@link:../core::locator=%40sushiswap%2Flimit-order-sdk%40workspace%3Apackages%2Flimit-order":
-  version: 0.0.0-use.local
-  resolution: "@sushiswap/core-sdk@link:../core::locator=%40sushiswap%2Flimit-order-sdk%40workspace%3Apackages%2Flimit-order"
+"@sushiswap/core-sdk@file:../core::locator=%40sushiswap%2Fbentobox-sdk%40workspace%3Apackages%2Fbentobox":
+  version: 1.0.0-canary.39
+  resolution: "@sushiswap/core-sdk@file:../core#../core::hash=85bdde&locator=%40sushiswap%2Fbentobox-sdk%40workspace%3Apackages%2Fbentobox"
+  dependencies:
+    "@ethersproject/address": ^5.4.0
+    "@ethersproject/bignumber": ^5.4.0
+    "@ethersproject/providers": ^5.4.0
+    "@ethersproject/solidity": ^5.4.0
+    big.js: ^6.1.1
+    decimal.js-light: ^2.5.0
+    jsbi: ^4.1.0
+    tiny-invariant: ^1.1.0
+    tiny-warning: ^1.0.0
+    toformat: ^2.0.0
+  checksum: 1bbdd31de1d4432c1337685a833c139efc74b1a1e9f46c0883cff5db9d68c276724c3d069d1d28bfab6faccc8b9b3a50ecba5eb4d9cc0541b0eafaebfb822def
   languageName: node
-  linkType: soft
+  linkType: hard
 
-"@sushiswap/core-sdk@link:../core::locator=%40sushiswap%2Ftines%40workspace%3Apackages%2Ftines":
-  version: 0.0.0-use.local
-  resolution: "@sushiswap/core-sdk@link:../core::locator=%40sushiswap%2Ftines%40workspace%3Apackages%2Ftines"
+"@sushiswap/core-sdk@file:../core::locator=%40sushiswap%2Flimit-order-sdk%40workspace%3Apackages%2Flimit-order":
+  version: 1.0.0-canary.39
+  resolution: "@sushiswap/core-sdk@file:../core#../core::hash=85bdde&locator=%40sushiswap%2Flimit-order-sdk%40workspace%3Apackages%2Flimit-order"
+  dependencies:
+    "@ethersproject/address": ^5.4.0
+    "@ethersproject/bignumber": ^5.4.0
+    "@ethersproject/providers": ^5.4.0
+    "@ethersproject/solidity": ^5.4.0
+    big.js: ^6.1.1
+    decimal.js-light: ^2.5.0
+    jsbi: ^4.1.0
+    tiny-invariant: ^1.1.0
+    tiny-warning: ^1.0.0
+    toformat: ^2.0.0
+  checksum: 1bbdd31de1d4432c1337685a833c139efc74b1a1e9f46c0883cff5db9d68c276724c3d069d1d28bfab6faccc8b9b3a50ecba5eb4d9cc0541b0eafaebfb822def
   languageName: node
-  linkType: soft
+  linkType: hard
 
-"@sushiswap/core-sdk@link:../core::locator=%40sushiswap%2Ftrident-sdk%40workspace%3Apackages%2Ftrident":
-  version: 0.0.0-use.local
-  resolution: "@sushiswap/core-sdk@link:../core::locator=%40sushiswap%2Ftrident-sdk%40workspace%3Apackages%2Ftrident"
+"@sushiswap/core-sdk@file:../core::locator=%40sushiswap%2Ftines%40file%3A..%2Ftines%23..%2Ftines%3A%3Ahash%3D8dde7c%26locator%3D%2540sushiswap%252Ftrident-sdk%2540workspace%253Apackages%252Ftrident":
+  version: 1.0.0-canary.39
+  resolution: "@sushiswap/core-sdk@file:../core#../core::hash=85bdde&locator=%40sushiswap%2Ftines%40file%3A..%2Ftines%23..%2Ftines%3A%3Ahash%3D8dde7c%26locator%3D%2540sushiswap%252Ftrident-sdk%2540workspace%253Apackages%252Ftrident"
+  dependencies:
+    "@ethersproject/address": ^5.4.0
+    "@ethersproject/bignumber": ^5.4.0
+    "@ethersproject/providers": ^5.4.0
+    "@ethersproject/solidity": ^5.4.0
+    big.js: ^6.1.1
+    decimal.js-light: ^2.5.0
+    jsbi: ^4.1.0
+    tiny-invariant: ^1.1.0
+    tiny-warning: ^1.0.0
+    toformat: ^2.0.0
+  checksum: 1bbdd31de1d4432c1337685a833c139efc74b1a1e9f46c0883cff5db9d68c276724c3d069d1d28bfab6faccc8b9b3a50ecba5eb4d9cc0541b0eafaebfb822def
   languageName: node
-  linkType: soft
+  linkType: hard
+
+"@sushiswap/core-sdk@file:../core::locator=%40sushiswap%2Ftines%40workspace%3Apackages%2Ftines":
+  version: 1.0.0-canary.39
+  resolution: "@sushiswap/core-sdk@file:../core#../core::hash=85bdde&locator=%40sushiswap%2Ftines%40workspace%3Apackages%2Ftines"
+  dependencies:
+    "@ethersproject/address": ^5.4.0
+    "@ethersproject/bignumber": ^5.4.0
+    "@ethersproject/providers": ^5.4.0
+    "@ethersproject/solidity": ^5.4.0
+    big.js: ^6.1.1
+    decimal.js-light: ^2.5.0
+    jsbi: ^4.1.0
+    tiny-invariant: ^1.1.0
+    tiny-warning: ^1.0.0
+    toformat: ^2.0.0
+  checksum: 1bbdd31de1d4432c1337685a833c139efc74b1a1e9f46c0883cff5db9d68c276724c3d069d1d28bfab6faccc8b9b3a50ecba5eb4d9cc0541b0eafaebfb822def
+  languageName: node
+  linkType: hard
+
+"@sushiswap/core-sdk@file:../core::locator=%40sushiswap%2Ftrident-sdk%40workspace%3Apackages%2Ftrident":
+  version: 1.0.0-canary.39
+  resolution: "@sushiswap/core-sdk@file:../core#../core::hash=85bdde&locator=%40sushiswap%2Ftrident-sdk%40workspace%3Apackages%2Ftrident"
+  dependencies:
+    "@ethersproject/address": ^5.4.0
+    "@ethersproject/bignumber": ^5.4.0
+    "@ethersproject/providers": ^5.4.0
+    "@ethersproject/solidity": ^5.4.0
+    big.js: ^6.1.1
+    decimal.js-light: ^2.5.0
+    jsbi: ^4.1.0
+    tiny-invariant: ^1.1.0
+    tiny-warning: ^1.0.0
+    toformat: ^2.0.0
+  checksum: 1bbdd31de1d4432c1337685a833c139efc74b1a1e9f46c0883cff5db9d68c276724c3d069d1d28bfab6faccc8b9b3a50ecba5eb4d9cc0541b0eafaebfb822def
+  languageName: node
+  linkType: hard
 
 "@sushiswap/core-sdk@workspace:packages/core":
   version: 0.0.0-use.local
@@ -3142,7 +3229,7 @@ __metadata:
   dependencies:
     "@ethersproject/abi": ^5.4.0
     "@ethersproject/contracts": ^5.4.0
-    "@sushiswap/bentobox-sdk": "link:../bentobox"
+    "@sushiswap/bentobox-sdk": "file:../bentobox"
     tsdx: ^0.14.1
   languageName: unknown
   linkType: soft
@@ -3158,7 +3245,7 @@ __metadata:
     "@ethersproject/experimental": ^5.4.0
     "@ethersproject/signing-key": ^5.4.0
     "@ethersproject/transactions": ^5.4.0
-    "@sushiswap/core-sdk": "link:../core"
+    "@sushiswap/core-sdk": "file:../core"
     eip-712: ^0.4.0
     isomorphic-unfetch: ^3.0.0
     tsdx: ^0.14.1
@@ -3182,18 +3269,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sushiswap/tines@link:../tines::locator=%40sushiswap%2Ftrident-sdk%40workspace%3Apackages%2Ftrident":
-  version: 0.0.0-use.local
-  resolution: "@sushiswap/tines@link:../tines::locator=%40sushiswap%2Ftrident-sdk%40workspace%3Apackages%2Ftrident"
+"@sushiswap/tines@file:../tines::locator=%40sushiswap%2Ftrident-sdk%40workspace%3Apackages%2Ftrident":
+  version: 1.0.0-canary.22
+  resolution: "@sushiswap/tines@file:../tines#../tines::hash=8dde7c&locator=%40sushiswap%2Ftrident-sdk%40workspace%3Apackages%2Ftrident"
+  dependencies:
+    "@ethersproject/bignumber": ^5.4.0
+    "@sushiswap/core-sdk": "file:../core"
+  checksum: 334a21783e0a43cc0d6f55ea185b9b9e08465b6e9856940a0a1ef64928044c5b76efdd9b9df10e3899b81c1c79e378ff7b4eb50ebe5162306e4d5207f64804f0
   languageName: node
-  linkType: soft
+  linkType: hard
 
 "@sushiswap/tines@workspace:packages/tines":
   version: 0.0.0-use.local
   resolution: "@sushiswap/tines@workspace:packages/tines"
   dependencies:
     "@ethersproject/bignumber": ^5.4.0
-    "@sushiswap/core-sdk": "link:../core"
+    "@sushiswap/core-sdk": "file:../core"
     "@types/seedrandom": ^3.0.1
     seedrandom: ^3.0.5
     tsdx: ^0.14.1
@@ -3206,8 +3297,8 @@ __metadata:
   dependencies:
     "@ethersproject/abi": ^5.4.0
     "@ethersproject/bignumber": ^5.4.0
-    "@sushiswap/core-sdk": "link:../core"
-    "@sushiswap/tines": "link:../tines"
+    "@sushiswap/core-sdk": "file:../core"
+    "@sushiswap/tines": "file:../tines"
     "@sushiswap/trident": 1.0.0-canary.27
     tiny-invariant: ^1.1.0
     tsdx: ^0.14.1
