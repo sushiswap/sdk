@@ -3080,10 +3080,10 @@ __metadata:
 
 "@sushiswap/bentobox-sdk@file:../bentobox::locator=%40sushiswap%2Fkashi-sdk%40workspace%3Apackages%2Fkashi":
   version: 1.0.0-canary.24
-  resolution: "@sushiswap/bentobox-sdk@file:../bentobox#../bentobox::hash=505b9a&locator=%40sushiswap%2Fkashi-sdk%40workspace%3Apackages%2Fkashi"
+  resolution: "@sushiswap/bentobox-sdk@file:../bentobox#../bentobox::hash=8e38e2&locator=%40sushiswap%2Fkashi-sdk%40workspace%3Apackages%2Fkashi"
   dependencies:
     "@sushiswap/core-sdk": "file:../core"
-  checksum: 3ea3366c3cdc02327f196bc57694afb9b3ad2e914c6f8280d0ebcdff0f8031b463c8f2a17e7b0b6a61f5be9392476925fd2508409d0d7691d3b6ec974488888a
+  checksum: c068c44dd4d039ad891a8ec478b7d4bb4b287e09731bdf6884d1cb7e67f93d680aa4555b35c72a568838f159e97dc51b6a8605a42465d6fad988ab5e8bb1bbbf
   languageName: node
   linkType: hard
 
@@ -3096,9 +3096,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sushiswap/core-sdk@file:../core::locator=%40sushiswap%2Fbentobox-sdk%40file%3A..%2Fbentobox%23..%2Fbentobox%3A%3Ahash%3D505b9a%26locator%3D%2540sushiswap%252Fkashi-sdk%2540workspace%253Apackages%252Fkashi":
+"@sushiswap/core-sdk@file:../core::locator=%40sushiswap%2Fbentobox-sdk%40file%3A..%2Fbentobox%23..%2Fbentobox%3A%3Ahash%3D8e38e2%26locator%3D%2540sushiswap%252Fkashi-sdk%2540workspace%253Apackages%252Fkashi":
   version: 1.0.0-canary.39
-  resolution: "@sushiswap/core-sdk@file:../core#../core::hash=85bdde&locator=%40sushiswap%2Fbentobox-sdk%40file%3A..%2Fbentobox%23..%2Fbentobox%3A%3Ahash%3D505b9a%26locator%3D%2540sushiswap%252Fkashi-sdk%2540workspace%253Apackages%252Fkashi"
+  resolution: "@sushiswap/core-sdk@file:../core#../core::hash=85bdde&locator=%40sushiswap%2Fbentobox-sdk%40file%3A..%2Fbentobox%23..%2Fbentobox%3A%3Ahash%3D8e38e2%26locator%3D%2540sushiswap%252Fkashi-sdk%2540workspace%253Apackages%252Fkashi"
   dependencies:
     "@ethersproject/address": ^5.4.0
     "@ethersproject/bignumber": ^5.4.0
@@ -3150,9 +3150,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sushiswap/core-sdk@file:../core::locator=%40sushiswap%2Ftines%40file%3A..%2Ftines%23..%2Ftines%3A%3Ahash%3D8dde7c%26locator%3D%2540sushiswap%252Ftrident-sdk%2540workspace%253Apackages%252Ftrident":
+"@sushiswap/core-sdk@file:../core::locator=%40sushiswap%2Ftines%40file%3A..%2Ftines%23..%2Ftines%3A%3Ahash%3D6e9e40%26locator%3D%2540sushiswap%252Ftrident-sdk%2540workspace%253Apackages%252Ftrident":
   version: 1.0.0-canary.39
-  resolution: "@sushiswap/core-sdk@file:../core#../core::hash=85bdde&locator=%40sushiswap%2Ftines%40file%3A..%2Ftines%23..%2Ftines%3A%3Ahash%3D8dde7c%26locator%3D%2540sushiswap%252Ftrident-sdk%2540workspace%253Apackages%252Ftrident"
+  resolution: "@sushiswap/core-sdk@file:../core#../core::hash=85bdde&locator=%40sushiswap%2Ftines%40file%3A..%2Ftines%23..%2Ftines%3A%3Ahash%3D6e9e40%26locator%3D%2540sushiswap%252Ftrident-sdk%2540workspace%253Apackages%252Ftrident"
   dependencies:
     "@ethersproject/address": ^5.4.0
     "@ethersproject/bignumber": ^5.4.0
@@ -3271,11 +3271,11 @@ __metadata:
 
 "@sushiswap/tines@file:../tines::locator=%40sushiswap%2Ftrident-sdk%40workspace%3Apackages%2Ftrident":
   version: 1.0.0-canary.22
-  resolution: "@sushiswap/tines@file:../tines#../tines::hash=8dde7c&locator=%40sushiswap%2Ftrident-sdk%40workspace%3Apackages%2Ftrident"
+  resolution: "@sushiswap/tines@file:../tines#../tines::hash=6e9e40&locator=%40sushiswap%2Ftrident-sdk%40workspace%3Apackages%2Ftrident"
   dependencies:
     "@ethersproject/bignumber": ^5.4.0
     "@sushiswap/core-sdk": "file:../core"
-  checksum: 334a21783e0a43cc0d6f55ea185b9b9e08465b6e9856940a0a1ef64928044c5b76efdd9b9df10e3899b81c1c79e378ff7b4eb50ebe5162306e4d5207f64804f0
+  checksum: 28fca9d530081587172b2bdd9ff5b9e4215fdabcd6336c5fa6beee9dd48242093dc87b08c3897209c9b7f7f5de71657b32f93ab509b20bfa10acaa1437a5ce28
   languageName: node
   linkType: hard
 
