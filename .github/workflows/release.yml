@@ -6,12 +6,19 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16]
     steps:
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@sushiswap'
       - uses: actions/checkout@v2
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
-
       - uses: actions/cache@v2
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
@@ -19,12 +26,6 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16.x'
-          registry-url: 'https://registry.npmjs.org'
-          scope: '@sushiswap'
       - run: |
           yarn
           git config user.name GitHub Actions
