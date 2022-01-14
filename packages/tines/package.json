@@ -26,12 +26,12 @@
   },
   "dependencies": {
     "@ethersproject/bignumber": "^5.4.0",
-    "@sushiswap/core-sdk": "link:packages/core"
+    "@sushiswap/core-sdk": "1.0.0-canary.41"
   },
   "devDependencies": {
     "@types/seedrandom": "^3.0.1",
     "seedrandom": "^3.0.5",
     "tsdx": "^0.14.1"
   },
-  "gitHead": "0f93f14a378647b41aa6cabb81ffe054bcf11cf3"
+  "gitHead": "2b576e94eef4a6a270321aca47da0c9f60c01bf2"
 }

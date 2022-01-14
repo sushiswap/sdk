@@ -26,10 +26,10 @@
   "dependencies": {
     "@ethersproject/abi": "^5.4.0",
     "@ethersproject/contracts": "^5.4.0",
-    "@sushiswap/bentobox-sdk": "link:packages/bentobox"
+    "@sushiswap/bentobox-sdk": "1.0.0-canary.26"
   },
   "devDependencies": {
     "tsdx": "^0.14.1"
   },
-  "gitHead": "0f93f14a378647b41aa6cabb81ffe054bcf11cf3"
+  "gitHead": "2b576e94eef4a6a270321aca47da0c9f60c01bf2"
 }

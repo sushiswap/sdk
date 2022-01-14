@@ -26,13 +26,13 @@
   "dependencies": {
     "@ethersproject/abi": "^5.4.0",
     "@ethersproject/bignumber": "^5.4.0",
-    "@sushiswap/core-sdk": "link:packages/core",
-    "@sushiswap/tines": "link:packages/tines",
+    "@sushiswap/core-sdk": "1.0.0-canary.41",
+    "@sushiswap/tines": "1.0.0-canary.24",
     "@sushiswap/trident": "1.0.0-canary.27",
     "tiny-invariant": "^1.1.0"
   },
   "devDependencies": {
     "tsdx": "^0.14.1"
   },
-  "gitHead": "0f93f14a378647b41aa6cabb81ffe054bcf11cf3"
+  "gitHead": "2b576e94eef4a6a270321aca47da0c9f60c01bf2"
 }
