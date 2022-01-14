@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.40](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.39...@sushiswap/core-sdk@1.0.0-canary.40) (2022-01-14)
+
+
+### Features
+
+* add hardhat to chainid ([9a5444a](https://github.com/sushiswap/sdk/commit/9a5444a2d6dc2d07c0a5e83d05d782f8f413df67))
+* add sushi token for telos and fuse ([b9dac9c](https://github.com/sushiswap/sdk/commit/b9dac9cec8528cd039324dcf098ec2b8d5d13cd9))
+
+
+
+
+
 # 1.0.0-canary.39 (2022-01-05)
 
 **Note:** Version bump only for package @sushiswap/core-sdk
