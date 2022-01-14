@@ -3078,18 +3078,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sushiswap/bentobox-sdk@1.0.0-canary.30, @sushiswap/bentobox-sdk@workspace:packages/bentobox":
+"@sushiswap/bentobox-sdk@1.0.0-canary.31, @sushiswap/bentobox-sdk@workspace:packages/bentobox-sdk":
   version: 0.0.0-use.local
-  resolution: "@sushiswap/bentobox-sdk@workspace:packages/bentobox"
+  resolution: "@sushiswap/bentobox-sdk@workspace:packages/bentobox-sdk"
   dependencies:
-    "@sushiswap/core-sdk": "link:1.0.0-canary.41"
+    "@sushiswap/core-sdk": 1.0.0-canary.46
     tsdx: ^0.14.1
   languageName: unknown
   linkType: soft
 
-"@sushiswap/core-sdk@1.0.0-canary.45, @sushiswap/core-sdk@workspace:packages/core":
+"@sushiswap/core-sdk@1.0.0-canary.46, @sushiswap/core-sdk@workspace:packages/core-sdk":
   version: 0.0.0-use.local
-  resolution: "@sushiswap/core-sdk@workspace:packages/core"
+  resolution: "@sushiswap/core-sdk@workspace:packages/core-sdk"
   dependencies:
     "@ethersproject/address": ^5.4.0
     "@ethersproject/bignumber": ^5.4.0
@@ -3106,26 +3106,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sushiswap/core-sdk@link:1.0.0-canary.41::locator=%40sushiswap%2Fbentobox-sdk%40workspace%3Apackages%2Fbentobox":
+"@sushiswap/kashi-sdk@workspace:packages/kashi-sdk":
   version: 0.0.0-use.local
-  resolution: "@sushiswap/core-sdk@link:1.0.0-canary.41::locator=%40sushiswap%2Fbentobox-sdk%40workspace%3Apackages%2Fbentobox"
-  languageName: node
-  linkType: soft
-
-"@sushiswap/kashi-sdk@workspace:packages/kashi":
-  version: 0.0.0-use.local
-  resolution: "@sushiswap/kashi-sdk@workspace:packages/kashi"
+  resolution: "@sushiswap/kashi-sdk@workspace:packages/kashi-sdk"
   dependencies:
     "@ethersproject/abi": ^5.4.0
     "@ethersproject/contracts": ^5.4.0
-    "@sushiswap/bentobox-sdk": 1.0.0-canary.30
+    "@sushiswap/bentobox-sdk": 1.0.0-canary.31
     tsdx: ^0.14.1
   languageName: unknown
   linkType: soft
 
-"@sushiswap/limit-order-sdk@workspace:packages/limit-order":
+"@sushiswap/limit-order-sdk@workspace:packages/limit-order-sdk":
   version: 0.0.0-use.local
-  resolution: "@sushiswap/limit-order-sdk@workspace:packages/limit-order"
+  resolution: "@sushiswap/limit-order-sdk@workspace:packages/limit-order-sdk"
   dependencies:
     "@ethersproject/abi": ^5.4.0
     "@ethersproject/abstract-signer": ^5.4.0
@@ -3134,16 +3128,16 @@ __metadata:
     "@ethersproject/experimental": ^5.4.0
     "@ethersproject/signing-key": ^5.4.0
     "@ethersproject/transactions": ^5.4.0
-    "@sushiswap/core-sdk": 1.0.0-canary.45
+    "@sushiswap/core-sdk": 1.0.0-canary.46
     eip-712: ^0.4.0
     isomorphic-unfetch: ^3.0.0
     tsdx: ^0.14.1
   languageName: unknown
   linkType: soft
 
-"@sushiswap/miso-sdk@workspace:packages/miso":
+"@sushiswap/miso-sdk@workspace:packages/miso-sdk":
   version: 0.0.0-use.local
-  resolution: "@sushiswap/miso-sdk@workspace:packages/miso"
+  resolution: "@sushiswap/miso-sdk@workspace:packages/miso-sdk"
   dependencies:
     tsdx: ^0.14.1
   languageName: unknown
@@ -3158,26 +3152,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sushiswap/tines@1.0.0-canary.28, @sushiswap/tines@workspace:packages/tines":
+"@sushiswap/tines@1.0.0-canary.29, @sushiswap/tines@workspace:packages/tines":
   version: 0.0.0-use.local
   resolution: "@sushiswap/tines@workspace:packages/tines"
   dependencies:
     "@ethersproject/bignumber": ^5.4.0
-    "@sushiswap/core-sdk": 1.0.0-canary.45
+    "@sushiswap/core-sdk": 1.0.0-canary.46
     "@types/seedrandom": ^3.0.1
     seedrandom: ^3.0.5
     tsdx: ^0.14.1
   languageName: unknown
   linkType: soft
 
-"@sushiswap/trident-sdk@workspace:packages/trident":
+"@sushiswap/trident-sdk@workspace:packages/trident-sdk":
   version: 0.0.0-use.local
-  resolution: "@sushiswap/trident-sdk@workspace:packages/trident"
+  resolution: "@sushiswap/trident-sdk@workspace:packages/trident-sdk"
   dependencies:
     "@ethersproject/abi": ^5.4.0
     "@ethersproject/bignumber": ^5.4.0
-    "@sushiswap/core-sdk": 1.0.0-canary.45
-    "@sushiswap/tines": 1.0.0-canary.28
+    "@sushiswap/core-sdk": 1.0.0-canary.46
+    "@sushiswap/tines": 1.0.0-canary.29
     "@sushiswap/trident": 1.0.0-canary.27
     tiny-invariant: ^1.1.0
     tsdx: ^0.14.1
