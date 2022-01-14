@@ -22,7 +22,7 @@
     "watch": "tsdx watch",
     "test": "tsdx test",
     "clear_jest_cache": "tsdx test --clearCache --passWithNoTests",
-    "prepublishOnly": "tsdx build"
+    "prepublishOnly": "npx tsdx build"
   },
   "dependencies": {
     "@ethersproject/bignumber": "^5.4.0",

@@ -21,7 +21,7 @@
     "build": "tsdx build",
     "watch": "tsdx watch",
     "test": "tsdx test --passWithNoTests",
-    "prepublishOnly": "tsdx build"
+    "prepublishOnly": "npx tsdx build"
   },
   "dependencies": {
     "@ethersproject/address": "^5.4.0",
