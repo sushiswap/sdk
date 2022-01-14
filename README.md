@@ -7,12 +7,11 @@
 
 ## Versioning (Canary)
 
-yarn lerna version --conventional-commits --conventional-prerelease --preid canary
+yarn lerna version --no-changelog --preid canary --yes
 
 ## Publishing (Canary)
 
-yarn lerna publish --conventional-commits --conventional-prerelease --preid canary --yes
-
+yarn run lerna publish from-package --dist-tag canary --no-git-reset --no-verify-access --preid canary --yes
 
 ## Core SDK
 
