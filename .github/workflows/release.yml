@@ -32,10 +32,6 @@ jobs:
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           yarn lerna version --conventional-commits --conventional-prerelease --preid canary --yes
           yarn lerna publish from-git --dist-tag canary --no-git-reset --no-verify-access --preid canary --yes
-          yarn install --no-immutable
-          git stage yarn.lock
-          git commit -m 'release(canary): yarn.lock'
-          git push
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
