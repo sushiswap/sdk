@@ -3078,7 +3078,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sushiswap/bentobox-sdk@1.0.0-canary.27, @sushiswap/bentobox-sdk@workspace:packages/bentobox":
+"@sushiswap/bentobox-sdk@1.0.0-canary.29, @sushiswap/bentobox-sdk@workspace:packages/bentobox":
   version: 0.0.0-use.local
   resolution: "@sushiswap/bentobox-sdk@workspace:packages/bentobox"
   dependencies:
@@ -3087,7 +3087,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@sushiswap/core-sdk@1.0.0-canary.42, @sushiswap/core-sdk@workspace:packages/core":
+"@sushiswap/core-sdk@1.0.0-canary.44, @sushiswap/core-sdk@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@sushiswap/core-sdk@workspace:packages/core"
   dependencies:
@@ -3118,7 +3118,7 @@ __metadata:
   dependencies:
     "@ethersproject/abi": ^5.4.0
     "@ethersproject/contracts": ^5.4.0
-    "@sushiswap/bentobox-sdk": 1.0.0-canary.27
+    "@sushiswap/bentobox-sdk": 1.0.0-canary.29
     tsdx: ^0.14.1
   languageName: unknown
   linkType: soft
@@ -3134,7 +3134,7 @@ __metadata:
     "@ethersproject/experimental": ^5.4.0
     "@ethersproject/signing-key": ^5.4.0
     "@ethersproject/transactions": ^5.4.0
-    "@sushiswap/core-sdk": 1.0.0-canary.42
+    "@sushiswap/core-sdk": 1.0.0-canary.44
     eip-712: ^0.4.0
     isomorphic-unfetch: ^3.0.0
     tsdx: ^0.14.1
@@ -3158,12 +3158,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sushiswap/tines@1.0.0-canary.25, @sushiswap/tines@workspace:packages/tines":
+"@sushiswap/tines@1.0.0-canary.27, @sushiswap/tines@workspace:packages/tines":
   version: 0.0.0-use.local
   resolution: "@sushiswap/tines@workspace:packages/tines"
   dependencies:
     "@ethersproject/bignumber": ^5.4.0
-    "@sushiswap/core-sdk": 1.0.0-canary.42
+    "@sushiswap/core-sdk": 1.0.0-canary.44
     "@types/seedrandom": ^3.0.1
     seedrandom: ^3.0.5
     tsdx: ^0.14.1
@@ -3176,8 +3176,8 @@ __metadata:
   dependencies:
     "@ethersproject/abi": ^5.4.0
     "@ethersproject/bignumber": ^5.4.0
-    "@sushiswap/core-sdk": 1.0.0-canary.42
-    "@sushiswap/tines": 1.0.0-canary.25
+    "@sushiswap/core-sdk": 1.0.0-canary.44
+    "@sushiswap/tines": 1.0.0-canary.27
     "@sushiswap/trident": 1.0.0-canary.27
     tiny-invariant: ^1.1.0
     tsdx: ^0.14.1
