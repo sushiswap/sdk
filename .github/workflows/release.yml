@@ -4,7 +4,7 @@ on:
     branches:
       - canary
 jobs:
-  install:
+  release-canary:
     runs-on: ubuntu-latest
     strategy:
       matrix:
