@@ -7,7 +7,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  build:
+  install:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,4 +19,14 @@ jobs:
           cache: 'yarn'
       - run: yarn
       - run: yarn build
+      - run: yarn test
+  build:
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - run: yarn build
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
       - run: yarn test

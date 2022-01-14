@@ -19,7 +19,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-            
+
       - uses: actions/setup-node@v2
         with:
           node-version: '16.x'
@@ -29,7 +29,7 @@ jobs:
           yarn
           git config user.name GitHub Actions
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          npx lerna version --conventional-commits --conventional-prerelease --preid canary --no-changelog --no-git-tag-version --yes
+          npx lerna version --conventional-commits --conventional-prerelease --preid canary --yes
           npx lerna publish from-git --dist-tag canary --no-git-reset --no-verify-access --preid canary --yes
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
