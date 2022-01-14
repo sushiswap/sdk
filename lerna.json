@@ -1,7 +1,7 @@
 {
-  "packages": ["packages/*"],
-  "version": "independent",
   "npmClient": "yarn",
+  "version": "independent",
+  "packages": ["packages/*"],
   "useWorkspaces": true,
   "command": {
     "version": {
@@ -9,11 +9,10 @@
     },
     "publish": {
       "npmClient": "npm",
-      "conventionalCommits": true, 
-      "yes": true,
       "allowBranch": [
         "canary"
-      ]
+      ],
+      "registry": "https://registry.npmjs.org/"
     }
   }
 }
