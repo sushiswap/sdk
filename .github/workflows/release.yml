@@ -28,8 +28,6 @@ jobs:
             ${{ runner.os }}-yarn-
       - run: |
           yarn
-          yarn build
-          yarn test
           git config user.name GitHub Actions
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           npx lerna version --conventional-commits --conventional-prerelease --preid canary --yes
