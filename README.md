@@ -7,7 +7,7 @@
 
 ## Versioning (Canary)
 
-yarn lerna version --no-changelog --preid canary --yes
+yarn lerna version --no-changelog --no-git-tag-version --preid canary --yes
 
 ## Publishing (Canary)
 
