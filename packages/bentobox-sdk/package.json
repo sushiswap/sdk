@@ -1,16 +1,16 @@
 {
-  "name": "@sushiswap/trident-sdk",
-  "version": "1.0.0-canary.55",
+  "name": "@sushiswap/bentobox-sdk",
+  "version": "1.0.0-canary.30",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "module": "dist/trident-sdk.esm.js",
+  "module": "dist/bentobox-sdk.esm.js",
   "repository": {
     "url": "sushiswap/sdk",
-    "directory": "packages/trident"
+    "directory": "packages/bentobox-sdk"
   },
   "publishConfig": {
     "access": "public",
@@ -21,15 +21,10 @@
     "build": "tsdx build",
     "watch": "tsdx watch",
     "test": "tsdx test --passWithNoTests",
-    "prepublishOnly": "npx tsdx build"
+    "prepublishOnly": "tsdx build"
   },
   "dependencies": {
-    "@ethersproject/abi": "^5.4.0",
-    "@ethersproject/bignumber": "^5.4.0",
-    "@sushiswap/core-sdk": "1.0.0-canary.45",
-    "@sushiswap/tines": "1.0.0-canary.28",
-    "@sushiswap/trident": "1.0.0-canary.27",
-    "tiny-invariant": "^1.1.0"
+    "@sushiswap/core-sdk": "1.0.0-canary.41"
   },
   "devDependencies": {
     "tsdx": "^0.14.1"

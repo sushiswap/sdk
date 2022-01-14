@@ -1,16 +1,16 @@
 {
-  "name": "@sushiswap/bentobox-sdk",
-  "version": "1.0.0-canary.30",
+  "name": "@sushiswap/core-sdk",
+  "version": "1.0.0-canary.45",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "module": "dist/bentobox-sdk.esm.js",
+  "module": "dist/core-sdk.esm.js",
   "repository": {
     "url": "sushiswap/sdk",
-    "directory": "packages/bentobox"
+    "directory": "packages/core-sdk"
   },
   "publishConfig": {
     "access": "public",
@@ -24,9 +24,19 @@
     "prepublishOnly": "npx tsdx build"
   },
   "dependencies": {
-    "@sushiswap/core-sdk": "link:1.0.0-canary.41"
+    "@ethersproject/address": "^5.4.0",
+    "@ethersproject/bignumber": "^5.4.0",
+    "@ethersproject/providers": "^5.4.0",
+    "@ethersproject/solidity": "^5.4.0",
+    "big.js": "^6.1.1",
+    "decimal.js-light": "^2.5.0",
+    "jsbi": "^4.1.0",
+    "tiny-invariant": "^1.1.0",
+    "tiny-warning": "^1.0.0",
+    "toformat": "^2.0.0"
   },
   "devDependencies": {
+    "@types/big.js": "^6.1.0",
     "tsdx": "^0.14.1"
   },
   "gitHead": "5ba35f98e46dbb29dad2024ddcb4c2db9beb0fb8"

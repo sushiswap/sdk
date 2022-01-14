@@ -10,7 +10,7 @@
   "module": "dist/limit-order-sdk.esm.js",
   "repository": {
     "url": "sushiswap/sdk",
-    "directory": "packages/limit-order"
+    "directory": "packages/limit-order-sdk"
   },
   "publishConfig": {
     "access": "public",
