@@ -8,6 +8,7 @@
       "exact": true
     },
     "publish": {
+      "npmClient": "npm",
       "allowBranch": [
         "canary"
       ],

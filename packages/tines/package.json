@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@ethersproject/bignumber": "^5.4.0",
-    "@sushiswap/core-sdk": "workspace:*"
+    "@sushiswap/core-sdk": "workspace:packages/core"
   },
   "devDependencies": {
     "@types/seedrandom": "^3.0.1",
