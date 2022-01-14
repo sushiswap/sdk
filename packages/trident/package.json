@@ -26,8 +26,8 @@
   "dependencies": {
     "@ethersproject/abi": "^5.4.0",
     "@ethersproject/bignumber": "^5.4.0",
-    "@sushiswap/core-sdk": "1.0.0-canary.39",
-    "@sushiswap/tines": "1.0.0-canary.22",
+    "@sushiswap/core-sdk": "link:../core",
+    "@sushiswap/tines": "link:../tines",
     "@sushiswap/trident": "1.0.0-canary.27",
     "tiny-invariant": "^1.1.0"
   },

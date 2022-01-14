@@ -4,7 +4,8 @@ on:
     branches:
       - canary
 jobs:
-  release:
+
+  install:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -26,8 +27,22 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+      - run: yarn
+  build:
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - run: yarn build
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - run: yarn test
+  release:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
       - run: |
-          yarn
           git config user.name GitHub Actions
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           npx lerna version --conventional-commits --conventional-prerelease --preid canary --yes

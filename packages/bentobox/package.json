@@ -24,7 +24,7 @@
     "prepublishOnly": "tsdx build"
   },
   "dependencies": {
-    "@sushiswap/core-sdk": "1.0.0-canary.39"
+    "@sushiswap/core-sdk": "link:../core"
   },
   "devDependencies": {
     "tsdx": "^0.14.1"
