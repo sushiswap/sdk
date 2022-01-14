@@ -31,7 +31,7 @@
     "@ethersproject/experimental": "^5.4.0",
     "@ethersproject/signing-key": "^5.4.0",
     "@ethersproject/transactions": "^5.4.0",
-    "@sushiswap/core-sdk": "workspace:packages/core",
+    "@sushiswap/core-sdk": "link:packages/core",
     "eip-712": "^0.4.0",
     "isomorphic-unfetch": "^3.0.0"
   },

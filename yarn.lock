@@ -3078,13 +3078,43 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sushiswap/bentobox-sdk@link:packages/bentobox::locator=%40sushiswap%2Fkashi-sdk%40workspace%3Apackages%2Fkashi":
+  version: 0.0.0-use.local
+  resolution: "@sushiswap/bentobox-sdk@link:packages/bentobox::locator=%40sushiswap%2Fkashi-sdk%40workspace%3Apackages%2Fkashi"
+  languageName: node
+  linkType: soft
+
 "@sushiswap/bentobox-sdk@workspace:packages/bentobox":
   version: 0.0.0-use.local
   resolution: "@sushiswap/bentobox-sdk@workspace:packages/bentobox"
   dependencies:
-    "@sushiswap/core-sdk": "workspace:packages/core"
+    "@sushiswap/core-sdk": "link:packages/core"
     tsdx: ^0.14.1
   languageName: unknown
+  linkType: soft
+
+"@sushiswap/core-sdk@link:packages/core::locator=%40sushiswap%2Fbentobox-sdk%40workspace%3Apackages%2Fbentobox":
+  version: 0.0.0-use.local
+  resolution: "@sushiswap/core-sdk@link:packages/core::locator=%40sushiswap%2Fbentobox-sdk%40workspace%3Apackages%2Fbentobox"
+  languageName: node
+  linkType: soft
+
+"@sushiswap/core-sdk@link:packages/core::locator=%40sushiswap%2Flimit-order-sdk%40workspace%3Apackages%2Flimit-order":
+  version: 0.0.0-use.local
+  resolution: "@sushiswap/core-sdk@link:packages/core::locator=%40sushiswap%2Flimit-order-sdk%40workspace%3Apackages%2Flimit-order"
+  languageName: node
+  linkType: soft
+
+"@sushiswap/core-sdk@link:packages/core::locator=%40sushiswap%2Ftines%40workspace%3Apackages%2Ftines":
+  version: 0.0.0-use.local
+  resolution: "@sushiswap/core-sdk@link:packages/core::locator=%40sushiswap%2Ftines%40workspace%3Apackages%2Ftines"
+  languageName: node
+  linkType: soft
+
+"@sushiswap/core-sdk@link:packages/core::locator=%40sushiswap%2Ftrident-sdk%40workspace%3Apackages%2Ftrident":
+  version: 0.0.0-use.local
+  resolution: "@sushiswap/core-sdk@link:packages/core::locator=%40sushiswap%2Ftrident-sdk%40workspace%3Apackages%2Ftrident"
+  languageName: node
   linkType: soft
 
 "@sushiswap/core-sdk@workspace:packages/core":
@@ -3112,7 +3142,7 @@ __metadata:
   dependencies:
     "@ethersproject/abi": ^5.4.0
     "@ethersproject/contracts": ^5.4.0
-    "@sushiswap/bentobox-sdk": "workspace:packages/bentobox"
+    "@sushiswap/bentobox-sdk": "link:packages/bentobox"
     tsdx: ^0.14.1
   languageName: unknown
   linkType: soft
@@ -3128,7 +3158,7 @@ __metadata:
     "@ethersproject/experimental": ^5.4.0
     "@ethersproject/signing-key": ^5.4.0
     "@ethersproject/transactions": ^5.4.0
-    "@sushiswap/core-sdk": "workspace:packages/core"
+    "@sushiswap/core-sdk": "link:packages/core"
     eip-712: ^0.4.0
     isomorphic-unfetch: ^3.0.0
     tsdx: ^0.14.1
@@ -3152,12 +3182,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sushiswap/tines@link:packages/tines::locator=%40sushiswap%2Ftrident-sdk%40workspace%3Apackages%2Ftrident":
+  version: 0.0.0-use.local
+  resolution: "@sushiswap/tines@link:packages/tines::locator=%40sushiswap%2Ftrident-sdk%40workspace%3Apackages%2Ftrident"
+  languageName: node
+  linkType: soft
+
 "@sushiswap/tines@workspace:packages/tines":
   version: 0.0.0-use.local
   resolution: "@sushiswap/tines@workspace:packages/tines"
   dependencies:
     "@ethersproject/bignumber": ^5.4.0
-    "@sushiswap/core-sdk": "workspace:packages/core"
+    "@sushiswap/core-sdk": "link:packages/core"
     "@types/seedrandom": ^3.0.1
     seedrandom: ^3.0.5
     tsdx: ^0.14.1
@@ -3170,8 +3206,8 @@ __metadata:
   dependencies:
     "@ethersproject/abi": ^5.4.0
     "@ethersproject/bignumber": ^5.4.0
-    "@sushiswap/core-sdk": "workspace:packages/core"
-    "@sushiswap/tines": "workspace:packages/tines"
+    "@sushiswap/core-sdk": "link:packages/core"
+    "@sushiswap/tines": "link:packages/tines"
     "@sushiswap/trident": 1.0.0-canary.27
     tiny-invariant: ^1.1.0
     tsdx: ^0.14.1

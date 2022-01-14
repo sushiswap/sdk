@@ -5,11 +5,10 @@
   "useWorkspaces": true,
   "command": {
     "version": {
-      "exact": true,
-      "npmClient": "yarn"
+      "exact": true
     },
     "publish": {
-      "npmClient": "yarn",
+      "npmClient": "npm",
       "allowBranch": [
         "canary"
       ],
