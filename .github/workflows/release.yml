@@ -1,0 +1,25 @@
+name: Release
+on:
+  push:
+    branches:
+      - canary
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@sushiswap'
+          cache: 'yarn'
+      - run: yarn
+      - run: |
+          git config user.name GitHub Actions
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          npx lerna version --conventional-commits --conventional-prerelease --preid canary --no-changelog --no-git-tag-version --yes
+          npx lerna publish from-git --dist-tag canary --no-git-reset --no-verify-access --preid canary --yes
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
