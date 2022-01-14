@@ -10,7 +10,7 @@
   "module": "dist/trident-sdk.esm.js",
   "repository": {
     "url": "sushiswap/sdk",
-    "directory": "packages/trident-sdk"
+    "directory": "packages/trident"
   },
   "publishConfig": {
     "access": "public",

@@ -10,7 +10,7 @@
   "module": "dist/core-sdk.esm.js",
   "repository": {
     "url": "sushiswap/sdk",
-    "directory": "packages/core-sdk"
+    "directory": "packages/core"
   },
   "publishConfig": {
     "access": "public",

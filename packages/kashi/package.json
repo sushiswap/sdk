@@ -10,7 +10,7 @@
   "module": "dist/kashi-sdk.esm.js",
   "repository": {
     "url": "sushiswap/sdk",
-    "directory": "packages/kashi-sdk"
+    "directory": "packages/kashi"
   },
   "publishConfig": {
     "access": "public",

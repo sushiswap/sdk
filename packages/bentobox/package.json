@@ -10,7 +10,7 @@
   "module": "dist/bentobox-sdk.esm.js",
   "repository": {
     "url": "sushiswap/sdk",
-    "directory": "packages/bentobox-sdk"
+    "directory": "packages/bentobox"
   },
   "publishConfig": {
     "access": "public",
