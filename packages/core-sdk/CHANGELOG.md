@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.50](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.49...@sushiswap/core-sdk@1.0.0-canary.50) (2022-01-17)
+
+
+### Bug Fixes
+
+* add missing init code hash ([45c09ee](https://github.com/sushiswap/sdk/commit/45c09ee04bbfc79494a3cd90bc9acf2671af94ef))
+
+
+
+
+
 # [1.0.0-canary.49](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.48...@sushiswap/core-sdk@1.0.0-canary.49) (2022-01-17)
 
 **Note:** Version bump only for package @sushiswap/core-sdk
