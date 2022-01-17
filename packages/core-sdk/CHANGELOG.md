@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.52](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.51...@sushiswap/core-sdk@1.0.0-canary.52) (2022-01-17)
+
+
+### Features
+
+* fuse usd mapping ([9b87370](https://github.com/sushiswap/sdk/commit/9b873707a37b349be417ea30e4867b3c9e183a2c))
+
+
+
+
+
 # [1.0.0-canary.51](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.50...@sushiswap/core-sdk@1.0.0-canary.51) (2022-01-17)
 
 **Note:** Version bump only for package @sushiswap/core-sdk
