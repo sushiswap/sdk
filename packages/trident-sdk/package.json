@@ -1,6 +1,6 @@
 {
   "name": "@sushiswap/trident-sdk",
-  "version": "1.0.0-canary.63",
+  "version": "1.0.0-canary.64",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -26,8 +26,8 @@
   "dependencies": {
     "@ethersproject/abi": "^5.4.0",
     "@ethersproject/bignumber": "^5.4.0",
-    "@sushiswap/core-sdk": "1.0.0-canary.53",
-    "@sushiswap/tines": "1.0.0-canary.36",
+    "@sushiswap/core-sdk": "1.0.0-canary.54",
+    "@sushiswap/tines": "1.0.0-canary.37",
     "@sushiswap/trident": "1.0.0-canary.27",
     "tiny-invariant": "^1.1.0"
   },
