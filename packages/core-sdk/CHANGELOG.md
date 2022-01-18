@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.53](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.52...@sushiswap/core-sdk@1.0.0-canary.53) (2022-01-18)
+
+
+### Features
+
+* usdc mapping for fuse and telos ([a21304b](https://github.com/sushiswap/sdk/commit/a21304b9e2e64e07bb12c6af741c78c9aa400b17))
+
+
+
+
+
 # [1.0.0-canary.52](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.51...@sushiswap/core-sdk@1.0.0-canary.52) (2022-01-17)
 
 
