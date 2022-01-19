@@ -7,4 +7,5 @@ export const SOCKET_URL = 'wss://hfimt374ge.execute-api.us-east-1.amazonaws.com/
 export const STOP_LIMIT_ORDER_ADDRESS: AddressMap = {
   [ChainId.KOVAN]: '0xce9365dB1C99897f04B3923C03ba9a5f80E8DB87',
   [ChainId.MATIC]: '0x1aDb3Bd86bb01797667eC382a0BC6A9854b4005f',
+  [ChainId.AVALANCHE]: '0xf6f9c9DB78AF5791A296c4bF34d59E0236E990E0',
 }
