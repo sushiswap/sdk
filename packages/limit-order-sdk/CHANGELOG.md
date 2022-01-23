@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.45](https://github.com/sushiswap/sdk/compare/@sushiswap/limit-order-sdk@1.0.0-canary.44...@sushiswap/limit-order-sdk@1.0.0-canary.45) (2022-01-23)
+
+
+### Features
+
+* limit order helper address map ([5080054](https://github.com/sushiswap/sdk/commit/50800548fc7f8429af020a6853e92e697ed2095b))
+
+
+
+
+
 # [1.0.0-canary.44](https://github.com/sushiswap/sdk/compare/@sushiswap/limit-order-sdk@1.0.0-canary.43...@sushiswap/limit-order-sdk@1.0.0-canary.44) (2022-01-23)
 
 **Note:** Version bump only for package @sushiswap/limit-order-sdk
