@@ -420,6 +420,6 @@ export const MULTISIG_ADDRESS: AddressMap = {
   // [ChainId.PALM_TESTNET]: '',
   [ChainId.MOONRIVER]: '0x939f7E76cc515cc296dD3ce362D9a52e148A7D5f',
   [ChainId.CELO]: '0x751b01Fa14fD9640a1DF9014e2D0f3a03A198b81',
-  [ChainId.TELOS]: '',
+  // [ChainId.TELOS]: '',
   [ChainId.FUSE]: '0x33b6beb37837459Ee84a1Ffed2C6a4ca22e5F316',
 }
