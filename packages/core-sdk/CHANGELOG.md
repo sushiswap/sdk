@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.65](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.64...@sushiswap/core-sdk@1.0.0-canary.65) (2022-02-03)
+
+
+### Features
+
+* native map ([4b95a12](https://github.com/sushiswap/sdk/commit/4b95a125226606483e3e1781a03e02cd8195fa4d))
+
+
+
+
+
 # [1.0.0-canary.64](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.63...@sushiswap/core-sdk@1.0.0-canary.64) (2022-01-25)
 
 **Note:** Version bump only for package @sushiswap/core-sdk
