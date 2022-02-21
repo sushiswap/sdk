@@ -22,7 +22,7 @@ function calcBestFlowNumber(bestSingleRoute: MultiRoute, amountIn: number, gasPr
 
   const bestFlowAmount = Math.sqrt(bestSingleRoute.gasSpent*(gasPriceIn || 0)*amountIn/priceImpact)
   const bestFlowNumber = Math.round(amountIn/bestFlowAmount)
-  if (!isFinite(bestFlowNumber)) return defaultFlowNumber
+  if (!isFinite(bestFlowNumber)) return maxFlowNumber
 
   const realFlowNumber = Math.max(1, Math.min(bestFlowNumber, maxFlowNumber))
   return realFlowNumber

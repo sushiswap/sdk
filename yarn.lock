@@ -3087,7 +3087,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+<<<<<<< HEAD
 "@sushiswap/core-sdk@1.0.0-canary.65, @sushiswap/core-sdk@workspace:packages/core-sdk":
+=======
+"@sushiswap/core-sdk@1.0.0-canary.31, @sushiswap/core-sdk@workspace:packages/core":
+>>>>>>> origin/master
   version: 0.0.0-use.local
   resolution: "@sushiswap/core-sdk@workspace:packages/core-sdk"
   dependencies:
@@ -3152,12 +3156,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "@sushiswap/tines@1.0.0-canary.48, @sushiswap/tines@workspace:packages/tines":
+=======
+"@sushiswap/tines@1.0.0-canary.13, @sushiswap/tines@workspace:packages/tines":
+>>>>>>> origin/master
   version: 0.0.0-use.local
   resolution: "@sushiswap/tines@workspace:packages/tines"
   dependencies:
     "@ethersproject/bignumber": ^5.4.0
+<<<<<<< HEAD
     "@sushiswap/core-sdk": 1.0.0-canary.65
+=======
+    "@sushiswap/core-sdk": 1.0.0-canary.31
+>>>>>>> origin/master
     "@types/seedrandom": ^3.0.1
     seedrandom: ^3.0.5
     tsdx: ^0.14.1
@@ -3170,9 +3182,15 @@ __metadata:
   dependencies:
     "@ethersproject/abi": ^5.4.0
     "@ethersproject/bignumber": ^5.4.0
+<<<<<<< HEAD
     "@sushiswap/core-sdk": 1.0.0-canary.65
     "@sushiswap/tines": 1.0.0-canary.48
     "@sushiswap/trident": 1.0.0-canary.30
+=======
+    "@sushiswap/core-sdk": 1.0.0-canary.31
+    "@sushiswap/tines": 1.0.0-canary.13
+    "@sushiswap/trident": 1.0.0-canary.27
+>>>>>>> origin/master
     tiny-invariant: ^1.1.0
     tsdx: ^0.14.1
   languageName: unknown
