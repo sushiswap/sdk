@@ -1,6 +1,5 @@
 import {
   ChainId,
-  ChainKey,
   CurrencyAmount,
   InsufficientInputAmountError,
   InsufficientReservesError,
@@ -11,13 +10,14 @@ import {
   ZERO,
   sqrt,
 } from '@sushiswap/core-sdk'
+
+import EXPORTS from '@sushiswap/trident/exports/all.json'
 import { Fee } from '../enums/Fee'
 import JSBI from 'jsbi'
 import { MAX_FEE } from '../constants'
-import EXPORTS from '@sushiswap/trident/exports/all.json'
+import { Pool } from './Pool'
 import { computeConstantProductPoolAddress } from '../functions/computeConstantProductPoolAddress'
 import invariant from 'tiny-invariant'
-import { Pool } from './Pool'
 
 export class ConstantProductPool implements Pool {
   public readonly liquidityToken: Token
@@ -27,7 +27,7 @@ export class ConstantProductPool implements Pool {
 
   public static getAddress(tokenA: Token, tokenB: Token, fee: Fee = Fee.DEFAULT, twap: boolean = true): string {
     return computeConstantProductPoolAddress({
-      factoryAddress: EXPORTS[ChainId.KOVAN][ChainKey.KOVAN].contracts.ConstantProductPoolFactory.address,
+      factoryAddress: EXPORTS[ChainId.KOVAN][0].contracts.ConstantProductPoolFactory.address,
       tokenA,
       tokenB,
       fee,
@@ -259,7 +259,6 @@ export class ConstantProductPool implements Pool {
     if (JSBI.equal(totalSupply.quotient, ZERO)) {
       liquidity = JSBI.subtract(computed, MINIMUM_LIQUIDITY)
     } else {
-
       const [fee0, fee1] = this.getNonOptimalMintFee(
         tokenAmounts[0].quotient,
         tokenAmounts[1].quotient,
@@ -275,7 +274,6 @@ export class ConstantProductPool implements Pool {
       const mintFee = this.getMintFee(reserve0, reserve1, totalSupply.quotient)
 
       liquidity = JSBI.divide(JSBI.multiply(JSBI.subtract(computed, k), JSBI.add(totalSupply.quotient, mintFee)), k)
-
     }
 
     if (!JSBI.greaterThan(liquidity, ZERO)) {

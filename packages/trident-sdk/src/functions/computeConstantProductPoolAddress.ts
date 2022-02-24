@@ -1,9 +1,9 @@
-import { ChainId, ChainKey, Token } from '@sushiswap/core-sdk'
+import { ChainId, Token } from '@sushiswap/core-sdk'
 
-import { Fee } from '../enums/Fee'
 import EXPORTS from '@sushiswap/trident/exports/all.json'
-import constantProductPoolArtifact from '@sushiswap/trident/artifacts/contracts/pool/ConstantProductPool.sol/ConstantProductPool.json'
+import { Fee } from '../enums/Fee'
 import { computePoolInitCodeHash } from './computePoolInitCodeHash'
+import constantProductPoolArtifact from '@sushiswap/trident/artifacts/contracts/pool/constant-product/ConstantProductPool.sol/ConstantProductPool.json'
 import { defaultAbiCoder } from '@ethersproject/abi'
 import { getCreate2Address } from '@ethersproject/address'
 import { keccak256 } from '@ethersproject/solidity'
@@ -33,7 +33,7 @@ export const computeConstantProductPoolAddress = ({
   const CONSTANT_PRODUCT_POOL_INIT_CODE_HASH = computePoolInitCodeHash({
     creationCode: constantProductPoolArtifact.bytecode,
     deployData,
-    masterDeployerAddress: EXPORTS[ChainId.KOVAN][ChainKey.KOVAN].contracts.MasterDeployer.address,
+    masterDeployerAddress: EXPORTS[ChainId.KOVAN][0].contracts.MasterDeployer.address,
   })
 
   // Compute pool address
