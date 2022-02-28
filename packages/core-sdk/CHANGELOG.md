@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.71](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.70...@sushiswap/core-sdk@1.0.0-canary.71) (2022-02-28)
+
+
+### Features
+
+* add usc/wglmr for moonbeam ([0914dbe](https://github.com/sushiswap/sdk/commit/0914dbec3ac3ddc0c146b4db6ad1e4c2e7b17e93))
+
+
+
+
+
 # [1.0.0-canary.70](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.69...@sushiswap/core-sdk@1.0.0-canary.70) (2022-02-28)
 
 **Note:** Version bump only for package @sushiswap/core-sdk
