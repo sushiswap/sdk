@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.74](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.73...@sushiswap/core-sdk@1.0.0-canary.74) (2022-02-28)
+
+
+### Features
+
+* moonbeam usdt,dai,weth addresses/token ([ebd8ec6](https://github.com/sushiswap/sdk/commit/ebd8ec6a95199d79bc37d0ad325cd563f5b7fddd))
+
+
+
+
+
 # [1.0.0-canary.73](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.72...@sushiswap/core-sdk@1.0.0-canary.73) (2022-02-28)
 
 
