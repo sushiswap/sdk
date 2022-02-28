@@ -1,6 +1,6 @@
 {
   "name": "@sushiswap/bentobox-sdk",
-  "version": "1.0.0-canary.56",
+  "version": "1.0.0-canary.57",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -24,7 +24,7 @@
     "prepublishOnly": "tsdx build"
   },
   "dependencies": {
-    "@sushiswap/core-sdk": "1.0.0-canary.71"
+    "@sushiswap/core-sdk": "1.0.0-canary.72"
   },
   "devDependencies": {
     "tsdx": "^0.14.1"
