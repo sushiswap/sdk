@@ -5,17 +5,19 @@ import {
   Ether,
   Fantom,
   Fuse,
+  Glmr,
   Harmony,
   Heco,
   Matic,
   Movr,
   Okex,
   Palm,
-  xDai,
   Telos,
+  xDai,
 } from '../entities/Native'
-import { NativeMap } from '../types'
+
 import { ChainId } from '../enums'
+import { NativeMap } from '../types'
 
 export const NATIVE: NativeMap = {
   [ChainId.ETHEREUM]: Ether.onChain(ChainId.ETHEREUM),
@@ -46,4 +48,5 @@ export const NATIVE: NativeMap = {
   [ChainId.MOONRIVER]: Movr.onChain(ChainId.MOONRIVER),
   [ChainId.FUSE]: Fuse.onChain(ChainId.FUSE),
   [ChainId.TELOS]: Telos.onChain(ChainId.TELOS),
+  [ChainId.MOONBEAM]: Glmr.onChain(ChainId.MOONBEAM),
 }
