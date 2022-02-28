@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.76](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.75...@sushiswap/core-sdk@1.0.0-canary.76) (2022-02-28)
+
+
+### Features
+
+* **moonbeam:** sushi ([09702a2](https://github.com/sushiswap/sdk/commit/09702a23f5abfcf8f4771c60eba3acec2603b224))
+
+
+
+
+
 # [1.0.0-canary.75](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.74...@sushiswap/core-sdk@1.0.0-canary.75) (2022-02-28)
 
 
