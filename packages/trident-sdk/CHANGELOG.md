@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.79](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.78...@sushiswap/trident-sdk@1.0.0-canary.79) (2022-02-28)
+
+
+### Bug Fixes
+
+* case where reserve for price0/1 can be zero ([075d26f](https://github.com/sushiswap/sdk/commit/075d26fb57654e784206a141ed536e9b0c154bf3))
+* token0/1 price ([5c1c77c](https://github.com/sushiswap/sdk/commit/5c1c77c5c41b2ebee1505de61fe6ffc5d6706b00))
+
+
+
+
+
 # [1.0.0-canary.78](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.77...@sushiswap/trident-sdk@1.0.0-canary.78) (2022-02-24)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.69](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.68...@sushiswap/core-sdk@1.0.0-canary.69) (2022-02-28)
+
+
+### Features
+
+* begin moonbeam config ([8cf9efc](https://github.com/sushiswap/sdk/commit/8cf9efcf2f588e383f687cd13a72685b0bd9217b))
+
+
+
+
+
 # [1.0.0-canary.68](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.67...@sushiswap/core-sdk@1.0.0-canary.68) (2022-02-24)
 
 **Note:** Version bump only for package @sushiswap/core-sdk
