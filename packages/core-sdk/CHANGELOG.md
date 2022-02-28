@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.73](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.72...@sushiswap/core-sdk@1.0.0-canary.73) (2022-02-28)
+
+
+### Features
+
+* multicall2 moonbeam ([48635ad](https://github.com/sushiswap/sdk/commit/48635ad03f996b291d2b28d6af245a4b19430e04))
+
+
+
+
+
 # [1.0.0-canary.72](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.71...@sushiswap/core-sdk@1.0.0-canary.72) (2022-02-28)
 
 **Note:** Version bump only for package @sushiswap/core-sdk
