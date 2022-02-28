@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.75](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.74...@sushiswap/core-sdk@1.0.0-canary.75) (2022-02-28)
+
+
+### Features
+
+* moonbeam bentobox ([5327bbc](https://github.com/sushiswap/sdk/commit/5327bbc924057d7c3f7639407bc202f7cd70e6c7))
+
+
+
+
+
 # [1.0.0-canary.74](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.73...@sushiswap/core-sdk@1.0.0-canary.74) (2022-02-28)
 
 
