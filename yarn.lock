@@ -3111,16 +3111,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sushiswap/bentobox-sdk@1.0.0-canary.53, @sushiswap/bentobox-sdk@workspace:packages/bentobox-sdk":
+"@sushiswap/bentobox-sdk@1.0.0-canary.62, @sushiswap/bentobox-sdk@workspace:packages/bentobox-sdk":
   version: 0.0.0-use.local
   resolution: "@sushiswap/bentobox-sdk@workspace:packages/bentobox-sdk"
   dependencies:
-    "@sushiswap/core-sdk": 1.0.0-canary.68
+    "@sushiswap/core-sdk": 1.0.0-canary.77
     tsdx: ^0.14.1
   languageName: unknown
   linkType: soft
 
-"@sushiswap/core-sdk@1.0.0-canary.68, @sushiswap/core-sdk@workspace:packages/core-sdk":
+"@sushiswap/core-sdk@1.0.0-canary.77, @sushiswap/core-sdk@workspace:packages/core-sdk":
   version: 0.0.0-use.local
   resolution: "@sushiswap/core-sdk@workspace:packages/core-sdk"
   dependencies:
@@ -3145,7 +3145,7 @@ __metadata:
   dependencies:
     "@ethersproject/abi": ^5.4.0
     "@ethersproject/contracts": ^5.4.0
-    "@sushiswap/bentobox-sdk": 1.0.0-canary.53
+    "@sushiswap/bentobox-sdk": 1.0.0-canary.62
     tsdx: ^0.14.1
   languageName: unknown
   linkType: soft
@@ -3161,7 +3161,7 @@ __metadata:
     "@ethersproject/experimental": ^5.4.0
     "@ethersproject/signing-key": ^5.4.0
     "@ethersproject/transactions": ^5.4.0
-    "@sushiswap/core-sdk": 1.0.0-canary.68
+    "@sushiswap/core-sdk": 1.0.0-canary.77
     eip-712: ^0.4.0
     isomorphic-unfetch: ^3.0.0
     tsdx: ^0.14.1
@@ -3185,12 +3185,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sushiswap/tines@1.0.0-canary.51, @sushiswap/tines@workspace:packages/tines":
+"@sushiswap/tines@1.0.0-canary.60, @sushiswap/tines@workspace:packages/tines":
   version: 0.0.0-use.local
   resolution: "@sushiswap/tines@workspace:packages/tines"
   dependencies:
     "@ethersproject/bignumber": ^5.4.0
-    "@sushiswap/core-sdk": 1.0.0-canary.68
+    "@sushiswap/core-sdk": 1.0.0-canary.77
     "@types/seedrandom": ^3.0.1
     seedrandom: ^3.0.5
     tsdx: ^0.14.1
@@ -3203,18 +3203,18 @@ __metadata:
   dependencies:
     "@ethersproject/abi": ^5.4.0
     "@ethersproject/bignumber": ^5.4.0
-    "@sushiswap/core-sdk": 1.0.0-canary.68
-    "@sushiswap/tines": 1.0.0-canary.51
-    "@sushiswap/trident": 1.0.0-canary.30
+    "@sushiswap/core-sdk": 1.0.0-canary.77
+    "@sushiswap/tines": 1.0.0-canary.60
+    "@sushiswap/trident": 1.0.0-canary.31
     tiny-invariant: ^1.1.0
     tsdx: ^0.14.1
   languageName: unknown
   linkType: soft
 
-"@sushiswap/trident@npm:1.0.0-canary.30":
-  version: 1.0.0-canary.30
-  resolution: "@sushiswap/trident@npm:1.0.0-canary.30"
-  checksum: 0043e70915099cfa6b6053a040ff4afec7e161100e9b617f91f57c1e781236ae6654ca417c2c22e24c6061bbe8fb87beb7401a8b920291c49eaaafc8135f9a03
+"@sushiswap/trident@npm:1.0.0-canary.31":
+  version: 1.0.0-canary.31
+  resolution: "@sushiswap/trident@npm:1.0.0-canary.31"
+  checksum: c4d749817682f6dac2940f987cb90eb80aa74c39759dff72e41e57a194d542f80ba0dafbe03f4126735c01e6847ec3b56fa3f10bfa4afa8e51e514adfeccb5de
   languageName: node
   linkType: hard
 
