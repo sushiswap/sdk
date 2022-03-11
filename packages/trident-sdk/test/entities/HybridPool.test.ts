@@ -1,6 +1,5 @@
 import {
   ChainId,
-  ChainKey,
   CurrencyAmount,
   InsufficientInputAmountError,
   Price,
@@ -26,7 +25,7 @@ describe('computePoolAddress', () => {
     const fee = 30
 
     const address = computeHybridPoolAddress({
-      factoryAddress: all[ChainId.KOVAN][ChainKey.KOVAN].contracts.ConstantProductPoolFactory.address,
+      factoryAddress: all[ChainId.KOVAN][0].contracts.ConstantProductPoolFactory.address,
       tokenA,
       tokenB,
       fee,

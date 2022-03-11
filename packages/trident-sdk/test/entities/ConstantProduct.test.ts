@@ -1,6 +1,5 @@
 import {
   ChainId,
-  ChainKey,
   CurrencyAmount,
   InsufficientInputAmountError,
   Price,
@@ -11,7 +10,7 @@ import {
 } from '@sushiswap/core-sdk'
 
 import { ConstantProductPool } from '../../src/entities/ConstantProductPool'
-import all from '@sushiswap/trident/exports/all.json'
+import EXPORTS from '@sushiswap/trident/exports/all.json'
 import { computeConstantProductPoolAddress } from '../../src/functions/computeConstantProductPoolAddress'
 
 describe('computePoolAddress', () => {
@@ -26,27 +25,13 @@ describe('computePoolAddress', () => {
 
     const twap = true
 
-    // console.log({
-    //   constantProductFactoryAddress: all[ChainId.KOVAN][ChainKey.KOVAN].contracts.ConstantProductPoolFactory.address,
-    //   masterDeployerAddress: all[ChainId.KOVAN][ChainKey.KOVAN].contracts.MasterDeployer.address,
-    //   tokens: [tokenA.address, tokenB.address].sort(),
-    //   fee,
-    //   twap,
-    // })
-
     const address = computeConstantProductPoolAddress({
-      factoryAddress: all[ChainId.KOVAN][ChainKey.KOVAN].contracts.ConstantProductPoolFactory.address,
+      factoryAddress: (EXPORTS as any)[ChainId.KOVAN][0].contracts.ConstantProductPoolFactory.address,
       tokenA,
       tokenB,
       fee,
       twap,
     })
-
-    // console.log({
-    //   tokenA: tokenA.symbol,
-    //   tokenB: tokenB.symbol,
-    //   address,
-    // })
 
     expect(address).toEqual('0xc1F60Ef13DD52904465746E87a9bECacfE76621A')
   })
