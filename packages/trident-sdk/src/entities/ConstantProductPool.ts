@@ -1,5 +1,4 @@
 import {
-  ChainId,
   CurrencyAmount,
   InsufficientInputAmountError,
   InsufficientReservesError,
@@ -27,7 +26,7 @@ export class ConstantProductPool implements Pool {
 
   public static getAddress(tokenA: Token, tokenB: Token, fee: Fee = Fee.DEFAULT, twap: boolean = true): string {
     return computeConstantProductPoolAddress({
-      factoryAddress: EXPORTS[ChainId.KOVAN][0].contracts.ConstantProductPoolFactory.address,
+      factoryAddress: (EXPORTS as any)[tokenA.chainId][0].contracts.ConstantProductPoolFactory.address,
       tokenA,
       tokenB,
       fee,
