@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.91](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.90...@sushiswap/trident-sdk@1.0.0-canary.91) (2022-03-11)
+
+
+### Bug Fixes
+
+* cpp init code hash ([c455ed9](https://github.com/sushiswap/sdk/commit/c455ed915870af00cd221ff297e293540f47b55d))
+
+
+
+
+
 # [1.0.0-canary.90](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.89...@sushiswap/trident-sdk@1.0.0-canary.90) (2022-03-10)
 
 **Note:** Version bump only for package @sushiswap/trident-sdk
