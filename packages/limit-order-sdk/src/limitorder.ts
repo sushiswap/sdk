@@ -226,6 +226,9 @@ export class LimitOrder {
   async send() {
     const resp = await fetch(`${LAMBDA_URL}/orders/create`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
         maker: this.maker,
         tokenIn: this.tokenInAddress,
