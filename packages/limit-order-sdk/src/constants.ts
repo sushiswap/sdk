@@ -1,8 +1,8 @@
 import { AddressMap, ChainId } from '@sushiswap/core-sdk'
 
-export const LAMBDA_URL = 'https://9epjsvomc4.execute-api.us-east-1.amazonaws.com/dev'
+export const LAMBDA_URL = 'https://limit-order-ffo5rqmjnq-uc.a.run.app'
 
-export const SOCKET_URL = 'wss://hfimt374ge.execute-api.us-east-1.amazonaws.com/dev'
+export const SOCKET_URL = 'wss://limit-order-ffo5rqmjnq-uc.a.run.app'
 
 export const STOP_LIMIT_ORDER_ADDRESS: AddressMap = {
   [ChainId.KOVAN]: '0xce9365dB1C99897f04B3923C03ba9a5f80E8DB87',
@@ -34,5 +34,5 @@ export const LIMIT_ORDER_HELPER_ADDRESS: AddressMap = {
 }
 
 export const ROUND_UP_RECEIVER_ADDRESS: AddressMap = {
-  [ChainId.MATIC]: '0x1C9B033F8C46C08EbE67F15924F5B9E97e36E0a7'
+  [ChainId.MATIC]: '0x1C9B033F8C46C08EbE67F15924F5B9E97e36E0a7',
 }
