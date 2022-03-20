@@ -67,9 +67,9 @@ export class Trade<TInput extends Currency, TOutput extends Currency, TTradeType
     this.route = route
     this.tradeType = tradeType
 
-    const amountIn = CurrencyAmount.fromRawAmount(route.fromToken as TInput, route.amountIn.toFixed(0))
+    const amountIn = CurrencyAmount.fromRawAmount(route.fromToken as TInput, route.amountInBN.toString())
 
-    const amountOut = CurrencyAmount.fromRawAmount(route.toToken as TOutput, route.amountOut.toFixed(0))
+    const amountOut = CurrencyAmount.fromRawAmount(route.toToken as TOutput, route.amountOutBN.toString())
 
     if (tradeType === TradeType.EXACT_INPUT) {
       this.inputAmount = CurrencyAmount.fromFractionalAmount(
