@@ -1,5 +1,6 @@
-import { Currency, CurrencyAmount, Percent, Price, TradeType, ZERO, JSBI, Fraction, ONE } from '@sushiswap/core-sdk'
+import { Currency, CurrencyAmount, Fraction, JSBI, ONE, Percent, Price, TradeType, ZERO } from '@sushiswap/core-sdk'
 import { MultiRoute, RToken } from '@sushiswap/tines'
+
 import invariant from 'tiny-invariant'
 
 /**
