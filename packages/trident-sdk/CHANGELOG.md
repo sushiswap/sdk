@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.100](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.99...@sushiswap/trident-sdk@1.0.0-canary.100) (2022-03-20)
+
+
+### Bug Fixes
+
+* trade to use BN variant ([8a8e0a4](https://github.com/sushiswap/sdk/commit/8a8e0a4a4579eb133281b2643ae65f81c4a018a4))
+
+
+
+
+
 # [1.0.0-canary.99](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.98...@sushiswap/trident-sdk@1.0.0-canary.99) (2022-03-18)
 
 **Note:** Version bump only for package @sushiswap/trident-sdk
