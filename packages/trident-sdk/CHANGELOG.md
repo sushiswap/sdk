@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.102](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.100...@sushiswap/trident-sdk@1.0.0-canary.102) (2022-04-07)
+
+
+### Bug Fixes
+
+* reexport from Tines ([cea9158](https://github.com/sushiswap/sdk/commit/cea9158a536892e4c5798379bd540fd04de42aa3))
+
+
+
+
+
 # [1.0.0-canary.100](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.99...@sushiswap/trident-sdk@1.0.0-canary.100) (2022-03-20)
 
 
