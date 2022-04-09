@@ -16,6 +16,7 @@ export class HybridPool implements Pool {
   public static getAddress(tokenA: Token, tokenB: Token, fee: Fee = Fee.DEFAULT, a: JSBI = A_PRECISION): string {
     return computeHybridPoolAddress({
       factoryAddress: (EXPORTS as any)[tokenA.chainId][0].contracts.HybridPoolFactory.address,
+      masterDeployer: (EXPORTS as any)[tokenA.chainId][0].contracts.MasterDeployer.address,
       tokenA,
       tokenB,
       fee,

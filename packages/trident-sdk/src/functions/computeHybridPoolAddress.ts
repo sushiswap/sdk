@@ -1,6 +1,4 @@
-import { ChainId, JSBI, Token } from '@sushiswap/core-sdk'
-
-import EXPORTS from '@sushiswap/trident/exports/all.json'
+import { JSBI, Token } from '@sushiswap/core-sdk'
 import { Fee } from '../enums/Fee'
 import { computePoolInitCodeHash } from './computePoolInitCodeHash'
 import { defaultAbiCoder } from '@ethersproject/abi'
@@ -10,12 +8,14 @@ import { keccak256 } from '@ethersproject/solidity'
 
 export const computeHybridPoolAddress = ({
   factoryAddress,
+  masterDeployer,
   tokenA,
   tokenB,
   fee,
   a,
 }: {
   factoryAddress: string
+  masterDeployer: string
   tokenA: Token
   tokenB: Token
   fee: Fee
@@ -33,7 +33,7 @@ export const computeHybridPoolAddress = ({
   const HYBRID_POOL_INIT_CODE_HASH = computePoolInitCodeHash({
     creationCode: hybridPoolArtifact.bytecode,
     deployData,
-    masterDeployerAddress: EXPORTS[ChainId.KOVAN][0].contracts.MasterDeployer.address,
+    masterDeployerAddress: masterDeployer,
   })
 
   // Compute pool address
