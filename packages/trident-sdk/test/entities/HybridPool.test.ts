@@ -25,7 +25,8 @@ describe('computePoolAddress', () => {
     const fee = 30
 
     const address = computeHybridPoolAddress({
-      factoryAddress: all[ChainId.KOVAN][0].contracts.ConstantProductPoolFactory.address,
+      factoryAddress: all[tokenA.chainId][0].contracts.ConstantProductPoolFactory.address,
+      masterDeployer: all[tokenA.chainId][0].contracts.MasterDeployer.address,
       tokenA,
       tokenB,
       fee,
