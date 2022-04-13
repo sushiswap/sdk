@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.93](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.91...@sushiswap/core-sdk@1.0.0-canary.93) (2022-04-13)
+
+
+### Bug Fixes
+
+* +typings for the core ([0f141f3](https://github.com/sushiswap/sdk/commit/0f141f34ee329ed73391bf3709f1bece206b54a2))
+
+
+
+
+
 # [1.0.0-canary.91](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.90...@sushiswap/core-sdk@1.0.0-canary.91) (2022-04-07)
 
 **Note:** Version bump only for package @sushiswap/core-sdk
