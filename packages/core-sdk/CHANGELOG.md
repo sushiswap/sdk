@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.94](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.93...@sushiswap/core-sdk@1.0.0-canary.94) (2022-04-16)
+
+
+### Features
+
+* init mim and frax address maps ([7563be7](https://github.com/sushiswap/sdk/commit/7563be7fcd99cf768bbe0134b56d87ef31531145))
+
+
+
+
+
 # [1.0.0-canary.93](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.91...@sushiswap/core-sdk@1.0.0-canary.93) (2022-04-13)
 
 
