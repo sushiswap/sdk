@@ -70,6 +70,39 @@ function checkSwap(pool: StableSwapRPool, amountIn: number, direction: boolean):
   return out
 }
 
+function checkPoolPriceCalculation(pool: StableSwapRPool) {
+  const price1 = pool.calcCurrentPriceWithoutFee(true)
+  const price2 = pool.calcCurrentPriceWithoutFee(false)
+
+  expect(price1).toBeDefined()
+  expect(price1).not.toBeNaN()
+  expect(price1).toBeGreaterThan(0)
+
+  expect(price2).toBeDefined()
+  expect(price2).not.toBeNaN()
+  expect(price2).toBeGreaterThan(0)
+
+  if (pool.reserve0.lt(pool.reserve1)) {
+    expect(price1).toBeGreaterThan(1)
+    expect(price2).toBeLessThan(1)
+  } else if (pool.reserve0.gt(pool.reserve1)) {
+    expect(price2).toBeGreaterThan(1)
+    expect(price1).toBeLessThan(1)
+  } else {    // pool.reserve0 == pool.reserve1
+    expect(Math.abs(price1-1)).toBeLessThan(1e-9)
+    expect(Math.abs(price2-1)).toBeLessThan(1e-9)
+  }
+
+  expect(Math.abs(price1*price2-1)).toBeLessThan(1e-9)
+
+  if (pool.reserve0.gt(1e15)) {
+    const inp = parseFloat(pool.reserve0.toString())/1e12
+    const {out} = pool.calcOutByIn(inp/(1-pool.fee), true)
+    const expected_price = out/inp
+    expect(Math.abs(price1/expected_price - 1)).toBeLessThan(1e-7)
+  }
+}
+
 describe("StableSwap test", () => {
   describe("calcOutByIn & calcInByOut", () => {
     it('Ideal balance, regular values', () => {
@@ -120,95 +153,25 @@ describe("StableSwap test", () => {
 
 // TODO: add check price with the help of calcOutByIn function
   describe("Price calculation", () => {
-    it('Regular values', () => {    
-      let prev_price1 = Number.MAX_VALUE, prev_price2 = 0
+    it('Regular values', () => {
       for (let i = 1; i < 100; ++i) {
         const pool = createPool(v.mul(i), v.mul(100-i))
-
-        const price1 = pool.calcCurrentPriceWithoutFee(true)
-        const price2 = pool.calcCurrentPriceWithoutFee(false)
-        expect(price2).toBeDefined()
-        expect(price2).toBeDefined()
-        expect(price1).not.toBeNaN()
-        expect(price2).not.toBeNaN()
-        expect(price1).toBeGreaterThan(0)
-        expect(price2).toBeGreaterThan(0)
-        if (i < 50) {
-          expect(price1).toBeGreaterThan(1)
-          expect(price2).toBeLessThan(1)
-        } 
-        if (i > 50) {
-          expect(price2).toBeGreaterThan(1)
-          expect(price1).toBeLessThan(1)
-        } 
-        if (i == 50) {
-          expect(Math.abs(price1-1)).toBeLessThan(1e-9)
-          expect(Math.abs(price2-1)).toBeLessThan(1e-9)
-        }
-        expect(price1).toBeLessThan(prev_price1)
-        expect(price2).toBeGreaterThan(prev_price2)
-        expect(Math.abs(price1*price2-1)).toBeLessThan(1e-9)
-        prev_price1 = price1
-        prev_price2 = price2
+        checkPoolPriceCalculation(pool)
       }
     })
 
     it('Extreme low balance', () => {    
       const low_v = BigNumber.from("100")
-      let prev_price1 = Number.MAX_VALUE, prev_price2 = 0
       for (let i = 1; i < 100; ++i) {
         const pool = createPool(low_v.mul(i), low_v.mul(100-i))
-
-        const price1 = pool.calcCurrentPriceWithoutFee(true)
-        const price2 = pool.calcCurrentPriceWithoutFee(false)
-        
-        expect(price2).toBeDefined()
-        expect(price2).toBeDefined()
-        expect(price1).not.toBeNaN()
-        expect(price2).not.toBeNaN()
-        expect(price1).toBeGreaterThan(0)
-        expect(price2).toBeGreaterThan(0)
-        if (i < 50) {
-          expect(price1).toBeGreaterThan(1)
-          expect(price2).toBeLessThan(1)
-        } 
-        if (i > 50) {
-          expect(price2).toBeGreaterThan(1)
-          expect(price1).toBeLessThan(1)
-        } 
-        if (i == 50) {
-          expect(Math.abs(price1-1)).toBeLessThan(1e-9)
-          expect(Math.abs(price2-1)).toBeLessThan(1e-9)
-        }
-        expect(price1).toBeLessThan(prev_price1)
-        expect(price2).toBeGreaterThan(prev_price2)
-        expect(Math.abs(price1*price2-1)).toBeLessThan(1e-9)
-        prev_price1 = price1
-        prev_price2 = price2
+        checkPoolPriceCalculation(pool)
       }
     })
 
     it('Extreme disproportion', () => {
-      let prev_price1 = Number.MAX_VALUE, prev_price2 = 0
       for (let i = 1; i < 100; ++i) {
         const pool = createPool(v.mul(i), v.mul(1e9-i))
-
-        const price1 = pool.calcCurrentPriceWithoutFee(true)
-        const price2 = pool.calcCurrentPriceWithoutFee(false)
-        
-        expect(price1).toBeDefined()
-        expect(price2).toBeDefined()
-        expect(price1).not.toBeNaN()
-        expect(price2).not.toBeNaN()
-        expect(price1).toBeGreaterThan(0)
-        expect(price2).toBeGreaterThan(0)
-        expect(price1).toBeGreaterThan(1)
-        expect(price2).toBeLessThan(1)
-        expect(price1).toBeLessThan(prev_price1)
-        expect(price2).toBeGreaterThan(prev_price2)
-        expect(Math.abs(price1*price2-1)).toBeLessThan(1e-9)
-        prev_price1 = price1
-        prev_price2 = price2
+        checkPoolPriceCalculation(pool)
       }
     })
   })
