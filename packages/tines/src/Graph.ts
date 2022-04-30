@@ -370,7 +370,7 @@ export class Graph {
     
     function addVertice(v: Vertice) {
       const newEdges = v.edges.filter(e => v.getNeibour(e)?.price == 0)
-      newEdges.forEach(e => edgeValues.set(e, v.price*parseInt(e.reserve(from).toString())) )
+      newEdges.forEach(e => edgeValues.set(e, v.price*parseInt(e.reserve(v).toString())) )
       newEdges.sort((e1, e2) => value(e1) - value(e2))
       const res: Edge[] = []
       while (nextEdges.length && newEdges.length) {
