@@ -1,7 +1,9 @@
 import { BigNumber } from "@ethersproject/bignumber";
 
 export function ASSERT(f: () => boolean, t?: string) {
-    if (!f() && t) console.error(t);
+    if (process.env.NODE_ENV !== 'production') {
+      if (!f() && t) console.error(t);
+    }
   }
   
   export function closeValues(a: number, b: number, accuracy: number): boolean {
