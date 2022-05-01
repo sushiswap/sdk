@@ -103,6 +103,14 @@ function checkPoolPriceCalculation(pool: StableSwapRPool) {
   }
 }
 
+function numberPrecision(n: number, precision = 2) {
+  if (n == 0) return 0
+  const digits = Math.ceil(Math.log10(n))
+  if (digits >= precision) return Math.round(n)
+  const shift = Math.pow(10, precision - digits)
+  return Math.round(n*shift)/shift
+}
+
 describe("StableSwap test", () => {
   describe("calcOutByIn & calcInByOut", () => {
     it('Ideal balance, regular values', () => {
@@ -177,10 +185,24 @@ describe("StableSwap test", () => {
   })
 
   it('special case', () => {
-    debugger
     const pool = createPool(BigNumber.from(5028472782), BigNumber.from(5028350937))
     const {inp} = pool.calcInByOut(47716160591158, true)
-    expect(inp).toEqual(Number.POSITIVE_INFINITY)
-    
+    expect(inp).toEqual(Number.POSITIVE_INFINITY)    
+  })
+
+  it.skip('timing mesure', () => {
+    const pool = createPool(v, v.add(v.div(100)))
+    const amountIn = parseInt(v.div(1000).toString())
+    const start0 = performance.now()
+    for (let i = 0; i < 100; ++i) pool.calcOutByIn(amountIn*i, i%2 == 0)
+    const start1 = performance.now()
+    for (let i = 0; i < 100; ++i) pool.calcInByOut(amountIn*i, i%2 == 0)
+    const start2 = performance.now()
+    for (let i = 0; i < 1000; ++i) pool.calcCurrentPriceWithoutFee(i%2 == 0)
+    const finish = performance.now()
+    const t1 = numberPrecision((start1-start0)/100)
+    const t2 = numberPrecision((start2-start1)/100)
+    const t3 = numberPrecision((finish-start2)/1000)
+    console.log(`StableSwap pool calcOutByIn: ${t1}ms, calcInByOut: ${t2}ms, price: ${t3}ms`);    
   })
 })
