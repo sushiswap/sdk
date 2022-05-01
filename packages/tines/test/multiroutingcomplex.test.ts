@@ -18,7 +18,7 @@ import { getBigNumber } from "../src";
 import seedrandom from "seedrandom";
 import { ConstantProductRPool, HybridRPool, RPool } from "../src/PrimaryPools";
 
-const testSeed = "2"; // Change it to change random generator values
+const testSeed = "0"; // Change it to change random generator values
 const rnd: () => number = seedrandom(testSeed); // random [0, 1)
 
 const GAS_PRICE = 1 * 200 * 1e-9;
@@ -323,6 +323,9 @@ function checkRoute(
   const outPriceToIn = network.prices[parseInt(to.name)] / network.prices[parseInt(from.name)]
   // Slippage is always not-negative
   const maxGrow = Math.pow(MAX_POOL_IMBALANCE, route.legs.length)
+  if (route.amountOut > (route.amountIn / outPriceToIn) * maxGrow) {
+    debugger
+  }
   expect(route.amountOut).toBeLessThanOrEqual((route.amountIn / outPriceToIn) * maxGrow)
 
   // gasSpent checks
