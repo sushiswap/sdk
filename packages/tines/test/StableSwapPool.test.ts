@@ -175,4 +175,12 @@ describe("StableSwap test", () => {
       }
     })
   })
+
+  it('special case', () => {
+    debugger
+    const pool = createPool(BigNumber.from(5028472782), BigNumber.from(5028350937))
+    const {inp} = pool.calcInByOut(47716160591158, true)
+    expect(inp).toEqual(Number.POSITIVE_INFINITY)
+    
+  })
 })

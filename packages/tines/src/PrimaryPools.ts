@@ -77,8 +77,10 @@ export class ConstantProductRPool extends RPool {
   calcInByOut(amountOut: number, direction: boolean): {inp: number, gasSpent: number} {
     const x = direction ? this.reserve0Number : this.reserve1Number
     const y = direction ? this.reserve1Number : this.reserve0Number
+    if ((y-amountOut) < this.minLiquidity)  // not possible swap
+      return {inp: Number.POSITIVE_INFINITY, gasSpent: this.swapGasCost}
+
     let input = (x * amountOut) / (1 - this.fee) / (y - amountOut)
-    //if (input < 1) input = 1
     return {inp: input, gasSpent: this.swapGasCost}
   }
 

@@ -359,7 +359,7 @@ export class Graph {
     this.vertices.forEach(v => v.cleanTmpData())
   }
 
-  // Set prices by greedy algorithm
+  // Set prices using greedy algorithm
   setPricesStable(from: Vertice, price: number, gasPrice: number) {
     this.vertices.forEach(v => v.price = 0) // initialization
     from.price = price

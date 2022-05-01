@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { 
   Graph, 
   findMultiRouteExactIn, 
@@ -8,7 +9,8 @@ import {
   findSingleRouteExactIn,
   findMultiRouteExactOut,
   findSingleRouteExactOut,
-  closeValues
+  closeValues,
+  StableSwapRPool
 } from "../src";
 
 import { checkRouteResult } from "./snapshots/snapshot";
@@ -59,8 +61,8 @@ function getRandom(rnd: () => number, min: number, max: number) {
 }
 
 function getTokenPrice(rnd: () => number) {
-  const price = getRandom(rnd, MIN_TOKEN_PRICE, MAX_TOKEN_PRICE)
-  return price
+  if (rnd() < 0.6) return STABLE_TOKEN_PRICE
+  return getRandom(rnd, MIN_TOKEN_PRICE, MAX_TOKEN_PRICE)
 }
 
 function getPoolReserve(rnd: () => number) {
@@ -119,6 +121,43 @@ function getCPPool(rnd: () => number, t0: RToken, t1: RToken, price: number) {
   );
 }
 
+function getStableSwapPool(rnd: () => number, t0: RToken, t1: RToken) {
+  if (rnd() < 0.5) {
+    const t = t0
+    t0 = t1
+    t1 = t
+  }
+
+  const fee = getPoolFee(rnd)
+  const imbalance = getPoolImbalance(rnd)
+
+  let reserve0 = getPoolReserve(rnd)
+  let reserve1 = reserve0 * STABLE_TOKEN_PRICE * imbalance
+  const maxReserve = Math.max(reserve0, reserve1)
+  if (maxReserve > MAX_LIQUIDITY) {
+    const reduceRate = (maxReserve / MAX_LIQUIDITY) * 1.00000001
+    reserve0 /= reduceRate
+    reserve1 /= reduceRate
+  }
+  const minReserve = Math.min(reserve0, reserve1)
+  if (minReserve < MIN_LIQUIDITY) {
+    const raseRate = (MIN_LIQUIDITY / minReserve) * 1.00000001
+    reserve0 *= raseRate
+    reserve1 *= raseRate
+  }
+  console.assert(reserve0 >= MIN_LIQUIDITY && reserve0 <= MAX_LIQUIDITY, 'Error reserve0 clculation')
+  console.assert(reserve1 >= MIN_LIQUIDITY && reserve1 <= MAX_LIQUIDITY, 'Error reserve1 clculation ' + reserve1)
+
+  return new StableSwapRPool(
+    `pool ss ${t0.name} ${t1.name} ${reserve0} ${fee}`,
+    t0,
+    t1,
+    fee,
+    getBigNumber(reserve0),
+    getBigNumber(reserve1),
+  );
+}
+
 function getPoolA(rnd: () => number) {
   return Math.floor(getRandom(rnd, MIN_HYBRID_A, MAX_HYBRID_A))
 }
@@ -159,8 +198,8 @@ function getHybridPool(rnd: () => number, t0: RToken, t1: RToken) {
 
 function getRandomPool(rnd: () => number, t0: RToken, t1: RToken, price: number) {
   if (price !== STABLE_TOKEN_PRICE) return getCPPool(rnd, t0, t1, price)
-  if (rnd() < 0.5) getCPPool(rnd, t0, t1, price)
-  return getHybridPool(rnd, t0, t1)
+  if (rnd() < 0.2) return getCPPool(rnd, t0, t1, price)
+  return getStableSwapPool(rnd, t0, t1)
 }
 
 interface Network {
@@ -175,8 +214,7 @@ function createNetwork(rnd: () => number, tokenNumber: number, density: number):
   const prices = []
   for (var i = 0; i < tokenNumber; ++i) {
     tokens.push({ name: '' + i, address: '' + i })
-    if (i <= tokenNumber * 0.3) prices.push(STABLE_TOKEN_PRICE)
-    else prices.push(getTokenPrice(rnd))
+    prices.push(getTokenPrice(rnd))
   }
 
   const pools: RPool[] = [];
@@ -284,7 +322,8 @@ function checkRoute(
   if (route.status !== RouteStatus.NoWay) expect(route.amountOut).toBeGreaterThan(0)
   const outPriceToIn = network.prices[parseInt(to.name)] / network.prices[parseInt(from.name)]
   // Slippage is always not-negative
-  expect(route.amountOut).toBeLessThanOrEqual((route.amountIn / outPriceToIn) * 1.002)
+  const maxGrow = Math.pow(1.01, route.legs.length)
+  expect(route.amountOut).toBeLessThanOrEqual((route.amountIn / outPriceToIn) * maxGrow)
 
   // gasSpent checks
   const poolMap = new Map<string, RPool>();
@@ -392,6 +431,49 @@ function exportNetwork(
   fs.writeFileSync('D:/Info/Notes/GraphVisualization/data.js', nodes + edges + data)
 }
 
+// Just for testing
+// @ts-ignore
+function exportPrices(
+  network: Network,
+  baseTokenIndex: number
+) {
+  const allPools = new Map<string, RPool>();
+  network.pools.forEach((p) => allPools.set(p.address, p));
+
+  const g = new Graph(network.pools, network.tokens[baseTokenIndex], network.gasPrice)
+  const tokenPriceMap = new Map<string, number>()
+  g.vertices.forEach((v) => {
+    tokenPriceMap.set(v.token.name, v.price)
+  })
+
+  function edgeStyle(p: RPool) {
+    if (p instanceof ConstantProductRPool) return ', color: "black"'
+    if (p instanceof HybridRPool) return ', color: "blue"'
+    return ', color: "red"'
+  }
+
+  function nodeLabel(t: RToken) {
+    const tokenIndex = parseInt(t.name)
+    const info = `${t.name}:${tokenPriceMap.get(t.name)/network.prices[tokenIndex] * network.prices[baseTokenIndex]}`
+    if (t == network.tokens[baseTokenIndex]) return `*${info}`
+    return info
+  }
+
+  const nodes = `var nodes = new vis.DataSet([
+    ${network.tokens.map((t) => `{ id: ${t.name}, label: "${nodeLabel(t)}"}`).join(',\n\t\t')}
+  ]);\n`
+  const edges = `var edges = new vis.DataSet([
+    ${network.pools.map((p) => `{ from: ${p.token0.name}, to: ${p.token1.name}${edgeStyle(p)}}`).join(',\n\t\t')}
+  ]);\n`
+  const data = `var data = {
+      nodes: nodes,
+      edges: edges,
+  };\n`
+
+  const fs = require('fs')
+  fs.writeFileSync('D:/Info/Notes/GraphVisualization/data.js', nodes + edges + data)
+}
+
 const routingQuality = 1e-2
 function checkExactOut(
   routeIn: MultiRoute,
@@ -435,7 +517,7 @@ it('Token price calculation is correct', () => {
 })
 
 it(`Multirouter for ${network.tokens.length} tokens and ${network.pools.length} pools (200 times)`, () => {
-  for (var i = 0; i < 200; ++i) {
+  for (var i = 0; i < 50; ++i) {
     const [t0, t1, tBase] = chooseRandomTokens(rnd, network)
     const amountIn = getRandom(rnd, 1e6, 1e24)
 
@@ -514,13 +596,24 @@ it(`Singlerouter for ${network.tokens.length} tokens and ${network.pools.length}
 
     checkRoute(network, t0, t1, amountIn, tBase, network.gasPrice, route)
     const route2 = findMultiRouteExactIn(t0, t1, amountIn, network.pools, tBase, network.gasPrice)
-    expect(route.amountOut).toBeLessThan(route2.amountOut * 1.001)
+    expect(route.amountOut).toBeLessThanOrEqual(route2.amountOut * 1.001)
     checkRouteResult('single20-' + i, route.totalAmountOut)
 
-    const routeOut = findSingleRouteExactOut(t0, t1, route.amountOut, network.pools, tBase, network.gasPrice)
-    checkRoute(network, t0, t1,
-      routeOut.amountIn*(1+1e-14),
-      tBase, network.gasPrice, routeOut)
-    checkExactOut(route, routeOut)
+    if (route.status !== RouteStatus.NoWay) {
+      const routeOut = findSingleRouteExactOut(t0, t1, route.amountOut, network.pools, tBase, network.gasPrice)
+      checkRoute(network, t0, t1,
+        routeOut.amountIn*(1+1e-14),
+        tBase, network.gasPrice, routeOut)
+      checkExactOut(route, routeOut)
+    } else {
+      const routeOut = findSingleRouteExactOut(t0, t1, 1e6, network.pools, tBase, network.gasPrice)
+      if (routeOut.status !== RouteStatus.NoWay) {
+        const route3 = findSingleRouteExactIn(t0, t1, routeOut.amountIn, network.pools, tBase, network.gasPrice)
+        checkRoute(network, t0, t1,
+          route3.amountIn,
+          tBase, network.gasPrice, route3)
+        checkExactOut(route3, routeOut)
+      }
+    }
   }
 })
