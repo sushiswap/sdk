@@ -322,7 +322,7 @@ function checkRoute(
   if (route.status !== RouteStatus.NoWay) expect(route.amountOut).toBeGreaterThan(0)
   const outPriceToIn = network.prices[parseInt(to.name)] / network.prices[parseInt(from.name)]
   // Slippage is always not-negative
-  const maxGrow = Math.pow(1.01, route.legs.length)
+  const maxGrow = Math.pow(MAX_POOL_IMBALANCE, route.legs.length)
   expect(route.amountOut).toBeLessThanOrEqual((route.amountIn / outPriceToIn) * maxGrow)
 
   // gasSpent checks
@@ -474,6 +474,39 @@ function exportPrices(
   fs.writeFileSync('D:/Info/Notes/GraphVisualization/data.js', nodes + edges + data)
 }
 
+function numberPrecision(n: number, precision = 2) {
+  if (n == 0) return 0
+  const sign = n < 0 ? -1 : 1
+  n = Math.abs(n)
+  const digits = Math.ceil(Math.log10(n))
+  if (digits >= precision) return Math.round(n)
+  const shift = Math.pow(10, precision - digits)
+  return sign*Math.round(n*shift)/shift
+}
+
+function printRoute(route: MultiRoute, network: Network) {
+  const liquidity = new Map<number, number>()
+  function addLiquidity(token: any, amount: number) {
+    if (token.name !== undefined) token = token.name
+    if (typeof token == 'string') token = parseInt(token)
+    const prev = liquidity.get(token) || 0
+    liquidity.set(token, prev + amount)
+  }
+  addLiquidity(route.fromToken, route.amountIn)
+  let info = ``
+  route.legs.forEach((l, i) => {
+    const pool = network.pools.find(p => p.address == l.poolAddress)
+    const inp = liquidity.get(parseInt(l.tokenFrom.name))*l.absolutePortion
+    const {out} = pool.calcOutByIn(inp, pool.token0.address == l.tokenFrom.address)
+    const price_in = network.prices[parseInt(l.tokenFrom.name)]/network.prices[parseInt(route.fromToken.name)]
+    const price_out = network.prices[parseInt(l.tokenTo.name)]/network.prices[parseInt(route.fromToken.name)]
+    const diff = numberPrecision(100*(out*price_out/inp/price_in-1))
+    info += `${i} ${numberPrecision(l.absolutePortion)} ${l.tokenFrom.name}->${l.tokenTo.name} ${inp*price_in} -> ${out*price_out} (${diff}%)\n`    
+    addLiquidity(l.tokenTo, out)
+  })
+  console.log(info);  
+}
+
 const routingQuality = 1e-2
 function checkExactOut(
   routeIn: MultiRoute,
@@ -517,7 +550,7 @@ it('Token price calculation is correct', () => {
 })
 
 it(`Multirouter for ${network.tokens.length} tokens and ${network.pools.length} pools (200 times)`, () => {
-  for (var i = 0; i < 50; ++i) {
+  for (var i = 0; i < 200; ++i) {
     const [t0, t1, tBase] = chooseRandomTokens(rnd, network)
     const amountIn = getRandom(rnd, 1e6, 1e24)
 

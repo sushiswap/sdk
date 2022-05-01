@@ -190,6 +190,16 @@ describe("StableSwap test", () => {
     expect(inp).toEqual(Number.POSITIVE_INFINITY)    
   })
 
+  it('super low amount in/out', () => {
+    const pool = createPool(v, v, 0.0005)
+
+    const {inp} = pool.calcInByOut(5, true)
+    expect(inp).toBeGreaterThanOrEqual(5)
+
+    const {out} = pool.calcOutByIn(5, true)
+    expect(out).toBeLessThanOrEqual(5)
+  })
+
   it.skip('timing mesure', () => {
     const pool = createPool(v, v.add(v.div(100)))
     const amountIn = parseInt(v.div(1000).toString())

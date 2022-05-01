@@ -45,9 +45,10 @@ export class StableSwapRPool extends RPool {
   calcOutByIn(amountIn: number, direction: boolean): {out: number, gasSpent: number} {
     const x = direction ? this.reserve0 : this.reserve1
     const y = direction ? this.reserve1 : this.reserve0
-    const xNew = x.add(getBigNumber(amountIn * (1 - this.fee)))
+    const xNew = x.add(getBigNumber(Math.floor(amountIn * (1 - this.fee))))
     const yNew = this.computeY(xNew, y)
-    return {out: parseInt(y.sub(yNew).toString()), gasSpent: this.swapGasCost}
+    const out = parseInt(y.sub(yNew).toString()) - 1    // with precision loss compensation
+    return {out: Math.max(out, 0), gasSpent: this.swapGasCost}
   }
 
   calcInByOut(amountOut: number, direction: boolean): {inp: number, gasSpent: number} {
@@ -58,7 +59,7 @@ export class StableSwapRPool extends RPool {
       return {inp: Number.POSITIVE_INFINITY, gasSpent: this.swapGasCost}
 
     const xNew = this.computeY(yNew, x)
-    let input = Math.round(parseInt(xNew.sub(x).toString()) / (1 - this.fee))
+    let input = Math.round(parseInt(xNew.sub(x).toString()) / (1 - this.fee)) + 1  // with precision loss compensation
     return {inp: input, gasSpent: this.swapGasCost}
   }
 
