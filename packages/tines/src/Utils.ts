@@ -5,6 +5,14 @@ export function ASSERT(f: () => boolean, t?: string) {
       if (!f() && t) console.error(t);
     }
   }
+
+let DEBUG_MODE = false
+export function DEBUG(f: () => any) {
+  if (DEBUG_MODE) f()
+}
+export function DEBUG_MODE_ON(on: boolean) {
+  DEBUG_MODE = on
+}
   
   export function closeValues(a: number, b: number, accuracy: number): boolean {
     if (accuracy === 0) return a === b;

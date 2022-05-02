@@ -1,6 +1,6 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { RPool, RToken } from "./PrimaryPools";
-import {ASSERT, getBigNumber, closeValues} from "./Utils";
+import {ASSERT, getBigNumber, closeValues, DEBUG} from "./Utils";
 
 // Routing info about each one swap
 export interface RouteLeg {
@@ -526,6 +526,7 @@ export class Graph {
     const processedVert = new Set<Vertice>()
     const nextVertList = [start] // TODO: Use sorted Set!
 
+    let debug_info = ``
     let checkLine = 0
     for (;;) {
       let closestVert: Vertice | undefined
@@ -548,6 +549,7 @@ export class Graph {
         for (let v: Vertice | undefined = finish; v?.bestSource; v = v.getNeibour(v.bestSource)) {
           bestPath.unshift(v.bestSource)
         }
+        DEBUG(() => console.log(debug_info)) 
         return {
           path: bestPath,
           output: finish.bestIncome,
@@ -560,7 +562,7 @@ export class Graph {
       closestVert.edges.forEach((e) => {
         const v2 = closestVert === e.vert0 ? e.vert1 : e.vert0
         if (processedVert.has(v2)) return
-        let newIncome, gas
+        let newIncome: number, gas
         try {
           const {out, gasSpent} = e.calcOutput(closestVert as Vertice, (closestVert as Vertice).bestIncome)
           if (!isFinite(out) || !isFinite(gasSpent))   // Math errors protection
@@ -585,10 +587,15 @@ export class Graph {
 
         if (!v2.bestSource) nextVertList.push(v2)
         if (!v2.bestSource || newTotal > v2.bestTotal) {
+          DEBUG(() => {
+            const st = closestVert?.token == from ? '*' : ''
+            const fn = v2?.token == to ? '*' : ''
+            debug_info += `${st}${closestVert?.token.name}->${v2.token.name}${fn} ${v2.bestIncome} -> ${newIncome}\n`
+          })
           v2.bestIncome = newIncome
           v2.gasSpent = newGasSpent
           v2.bestTotal = newTotal
-          v2.bestSource = e
+          v2.bestSource = e          
         }
       })
       processedVert.add(closestVert)
@@ -630,6 +637,7 @@ export class Graph {
     const processedVert = new Set<Vertice>()
     const nextVertList = [start] // TODO: Use sorted Set!
 
+    let debug_info = ''
     let checkLine = 0
     for (;;) {
       let closestVert: Vertice | undefined
@@ -652,6 +660,7 @@ export class Graph {
         for (let v: Vertice | undefined = finish; v?.bestSource; v = v.getNeibour(v.bestSource)) {
           bestPath.push(v.bestSource)
         }
+        DEBUG(() => console.log(debug_info))
         return {
           path: bestPath,
           input: finish.bestIncome,
@@ -664,7 +673,7 @@ export class Graph {
       closestVert.edges.forEach((e) => {
         const v2 = closestVert === e.vert0 ? e.vert1 : e.vert0
         if (processedVert.has(v2)) return
-        let newIncome, gas
+        let newIncome: number, gas
         try {
           const {inp, gasSpent} = e.calcInput(closestVert as Vertice, (closestVert as Vertice).bestIncome)
           if (!isFinite(inp) || !isFinite(gasSpent))   // Math errors protection
@@ -686,6 +695,11 @@ export class Graph {
 
         if (!v2.bestSource) nextVertList.push(v2)
         if (!v2.bestSource || newTotal < v2.bestTotal) {
+          DEBUG(() => {
+            const st = v2?.token == from ? '*' : ''
+            const fn = closestVert?.token == to ? '*' : ''
+            debug_info += `${st}${closestVert?.token.name}<-${v2.token.name}${fn} ${v2.bestIncome} -> ${newIncome}\n`
+          })
           v2.bestIncome = newIncome
           v2.gasSpent = newGasSpent
           v2.bestTotal = newTotal
