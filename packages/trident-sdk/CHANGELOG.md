@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.109](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.108...@sushiswap/trident-sdk@1.0.0-canary.109) (2022-05-04)
+
+**Note:** Version bump only for package @sushiswap/trident-sdk
+
+
+
+
+
 # [1.0.0-canary.108](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.105...@sushiswap/trident-sdk@1.0.0-canary.108) (2022-05-04)
 
 
