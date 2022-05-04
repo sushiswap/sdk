@@ -1,6 +1,6 @@
 {
   "name": "@sushiswap/tines",
-  "version": "1.0.0-canary.76",
+  "version": "1.0.0-canary.78",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -21,6 +21,7 @@
     "build": "tsdx build",
     "watch": "tsdx watch",
     "test": "tsdx test",
+    "test_debug": "node --inspect-brk '../../node_modules/tsdx/dist/index.js' test",
     "clear_jest_cache": "tsdx test --clearCache --passWithNoTests",
     "prepublishOnly": "npx tsdx build"
   },
