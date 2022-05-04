@@ -29,4 +29,5 @@ export enum ChainKey {
   TELOS = 'telos',
   XDAI = 'xdai',
   MOONBEAM = 'moonbeam',
+  OPTIMISM = 'optimism',
 }
