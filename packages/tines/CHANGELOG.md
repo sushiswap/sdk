@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.84](https://github.com/sushiswap/sdk/compare/@sushiswap/tines@1.0.0-canary.83...@sushiswap/tines@1.0.0-canary.84) (2022-05-04)
+
+**Note:** Version bump only for package @sushiswap/tines
+
+
+
+
+
 # [1.0.0-canary.83](https://github.com/sushiswap/sdk/compare/@sushiswap/tines@1.0.0-canary.82...@sushiswap/tines@1.0.0-canary.83) (2022-05-04)
 
 **Note:** Version bump only for package @sushiswap/tines
