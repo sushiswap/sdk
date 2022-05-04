@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.82](https://github.com/sushiswap/sdk/compare/@sushiswap/bentobox-sdk@1.0.0-canary.81...@sushiswap/bentobox-sdk@1.0.0-canary.82) (2022-05-04)
+
+
+### Bug Fixes
+
+* prepublish ([321b581](https://github.com/sushiswap/sdk/commit/321b581c7b7670bebede8e7c0c71fa5dd2d1ff17))
+
+
+
+
+
 # [1.0.0-canary.81](https://github.com/sushiswap/sdk/compare/@sushiswap/bentobox-sdk@1.0.0-canary.80...@sushiswap/bentobox-sdk@1.0.0-canary.81) (2022-05-04)
 
 **Note:** Version bump only for package @sushiswap/bentobox-sdk
