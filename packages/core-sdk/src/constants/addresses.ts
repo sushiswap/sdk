@@ -44,6 +44,7 @@ export const USDC_ADDRESS: AddressMap = {
   [ChainId.TELOS]: '0x818ec0A7Fe18Ff94269904fCED6AE3DaE6d6dC0b',
   [ChainId.FUSE]: '0x620fd5fa44BE6af63715Ef4E65DDFA0387aD13F5',
   [ChainId.MOONBEAM]: '0x8f552a71EFE5eeFc207Bf75485b356A0b3f01eC9',
+  [ChainId.OPTIMISM]: '0x7F5c764cBc14f9669B88837ca1490cCa17c31607',
 }
 
 export const USD_ADDRESS: AddressMap = {
@@ -64,6 +65,7 @@ export const USD_ADDRESS: AddressMap = {
   [ChainId.TELOS]: USDC_ADDRESS[ChainId.TELOS],
   [ChainId.FUSE]: USDC_ADDRESS[ChainId.FUSE],
   [ChainId.MOONBEAM]: USDC_ADDRESS[ChainId.MOONBEAM],
+  [ChainId.OPTIMISM]: USDC_ADDRESS[ChainId.OPTIMISM],
 }
 
 export const WETH9_ADDRESS: AddressMap = {
@@ -142,6 +144,7 @@ export const DAI_ADDRESS: AddressMap = {
   // [ChainId.TELOS]: '',
   [ChainId.FUSE]: '0x94Ba7A27c7A95863d1bdC7645AC2951E0cca06bA',
   [ChainId.MOONBEAM]: '0xc234A67a4F840E61adE794be47de455361b52413',
+  [ChainId.OPTIMISM]: '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1',
 }
 
 export const USDT_ADDRESS: AddressMap = {
@@ -162,6 +165,7 @@ export const USDT_ADDRESS: AddressMap = {
   [ChainId.TELOS]: '0xeFAeeE334F0Fd1712f9a8cc375f427D9Cdd40d73',
   [ChainId.FUSE]: '0xFaDbBF8Ce7D5b7041bE672561bbA99f79c532e10',
   [ChainId.MOONBEAM]: '0x8e70cd5b4ff3f62659049e74b6649c6603a0e594',
+  [ChainId.OPTIMISM]: '0x94b008aA00579c1307B0EF2c499aD98a8ce58e58',
 }
 
 export const MIM_ADDRESS: AddressMap = {
