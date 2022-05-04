@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.79](https://github.com/sushiswap/sdk/compare/@sushiswap/tines@1.0.0-canary.76...@sushiswap/tines@1.0.0-canary.79) (2022-05-04)
+
+
+### Bug Fixes
+
+* +complex test for StableSwap Pool ([228fb91](https://github.com/sushiswap/sdk/commit/228fb91651cf1b61acd0884be303bc52e0adb09a))
+* +exceptions in tests ([65906a6](https://github.com/sushiswap/sdk/commit/65906a673e03a0e2442c365afdf3bc1fcf879875))
+* +timing for pools ([f4ca2ba](https://github.com/sushiswap/sdk/commit/f4ca2bae7fdcee715755354bd9e7443b1e35bb39))
+* Stable swap pool super low amount for calcInByOut ([8085136](https://github.com/sushiswap/sdk/commit/80851360b9c6da2d8f5bba32318ce3ccf5ae5d1b))
+* Stable swap pool super low amount in/out ([a50ab13](https://github.com/sushiswap/sdk/commit/a50ab13d81d0de4f631540774db7b63b9f297121))
+* tines assert code is switched off for production ([02f8702](https://github.com/sushiswap/sdk/commit/02f8702c4120a8b25c821464f17c59602ab8fa57))
+* tines pricing was fixed ([b4f78aa](https://github.com/sushiswap/sdk/commit/b4f78aaf4fc204ebfe5ef2fa308208675e0444f8))
+
+
+
+
+
 # [1.0.0-canary.76](https://github.com/sushiswap/sdk/compare/@sushiswap/tines@1.0.0-canary.75...@sushiswap/tines@1.0.0-canary.76) (2022-04-16)
 
 **Note:** Version bump only for package @sushiswap/tines

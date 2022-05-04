@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.95](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.94...@sushiswap/core-sdk@1.0.0-canary.95) (2022-05-04)
+
+
+### Features
+
+* init optimism config ([d2955fd](https://github.com/sushiswap/sdk/commit/d2955fd135d9b674c63a246665917781760ee55e))
+
+
+
+
+
 # [1.0.0-canary.94](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.93...@sushiswap/core-sdk@1.0.0-canary.94) (2022-04-16)
 
 

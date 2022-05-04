@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.108](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.105...@sushiswap/trident-sdk@1.0.0-canary.108) (2022-05-04)
+
+
+### Bug Fixes
+
+* tines assert code is switched off for production ([02f8702](https://github.com/sushiswap/sdk/commit/02f8702c4120a8b25c821464f17c59602ab8fa57))
+* tines pricing was fixed ([b4f78aa](https://github.com/sushiswap/sdk/commit/b4f78aaf4fc204ebfe5ef2fa308208675e0444f8))
+
+
+
+
+
 # [1.0.0-canary.105](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.104...@sushiswap/trident-sdk@1.0.0-canary.105) (2022-04-16)
 
 **Note:** Version bump only for package @sushiswap/trident-sdk
