@@ -21,7 +21,7 @@
     "build": "tsdx build",
     "watch": "tsdx watch",
     "test": "tsdx test --passWithNoTests",
-    "prepublishOnly": "tsdx build"
+    "prepublishOnly": "npx tsdx build"
   },
   "dependencies": {
     "@sushiswap/core-sdk": "1.0.0-canary.101"
