@@ -1,6 +1,6 @@
 import EXPORTS from '@sushiswap/trident/exports/all.json'
 import { Fee } from '../enums/Fee'
-import { Token } from '@sushiswap/core-sdk'
+import { ChainId, Token } from '@sushiswap/core-sdk'
 import { computePoolInitCodeHash } from './computePoolInitCodeHash'
 import constantProductPoolArtifact from '@sushiswap/trident/artifacts/contracts/pool/constant-product/ConstantProductPool.sol/ConstantProductPool.json'
 import { defaultAbiCoder } from '@ethersproject/abi'
@@ -29,11 +29,14 @@ export const computeConstantProductPoolAddress = ({
   )
 
   // Compute init code hash based off the bytecode, deployData & masterDeployerAddress
-  const CONSTANT_PRODUCT_POOL_INIT_CODE_HASH = computePoolInitCodeHash({
-    creationCode: constantProductPoolArtifact.bytecode,
-    deployData,
-    masterDeployerAddress: (EXPORTS as any)[token0.chainId][0].contracts.MasterDeployer.address,
-  })
+  const CONSTANT_PRODUCT_POOL_INIT_CODE_HASH =
+    token0.chainId === ChainId.MATIC
+      ? computePoolInitCodeHash({
+          creationCode: constantProductPoolArtifact.bytecode,
+          deployData,
+          masterDeployerAddress: (EXPORTS as any)[token0.chainId][0].contracts.MasterDeployer.address,
+        })
+      : keccak256(['bytes'], [constantProductPoolArtifact.bytecode])
 
   // Compute pool address
   return getCreate2Address(factoryAddress, keccak256(['bytes'], [deployData]), CONSTANT_PRODUCT_POOL_INIT_CODE_HASH)
