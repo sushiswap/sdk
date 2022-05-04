@@ -21,6 +21,7 @@ export const USDC: TokenMap = {
   [ChainId.FUSE]: new Token(ChainId.FUSE, USDC_ADDRESS[ChainId.FUSE], 6, 'USDC', 'USD Coin'),
   [ChainId.TELOS]: new Token(ChainId.TELOS, USDC_ADDRESS[ChainId.TELOS], 6, 'USDC', 'USD Coin'),
   [ChainId.MOONBEAM]: new Token(ChainId.MOONBEAM, USDC_ADDRESS[ChainId.MOONBEAM], 6, 'USDC', 'USD Coin'),
+  [ChainId.OPTIMISM]: new Token(ChainId.OPTIMISM, USDC_ADDRESS[ChainId.OPTIMISM], 6, 'USDC', 'USD Coin'),
 }
 
 export const USD: TokenMap = {
