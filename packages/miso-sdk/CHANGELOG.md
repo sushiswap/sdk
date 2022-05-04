@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.72](https://github.com/sushiswap/sdk/compare/@sushiswap/miso-sdk@1.0.0-canary.71...@sushiswap/miso-sdk@1.0.0-canary.72) (2022-05-04)
+
+**Note:** Version bump only for package @sushiswap/miso-sdk
+
+
+
+
+
 # [1.0.0-canary.71](https://github.com/sushiswap/sdk/compare/@sushiswap/miso-sdk@1.0.0-canary.70...@sushiswap/miso-sdk@1.0.0-canary.71) (2022-05-04)
 
 **Note:** Version bump only for package @sushiswap/miso-sdk
