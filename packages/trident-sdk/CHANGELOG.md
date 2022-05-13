@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.117](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.116...@sushiswap/trident-sdk@1.0.0-canary.117) (2022-05-13)
+
+
+### Bug Fixes
+
+* **trident-sdk:** alias older version of trident for matic bytecode ([f333e24](https://github.com/sushiswap/sdk/commit/f333e24104f5d6b3782cdcf3b0af08f927fcdaf2))
+
+
+
+
+
 # [1.0.0-canary.116](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.115...@sushiswap/trident-sdk@1.0.0-canary.116) (2022-05-09)
 
 **Note:** Version bump only for package @sushiswap/trident-sdk
