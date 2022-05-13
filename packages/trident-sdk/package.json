@@ -29,7 +29,8 @@
     "@sushiswap/core-sdk": "1.0.0-canary.107",
     "@sushiswap/tines": "1.0.0-canary.87",
     "@sushiswap/trident": "1.0.0-canary.38",
-    "tiny-invariant": "^1.1.0"
+    "tiny-invariant": "^1.1.0",
+    "trident-preview": "npm:@sushiswap/trident@1.0.0-canary.36"
   },
   "devDependencies": {
     "tsdx": "^0.14.1"

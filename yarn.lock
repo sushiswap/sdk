@@ -3207,6 +3207,7 @@ __metadata:
     "@sushiswap/tines": 1.0.0-canary.87
     "@sushiswap/trident": 1.0.0-canary.38
     tiny-invariant: ^1.1.0
+    trident-preview: "npm:@sushiswap/trident@1.0.0-canary.36"
     tsdx: ^0.14.1
   languageName: unknown
   linkType: soft
@@ -11977,6 +11978,13 @@ __metadata:
   version: 0.0.3
   resolution: "tr46@npm:0.0.3"
   checksum: 726321c5eaf41b5002e17ffbd1fb7245999a073e8979085dacd47c4b4e8068ff5777142fc6726d6ca1fd2ff16921b48788b87225cbc57c72636f6efa8efbffe3
+  languageName: node
+  linkType: hard
+
+"trident-preview@npm:@sushiswap/trident@1.0.0-canary.36":
+  version: 1.0.0-canary.36
+  resolution: "@sushiswap/trident@npm:1.0.0-canary.36"
+  checksum: 71d225b5dd733c8f690566d06c9d0035bacfb6caa869f5769a39d4c96624c00c7ca1660abee36485407cc90ea03d529cf5b06575a87788d34af1ca49ab9e7b20
   languageName: node
   linkType: hard
 
