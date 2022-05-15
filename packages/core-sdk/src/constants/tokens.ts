@@ -46,6 +46,13 @@ export const WETH9: TokenMap = {
   [ChainId.BSC]: new Token(ChainId.BSC, WETH9_ADDRESS[ChainId.BSC], 18, 'WETH', 'Wrapped Ether'),
   [ChainId.FANTOM]: new Token(ChainId.FANTOM, WETH9_ADDRESS[ChainId.FANTOM], 18, 'WETH', 'Wrapped Ether'),
   [ChainId.MATIC]: new Token(ChainId.MATIC, WETH9_ADDRESS[ChainId.MATIC], 18, 'WETH', 'Wrapped Ether'),
+  [ChainId.MATIC_TESTNET]: new Token(
+    ChainId.MATIC_TESTNET,
+    WETH9_ADDRESS[ChainId.MATIC_TESTNET],
+    18,
+    'WETH',
+    'Wrapped Ether'
+  ),
   [ChainId.OKEX]: new Token(ChainId.OKEX, WETH9_ADDRESS[ChainId.OKEX], 18, 'WETH', 'Wrapped Ether'),
   [ChainId.HECO]: new Token(ChainId.HECO, WETH9_ADDRESS[ChainId.HECO], 18, 'WETH', 'Wrapped Ether'),
   [ChainId.HARMONY]: new Token(ChainId.HARMONY, WETH9_ADDRESS[ChainId.HARMONY], 18, 'WETH', 'Wrapped Ether'),
