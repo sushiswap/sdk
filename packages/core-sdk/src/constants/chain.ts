@@ -33,4 +33,5 @@ export const CHAIN_KEY: { [chainId: number]: ChainKey } = {
   [ChainId.TELOS]: ChainKey.TELOS,
   [ChainId.MOONBEAM]: ChainKey.MOONBEAM,
   [ChainId.OPTIMISM]: ChainKey.OPTIMISM,
+  [ChainId.KAVA]: ChainKey.KAVA,
 }
