@@ -28,12 +28,12 @@
     "@ethersproject/bignumber": "^5.4.0",
     "@sushiswap/core-sdk": "1.0.0-canary.113",
     "@sushiswap/tines": "1.0.0-canary.93",
-    "@sushiswap/trident": "1.0.0-canary.38",
+    "@sushiswap/trident": "1.0.0-canary.39",
     "tiny-invariant": "^1.1.0",
     "trident-preview": "npm:@sushiswap/trident@1.0.0-canary.36"
   },
   "devDependencies": {
     "tsdx": "^0.14.1"
   },
-  "gitHead": "79250954a84bdce5064255c369dedd9f33ad0ae7"
+  "gitHead": "59f0225d9e6a99fe16cc6f8cec747b77e667b41d"
 }
