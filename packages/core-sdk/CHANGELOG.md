@@ -3,6 +3,57 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.116](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.115...@sushiswap/core-sdk@1.0.0-canary.116) (2022-06-16)
+
+**Note:** Version bump only for package @sushiswap/core-sdk
+
+
+
+
+
+# [1.0.0-canary.115](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.114...@sushiswap/core-sdk@1.0.0-canary.115) (2022-06-14)
+
+**Note:** Version bump only for package @sushiswap/core-sdk
+
+
+
+
+
+# [1.0.0-canary.114](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.113...@sushiswap/core-sdk@1.0.0-canary.114) (2022-06-06)
+
+**Note:** Version bump only for package @sushiswap/core-sdk
+
+
+
+
+
+# [1.0.0-canary.113](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.112...@sushiswap/core-sdk@1.0.0-canary.113) (2022-06-06)
+
+
+### Features
+
+* init kava tokens & addresses ([31cb5c7](https://github.com/sushiswap/sdk/commit/31cb5c7eba2bbc8ff619a02c1435ea4175042324))
+
+
+
+
+
+# [1.0.0-canary.112](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.111...@sushiswap/core-sdk@1.0.0-canary.112) (2022-06-06)
+
+**Note:** Version bump only for package @sushiswap/core-sdk
+
+
+
+
+
+# [1.0.0-canary.111](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.110...@sushiswap/core-sdk@1.0.0-canary.111) (2022-06-05)
+
+**Note:** Version bump only for package @sushiswap/core-sdk
+
+
+
+
+
 # [1.0.0-canary.110](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.109...@sushiswap/core-sdk@1.0.0-canary.110) (2022-05-15)
 
 **Note:** Version bump only for package @sushiswap/core-sdk

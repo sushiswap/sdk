@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.96](https://github.com/sushiswap/sdk/compare/@sushiswap/tines@1.0.0-canary.95...@sushiswap/tines@1.0.0-canary.96) (2022-06-16)
+
+**Note:** Version bump only for package @sushiswap/tines
+
+
+
+
+
+# [1.0.0-canary.95](https://github.com/sushiswap/sdk/compare/@sushiswap/tines@1.0.0-canary.94...@sushiswap/tines@1.0.0-canary.95) (2022-06-14)
+
+**Note:** Version bump only for package @sushiswap/tines
+
+
+
+
+
+# [1.0.0-canary.94](https://github.com/sushiswap/sdk/compare/@sushiswap/tines@1.0.0-canary.93...@sushiswap/tines@1.0.0-canary.94) (2022-06-06)
+
+**Note:** Version bump only for package @sushiswap/tines
+
+
+
+
+
+# [1.0.0-canary.93](https://github.com/sushiswap/sdk/compare/@sushiswap/tines@1.0.0-canary.92...@sushiswap/tines@1.0.0-canary.93) (2022-06-06)
+
+**Note:** Version bump only for package @sushiswap/tines
+
+
+
+
+
+# [1.0.0-canary.92](https://github.com/sushiswap/sdk/compare/@sushiswap/tines@1.0.0-canary.91...@sushiswap/tines@1.0.0-canary.92) (2022-06-06)
+
+**Note:** Version bump only for package @sushiswap/tines
+
+
+
+
+
+# [1.0.0-canary.91](https://github.com/sushiswap/sdk/compare/@sushiswap/tines@1.0.0-canary.90...@sushiswap/tines@1.0.0-canary.91) (2022-06-05)
+
+**Note:** Version bump only for package @sushiswap/tines
+
+
+
+
+
 # [1.0.0-canary.90](https://github.com/sushiswap/sdk/compare/@sushiswap/tines@1.0.0-canary.89...@sushiswap/tines@1.0.0-canary.90) (2022-05-15)
 
 **Note:** Version bump only for package @sushiswap/tines

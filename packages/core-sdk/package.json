@@ -1,6 +1,6 @@
 {
   "name": "@sushiswap/core-sdk",
-  "version": "1.0.0-canary.110",
+  "version": "1.0.0-canary.116",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -39,5 +39,5 @@
     "@types/big.js": "^6.1.0",
     "tsdx": "^0.14.1"
   },
-  "gitHead": "4d76b90c632bddb454b5899dc3bb65868100925d"
+  "gitHead": "b869e78b9f7fa4a073f599f557a141f894287766"
 }

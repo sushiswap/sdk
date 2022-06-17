@@ -23,6 +23,7 @@ export const USDC: TokenMap = {
   [ChainId.TELOS]: new Token(ChainId.TELOS, USDC_ADDRESS[ChainId.TELOS], 6, 'USDC', 'USD Coin'),
   [ChainId.MOONBEAM]: new Token(ChainId.MOONBEAM, USDC_ADDRESS[ChainId.MOONBEAM], 6, 'USDC', 'USD Coin'),
   [ChainId.OPTIMISM]: new Token(ChainId.OPTIMISM, USDC_ADDRESS[ChainId.OPTIMISM], 6, 'USDC', 'USD Coin'),
+  [ChainId.KAVA]: new Token(ChainId.KAVA, USDC_ADDRESS[ChainId.KAVA], 6, 'USDC', 'USD Coin'),
 }
 
 export const USD: TokenMap = {
@@ -64,6 +65,7 @@ export const WETH9: TokenMap = {
   [ChainId.FUSE]: new Token(ChainId.FUSE, WETH9_ADDRESS[ChainId.FUSE], 18, 'WETH', 'Wrapped Ether'),
   [ChainId.MOONBEAM]: new Token(ChainId.MOONBEAM, WETH9_ADDRESS[ChainId.MOONBEAM], 18, 'WETH', 'Wrapped Ether'),
   [ChainId.OPTIMISM]: new Token(ChainId.OPTIMISM, WETH9_ADDRESS[ChainId.OPTIMISM], 18, 'WETH', 'Wrapped Ether'),
+  [ChainId.KAVA]: new Token(ChainId.KAVA, WETH9_ADDRESS[ChainId.KAVA], 18, 'WETH', 'Wrapped Ether'),
 }
 
 export const WNATIVE: TokenMap = {
@@ -151,6 +153,7 @@ export const WNATIVE: TokenMap = {
   [ChainId.FUSE]: new Token(ChainId.FUSE, WNATIVE_ADDRESS[ChainId.FUSE], 18, 'WFUSE', 'Wrapped Fuse'),
   [ChainId.TELOS]: new Token(ChainId.TELOS, WNATIVE_ADDRESS[ChainId.TELOS], 18, 'WTLOS', 'Wrapped Telos'),
   [ChainId.MOONBEAM]: new Token(ChainId.MOONBEAM, WNATIVE_ADDRESS[ChainId.MOONBEAM], 18, 'WGLMR', 'Wrapped Glimmer'),
+  [ChainId.KAVA]: new Token(ChainId.KAVA, WNATIVE_ADDRESS[ChainId.KAVA], 18, 'WKAVA', 'Wrapped Kava'),
 }
 
 export const SUSHI: ChainTokenMap = {
@@ -173,4 +176,5 @@ export const SUSHI: ChainTokenMap = {
   [ChainId.FUSE]: new Token(ChainId.FUSE, SUSHI_ADDRESS[ChainId.FUSE], 18, 'SUSHI', 'SushiToken'),
   [ChainId.TELOS]: new Token(ChainId.TELOS, SUSHI_ADDRESS[ChainId.TELOS], 18, 'SUSHI', 'SushiToken'),
   [ChainId.MOONBEAM]: new Token(ChainId.MOONBEAM, SUSHI_ADDRESS[ChainId.MOONBEAM], 18, 'SUSHI', 'SushiToken'),
+  [ChainId.KAVA]: new Token(ChainId.KAVA, SUSHI_ADDRESS[ChainId.KAVA], 18, 'SUSHI', 'SushiToken'),
 }
