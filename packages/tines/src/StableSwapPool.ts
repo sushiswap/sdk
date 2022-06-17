@@ -62,7 +62,7 @@ export class StableSwapRPool extends RPool {
   updateReserves(res0: BigNumber, res1: BigNumber) {
     this.k = BigNumber.from(0)
     this.reserve0 = this.total0.toAmountBN(res0)
-    this.reserve1 = this.total0.toAmountBN(res1)
+    this.reserve1 = this.total1.toAmountBN(res1)
   }
 
   computeK(): BigNumber {
