@@ -2,7 +2,7 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { RPool, RToken} from "./PrimaryPools";
 import { getBigNumber } from './Utils'
 
-interface Rebase {
+export interface Rebase {
   elastic: BigNumber
   base: BigNumber
 }
@@ -37,9 +37,18 @@ class RebaseInternal {
   }
 }
 
+function realReservesToAdjusted(reserve: BigNumber, total: Rebase, decimals: number) {
+  const amount = toAmountBN(reserve, total)
+  return amount.mul(1e12).div(getBigNumber(Math.pow(10, decimals)))
+}
+
 // xy(xx+yy) = k
 export class StableSwapRPool extends RPool {
   k: BigNumber // set it to 0 if reserves are changed !!
+  decimals0: number
+  decimals1: number
+  decimalsCompensation0: number
+  decimalsCompensation1: number
   total0 : RebaseInternal
   total1: RebaseInternal
 
@@ -50,19 +59,32 @@ export class StableSwapRPool extends RPool {
     fee: number, 
     reserve0: BigNumber,
     reserve1: BigNumber,
+    decimals0: number,
+    decimals1: number,
     total0 : Rebase,
     total1: Rebase,
   ) {
-    super(address, token0, token1, fee, toAmountBN(reserve0, total0), toAmountBN(reserve1, total1))
+    super(
+      address, 
+      token0, 
+      token1, 
+      fee, 
+      realReservesToAdjusted(reserve0, total0, decimals0), 
+      realReservesToAdjusted(reserve1, total1, decimals1)
+    )
     this.k = BigNumber.from(0)
+    this.decimals0 = decimals0
+    this.decimals1 = decimals1
+    this.decimalsCompensation0 = Math.pow(10, 12 - decimals0)
+    this.decimalsCompensation1 = Math.pow(10, 12 - decimals1)
     this.total0 = new RebaseInternal(total0)
     this.total1 = new RebaseInternal(total1)
   }
 
   updateReserves(res0: BigNumber, res1: BigNumber) {
     this.k = BigNumber.from(0)
-    this.reserve0 = this.total0.toAmountBN(res0)
-    this.reserve1 = this.total1.toAmountBN(res1)
+    this.reserve0 = realReservesToAdjusted(res0, this.total0.rebaseBN, this.decimals0)
+    this.reserve1 = realReservesToAdjusted(res1, this.total1.rebaseBN, this.decimals1)
   }
 
   computeK(): BigNumber {
@@ -92,18 +114,21 @@ export class StableSwapRPool extends RPool {
 
   calcOutByIn(amountIn: number, direction: boolean): {out: number, gasSpent: number} {
     amountIn = direction ? this.total0.toAmount(amountIn) : this.total1.toAmount(amountIn)
+    amountIn *= (direction ? this.decimalsCompensation0 : this.decimalsCompensation1)
     const x = direction ? this.reserve0 : this.reserve1
     const y = direction ? this.reserve1 : this.reserve0
     const xNew = x.add(getBigNumber(Math.floor(amountIn * (1 - this.fee))))
     const yNew = this.computeY(xNew, y)
     const outA = parseInt(y.sub(yNew).toString()) - 1    // with precision loss compensation
     const outB = Math.max(outA, 0)
-    const out = direction ? this.total1.toShare(outB) : this.total0.toShare(outB)
+    const outC = direction ? this.total1.toShare(outB) : this.total0.toShare(outB)
+    const out = outC / (direction ? this.decimalsCompensation1 : this.decimalsCompensation0)
     return {out, gasSpent: this.swapGasCost}
   }
 
   calcInByOut(amountOut: number, direction: boolean): {inp: number, gasSpent: number} {
     amountOut = direction ? this.total0.toAmount(amountOut) : this.total1.toAmount(amountOut)
+    amountOut *= (direction ? this.decimalsCompensation0 : this.decimalsCompensation1)
     const x = direction ? this.reserve0 : this.reserve1
     const y = direction ? this.reserve1 : this.reserve0
     let yNew = y.sub(getBigNumber(Math.ceil(amountOut)))
@@ -111,8 +136,10 @@ export class StableSwapRPool extends RPool {
       return {inp: Number.POSITIVE_INFINITY, gasSpent: this.swapGasCost}
 
     const xNew = this.computeY(yNew, x)
-    const input = Math.round(parseInt(xNew.sub(x).toString()) / (1 - this.fee)) + 1  // with precision loss compensation
-    const inp = direction ? this.total1.toShare(input) : this.total0.toShare(input)
+    const inp0 = parseInt(xNew.sub(x).toString()) / (1 - this.fee)
+    const inp1 = direction ? this.total1.toShare(inp0) : this.total0.toShare(inp0)
+    const inp2 = inp1 / (direction ? this.decimalsCompensation1 : this.decimalsCompensation0)
+    const inp = Math.round(inp2) + 1  // with precision loss compensation
     return {inp, gasSpent: this.swapGasCost}
   }
 

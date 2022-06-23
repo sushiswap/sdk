@@ -1,5 +1,5 @@
-import { BigNumber } from "@ethersproject/bignumber"
-import { getBigNumber, StableSwapRPool, closeValues } from "../src"
+import { BigNumber, BigNumberish } from "@ethersproject/bignumber"
+import { getBigNumber, StableSwapRPool, closeValues, Rebase } from "../src"
 
 const token0 = {
   name: "Token0",
@@ -11,7 +11,32 @@ const token1 = {
 }
 const v = BigNumber.from("0x76329851304572304587")  // random number  ~ 2^80
 
+function expectCloseValues(
+  v1: BigNumberish,
+  v2: BigNumberish,
+  precision: number,
+  description = "",
+  additionalInfo = ""
+) {
+  const a = typeof v1 == "number" ? v1 : parseFloat(v1.toString());
+  const b = typeof v2 == "number" ? v2 : parseFloat(v2.toString());
+  const res = closeValues(a, b, precision);
+  if (!res) {
+    console.log("Close values expectation failed:", description);
+    console.log("v1 =", a);
+    console.log("v2 =", b);
+    console.log("precision =", Math.abs(a / b - 1), ", expected <", precision);
+    if (additionalInfo != "") {
+      console.log(additionalInfo);
+    }
+  }
+  expect(res).toBeTruthy();
+  return res;
+}
+
 function createPool(amountX: BigNumber, amountY: BigNumber, fee = 0.003, 
+  decimals0 = 18,
+  decimals1 = 18,
   total0 = {elastic: BigNumber.from(1), base: BigNumber.from(1)},
   total1 = {elastic: BigNumber.from(1), base: BigNumber.from(1)}
   ) {
@@ -22,18 +47,22 @@ function createPool(amountX: BigNumber, amountY: BigNumber, fee = 0.003,
     fee,
     amountX,
     amountY,
+    decimals0,
+    decimals1,
     total0,
     total1
   )
 }
 
 function checkCurveInvariant(pool: StableSwapRPool, amountIn: number, amountOut: number, direction: boolean) {
+  amountIn *= (direction ? pool.decimalsCompensation0 : pool.decimalsCompensation1)
+  amountOut *= (direction ? pool.decimalsCompensation1 : pool.decimalsCompensation0)
   const prev_y = parseFloat((direction ? pool.reserve1 : pool.reserve0).toString())
   if (prev_y < amountOut*(1+1e-12)) 
     return true   // precision doens't allow to make the check -- too big swap
 
   const k = pool.computeK()
-  const amountInWithoutFee = amountIn*(1-pool.fee)
+  const amountInWithoutFee = (amountIn*(1-pool.fee))
   const x = (direction ? pool.reserve0 : pool.reserve1).add(getBigNumber(amountInWithoutFee))
   const y = (direction ? pool.reserve1 : pool.reserve0).sub(getBigNumber(amountOut))
 
@@ -70,11 +99,12 @@ function checkSwap(pool: StableSwapRPool, amountIn: number, direction: boolean):
 
   const prev_y = parseFloat((direction ? pool.reserve1 : pool.reserve0).toString())
   if (prev_y > out*(1+1e-12)) // else precision doens't allow to make the check -- too big swap
-    expect(closeValues(inp, amountIn, 1e-12)).toBeTruthy()
+    expectCloseValues(inp, amountIn, 1e-6)
 
   return out
 }
 
+const E33 = getBigNumber(1e33)
 function checkPoolPriceCalculation(pool: StableSwapRPool) {
   const price1 = pool.calcCurrentPriceWithoutFee(true)
   const price2 = pool.calcCurrentPriceWithoutFee(false)
@@ -89,12 +119,29 @@ function checkPoolPriceCalculation(pool: StableSwapRPool) {
 
   expect(Math.abs(price1*price2-1)).toBeLessThan(1e-9)
 
-  if (pool.reserve0.gt(1e15)) {
-    const inp = parseFloat(pool.reserve0.toString())/1e12
-    const {out} = pool.calcOutByIn(inp/(1-pool.fee), true)
-    const expected_price = out/inp
-    expect(Math.abs(price1/expected_price - 1)).toBeLessThan(1e-7)
+  function toShare(reserve: BigNumber, total: Rebase) {
+    return reserve.mul(total.base).div(total.elastic)
   }
+
+  let poolScaled = pool
+  if (pool.reserve0.lt(E33)) {
+    poolScaled = new StableSwapRPool(   // Scale E21 times
+      pool.address,
+      pool.token0,
+      pool.token1,
+      pool.fee,
+      toShare(pool.reserve0, pool.total0.rebaseBN).mul(E33),
+      toShare(pool.reserve1, pool.total1.rebaseBN).mul(E33),
+      pool.decimals0,
+      pool.decimals1,
+      pool.total0.rebaseBN,
+      pool.total1.rebaseBN
+    )
+  }
+  const inp = parseFloat(poolScaled.reserve0.toString())/1e15
+  const {out} = poolScaled.calcOutByIn(inp/(1-pool.fee), true)
+  const expected_price = out/inp
+  expect(Math.abs(price1/expected_price - 1)).toBeLessThan(1e-7)
 }
 
 function numberPrecision(n: number, precision = 2) {
@@ -109,7 +156,7 @@ describe("StableSwap test", () => {
   describe("calcOutByIn & calcInByOut", () => {
     it('Ideal balance, regular values', () => {
       const pool = createPool(
-        v, v, 0.003, 
+        v, v, 0.003, 18, 18,
         {elastic: getBigNumber(1.03*1e18), base: getBigNumber(2e18)},
         {elastic: getBigNumber(1.03*1e18), base: getBigNumber(2e18)}
       )
@@ -129,7 +176,7 @@ describe("StableSwap test", () => {
       }
       for (let j = 0; j < 16; ++j) {
         const pool = createPool(
-          v, v, 0.003, 
+          v, v, 0.003, 18, 18,
           totalZero(j),
           totalZero(j>>2)
         )
@@ -145,7 +192,7 @@ describe("StableSwap test", () => {
     })
     it('Small disbalance, regular values', () => {
       const pool = createPool(
-        v.add(v.div(10)), v, 0.003, 
+        v.add(v.div(10)), v, 0.003, 18, 18,
         {elastic: getBigNumber(0.8*1e18), base: getBigNumber(0.95*1e18)},
         {elastic: getBigNumber(0.8*1e18), base: getBigNumber(0.95*1e18)}
       )
@@ -191,8 +238,9 @@ describe("StableSwap test", () => {
       }
     })
 
+    // 1e8->1e2 if 18 decimals
     it('Extreme low balance', () => {    
-      const low_v = BigNumber.from("100")
+      const low_v = BigNumber.from(1e8)
       for (let i = 1; i < 100; ++i) {
         const pool = createPool(low_v.mul(i), low_v.mul(100-i))
         checkPoolPriceCalculation(pool)
@@ -209,7 +257,7 @@ describe("StableSwap test", () => {
     it('Total is not 1', () => {
       for (let i = 1; i < 100; ++i) {
         const pool = createPool(
-          v.mul(i), v.mul(100-i), 0.003, 
+          v.mul(i), v.mul(100-i), 0.003, 18, 18,
           {elastic: getBigNumber(1.03*1e18), base: getBigNumber(2e18)},
           {elastic: getBigNumber(1.1*1e18), base: getBigNumber(0.9*1e18)}
         )
@@ -218,7 +266,7 @@ describe("StableSwap test", () => {
 
       for (let i = 1; i < 100; ++i) {
         const pool = createPool(
-          v, v, 0.003, 
+          v, v, 0.003, 18, 18,
           {elastic: getBigNumber(1.05*1e18), base: getBigNumber(i*1e17)},
           {elastic: getBigNumber(1.15*1e18), base: getBigNumber((100-i)*1e17)}
         )
