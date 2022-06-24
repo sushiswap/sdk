@@ -47,7 +47,7 @@ function realReservesToAdjusted(reserve: BigNumber, total: Rebase, decimals: num
   return amount.mul(1e12).div(getBigNumber(Math.pow(10, decimals)))
 }
 
-export function adjustedReservesToReal(reserve: BigNumber, total: Rebase, decimals: number) {
+function adjustedReservesToReal(reserve: BigNumber, total: Rebase, decimals: number) {
   const amount = reserve.mul(getBigNumber(Math.pow(10, decimals))).div(1e12)
   return toShareBN(amount, total)
 }
@@ -89,6 +89,13 @@ export class StableSwapRPool extends RPool {
     this.decimalsCompensation1 = Math.pow(10, 12 - decimals1)
     this.total0 = new RebaseInternal(total0)
     this.total1 = new RebaseInternal(total1)
+  }
+
+  getRealReserve0() {
+    return adjustedReservesToReal(this.reserve0, this.total0.rebaseBN, this.decimals0)
+  }
+  getRealReserve1() {
+    return adjustedReservesToReal(this.reserve1, this.total1.rebaseBN, this.decimals1)
   }
 
   updateReserves(res0: BigNumber, res1: BigNumber) {

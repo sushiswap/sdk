@@ -1,5 +1,5 @@
 import { BigNumber, BigNumberish } from "@ethersproject/bignumber"
-import { getBigNumber, StableSwapRPool, closeValues, adjustedReservesToReal } from "../src"
+import { getBigNumber, StableSwapRPool, closeValues } from "../src"
 
 const token0 = {
   name: "Token0",
@@ -126,8 +126,8 @@ function checkPoolPriceCalculation(pool: StableSwapRPool) {
       pool.token0,
       pool.token1,
       pool.fee,
-      adjustedReservesToReal(pool.reserve0, pool.total0.rebaseBN, pool.decimals0).mul(E33),
-      adjustedReservesToReal(pool.reserve1, pool.total1.rebaseBN, pool.decimals1).mul(E33),
+      pool.getRealReserve0().mul(E33),
+      pool.getRealReserve1().mul(E33),
       pool.decimals0,
       pool.decimals1,
       pool.total0.rebaseBN,
