@@ -12,6 +12,11 @@ function toAmountBN(share: BigNumber, total: Rebase) {
   return share.mul(total.elastic).div(total.base)
 }
 
+function toShareBN(elastic: BigNumber, total: Rebase) {
+  if (total.base.isZero() || total.elastic.isZero()) return elastic
+  return elastic.mul(total.base).div(total.elastic)
+}
+
 class RebaseInternal {
   elastic2Base: number
   rebaseBN: Rebase
@@ -40,6 +45,11 @@ class RebaseInternal {
 function realReservesToAdjusted(reserve: BigNumber, total: Rebase, decimals: number) {
   const amount = toAmountBN(reserve, total)
   return amount.mul(1e12).div(getBigNumber(Math.pow(10, decimals)))
+}
+
+export function adjustedReservesToReal(reserve: BigNumber, total: Rebase, decimals: number) {
+  const amount = reserve.mul(getBigNumber(Math.pow(10, decimals))).div(1e12)
+  return toShareBN(amount, total)
 }
 
 // xy(xx+yy) = k
@@ -128,7 +138,7 @@ export class StableSwapRPool extends RPool {
 
   calcInByOut(amountOut: number, direction: boolean): {inp: number, gasSpent: number} {
     amountOut = direction ? this.total0.toAmount(amountOut) : this.total1.toAmount(amountOut)
-    amountOut *= (direction ? this.decimalsCompensation0 : this.decimalsCompensation1)
+    amountOut *= (direction ? this.decimalsCompensation1 : this.decimalsCompensation0)
     const x = direction ? this.reserve0 : this.reserve1
     const y = direction ? this.reserve1 : this.reserve0
     let yNew = y.sub(getBigNumber(Math.ceil(amountOut)))
@@ -138,7 +148,7 @@ export class StableSwapRPool extends RPool {
     const xNew = this.computeY(yNew, x)
     const inp0 = parseInt(xNew.sub(x).toString()) / (1 - this.fee)
     const inp1 = direction ? this.total1.toShare(inp0) : this.total0.toShare(inp0)
-    const inp2 = inp1 / (direction ? this.decimalsCompensation1 : this.decimalsCompensation0)
+    const inp2 = inp1 / (direction ? this.decimalsCompensation0 : this.decimalsCompensation1)
     const inp = Math.round(inp2) + 1  // with precision loss compensation
     return {inp, gasSpent: this.swapGasCost}
   }
@@ -146,7 +156,6 @@ export class StableSwapRPool extends RPool {
   calcCurrentPriceWithoutFee(direction: boolean): number {
     const calcDirection = this.reserve0.gt(this.reserve1)
     const xBN = calcDirection ? this.reserve0 : this.reserve1
-    // TODO: make x = max(x, y)
     const x = parseInt(xBN.toString())
     const k = parseInt(this.computeK().toString())
     const q = k/x/2
@@ -166,9 +175,10 @@ export class StableSwapRPool extends RPool {
     const yD = a3D - b3D
     const yDShares = calcDirection ? 
       this.total1.toShare(this.total0.toAmount(yD)) :
-      this.total0.toShare(this.total1.toAmount(yD))
-    
-    return calcDirection == direction ? -yDShares : -1/yDShares
+      this.total0.toShare(this.total1.toAmount(yD))    
+    const price = calcDirection == direction ? -yDShares : -1/yDShares
+    const scale = this.decimalsCompensation0/this.decimalsCompensation1
+    return direction ?  price*scale : price/scale
   }
 
 }

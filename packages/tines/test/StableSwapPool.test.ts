@@ -1,5 +1,5 @@
 import { BigNumber, BigNumberish } from "@ethersproject/bignumber"
-import { getBigNumber, StableSwapRPool, closeValues, Rebase } from "../src"
+import { getBigNumber, StableSwapRPool, closeValues, adjustedReservesToReal } from "../src"
 
 const token0 = {
   name: "Token0",
@@ -119,10 +119,6 @@ function checkPoolPriceCalculation(pool: StableSwapRPool) {
 
   expect(Math.abs(price1*price2-1)).toBeLessThan(1e-9)
 
-  function toShare(reserve: BigNumber, total: Rebase) {
-    return reserve.mul(total.base).div(total.elastic)
-  }
-
   let poolScaled = pool
   if (pool.reserve0.lt(E33)) {
     poolScaled = new StableSwapRPool(   // Scale E21 times
@@ -130,13 +126,13 @@ function checkPoolPriceCalculation(pool: StableSwapRPool) {
       pool.token0,
       pool.token1,
       pool.fee,
-      toShare(pool.reserve0, pool.total0.rebaseBN).mul(E33),
-      toShare(pool.reserve1, pool.total1.rebaseBN).mul(E33),
+      adjustedReservesToReal(pool.reserve0, pool.total0.rebaseBN, pool.decimals0).mul(E33),
+      adjustedReservesToReal(pool.reserve1, pool.total1.rebaseBN, pool.decimals1).mul(E33),
       pool.decimals0,
       pool.decimals1,
       pool.total0.rebaseBN,
       pool.total1.rebaseBN
-    )
+    )    
   }
   const inp = parseFloat(poolScaled.reserve0.toString())/1e15
   const {out} = poolScaled.calcOutByIn(inp/(1-pool.fee), true)
@@ -156,17 +152,17 @@ describe("StableSwap test", () => {
   describe("calcOutByIn & calcInByOut", () => {
     it('Ideal balance, regular values', () => {
       const pool = createPool(
-        v, v, 0.003, 18, 18,
+        v, v.mul(1e6), 0.003, 12, 18,
         {elastic: getBigNumber(1.03*1e18), base: getBigNumber(2e18)},
         {elastic: getBigNumber(1.03*1e18), base: getBigNumber(2e18)}
       )
       for (let i = 0; i < 100; ++i) {
         const amountIn = 1e18*i
-        const out1 = checkSwap(pool, amountIn, true)
-        const out2 = checkSwap(pool, amountIn, false)
+        const out1 = checkSwap(pool, amountIn, true)/1e6
+        const out2 = checkSwap(pool, amountIn*1e6, false)
 
-        expect(out1).toEqual(out2)
-        expect(out1).toBeLessThanOrEqual(amountIn*0.997)
+        expectCloseValues(out1, out2, 1e-10)
+        expect(out1).toBeLessThanOrEqual(amountIn*0.9970000001)
       }
     })
     it('total is 0', () => {
@@ -176,7 +172,7 @@ describe("StableSwap test", () => {
       }
       for (let j = 0; j < 16; ++j) {
         const pool = createPool(
-          v, v, 0.003, 18, 18,
+          v, v, 0.003, 6, 6,
           totalZero(j),
           totalZero(j>>2)
         )
@@ -192,14 +188,14 @@ describe("StableSwap test", () => {
     })
     it('Small disbalance, regular values', () => {
       const pool = createPool(
-        v.add(v.div(10)), v, 0.003, 18, 18,
+        v.add(v.div(10)), v.mul(1e12), 0.003, 6, 18,
         {elastic: getBigNumber(0.8*1e18), base: getBigNumber(0.95*1e18)},
         {elastic: getBigNumber(0.8*1e18), base: getBigNumber(0.95*1e18)}
       )
       for (let i = 0; i < 100; ++i) {
         const amountIn = 1e18*i
-        const out1 = checkSwap(pool, amountIn, true)
-        const out2 = checkSwap(pool, amountIn, false)
+        const out1 = checkSwap(pool, amountIn, true)/1e12
+        const out2 = checkSwap(pool, amountIn*1e12, false)
 
         expect(out1).toBeLessThanOrEqual(out2)
       }
@@ -215,25 +211,24 @@ describe("StableSwap test", () => {
       }
     })
     it('Ideal balance, huge swap values', () => {
-      const pool = createPool(v, v)
+      const pool = createPool(v.mul(1e12), v, 0.001, 18, 6)
 
-      const vNumber = parseFloat(v.toString())
-      for (let i = 0; i < 100; ++i) {
-        const amountIn = 1e28*i
-        const out1 = checkSwap(pool, amountIn, true)
-        const out2 = checkSwap(pool, amountIn, false)
+      const maxReserve = parseFloat(v.toString())*1e6
+      for (let i = 1; i < 100; ++i) {
+        const amountIn = 1e29*i
+        const out1 = checkSwap(pool, amountIn*1e6, true)*1e6
+        const out2 = checkSwap(pool, amountIn/1e6, false)/1e6
 
-        expect(out1).toEqual(out2)
-        expect(out1).toBeLessThanOrEqual(vNumber)
+        expectCloseValues(out1, out2, 1e-10)
+        expect(out1).toBeLessThanOrEqual(maxReserve)
       }
     })
   })
 
-// TODO: add check price with the help of calcOutByIn function
   describe("Price calculation", () => {
     it('Regular values', () => {
       for (let i = 1; i < 100; ++i) {
-        const pool = createPool(v.mul(i), v.mul(100-i))
+        const pool = createPool(v.mul(i), v.mul(100-i).mul(1e12), 0.003, 6, 18)
         checkPoolPriceCalculation(pool)
       }
     })
@@ -242,14 +237,14 @@ describe("StableSwap test", () => {
     it('Extreme low balance', () => {    
       const low_v = BigNumber.from(1e8)
       for (let i = 1; i < 100; ++i) {
-        const pool = createPool(low_v.mul(i), low_v.mul(100-i))
+        const pool = createPool(low_v.mul(i).mul(1e4), low_v.mul(100-i), 0.001, 10, 6)
         checkPoolPriceCalculation(pool)
       }
     })
 
     it('Extreme disproportion', () => {
       for (let i = 1; i < 100; ++i) {
-        const pool = createPool(v.mul(i), v.mul(1e9-i))
+        const pool = createPool(v.mul(i).mul(1e12), v.mul(1e9-i), 0.002, 18, 6)
         checkPoolPriceCalculation(pool)
       }
     })
@@ -257,7 +252,7 @@ describe("StableSwap test", () => {
     it('Total is not 1', () => {
       for (let i = 1; i < 100; ++i) {
         const pool = createPool(
-          v.mul(i), v.mul(100-i), 0.003, 18, 18,
+          v.mul(i), v.mul(100-i).mul(1e12), 0.003, 6, 18,
           {elastic: getBigNumber(1.03*1e18), base: getBigNumber(2e18)},
           {elastic: getBigNumber(1.1*1e18), base: getBigNumber(0.9*1e18)}
         )
@@ -266,7 +261,7 @@ describe("StableSwap test", () => {
 
       for (let i = 1; i < 100; ++i) {
         const pool = createPool(
-          v, v, 0.003, 18, 18,
+          v, v.mul(1e6), 0.003, 12, 18,
           {elastic: getBigNumber(1.05*1e18), base: getBigNumber(i*1e17)},
           {elastic: getBigNumber(1.15*1e18), base: getBigNumber((100-i)*1e17)}
         )
