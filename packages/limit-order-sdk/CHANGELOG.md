@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.100](https://github.com/sushiswap/sdk/compare/@sushiswap/limit-order-sdk@1.0.0-canary.99...@sushiswap/limit-order-sdk@1.0.0-canary.100) (2022-07-13)
+
+**Note:** Version bump only for package @sushiswap/limit-order-sdk
+
+
+
+
+
 # [1.0.0-canary.99](https://github.com/sushiswap/sdk/compare/@sushiswap/limit-order-sdk@1.0.0-canary.98...@sushiswap/limit-order-sdk@1.0.0-canary.99) (2022-07-13)
 
 **Note:** Version bump only for package @sushiswap/limit-order-sdk
