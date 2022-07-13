@@ -1,6 +1,6 @@
 {
   "name": "@sushiswap/tines",
-  "version": "1.0.0-canary.103",
+  "version": "1.0.0-canary.104",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@ethersproject/bignumber": "^5.4.0",
-    "@sushiswap/core-sdk": "1.0.0-canary.119"
+    "@sushiswap/core-sdk": "1.0.0-canary.120"
   },
   "devDependencies": {
     "@types/seedrandom": "^3.0.1",
