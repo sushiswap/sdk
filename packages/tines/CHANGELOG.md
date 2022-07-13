@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.101](https://github.com/sushiswap/sdk/compare/@sushiswap/tines@1.0.0-canary.96...@sushiswap/tines@1.0.0-canary.101) (2022-07-13)
+
+
+### Bug Fixes
+
+* Tines stableSwap updateReserves ([2f876a9](https://github.com/sushiswap/sdk/commit/2f876a9685cdeffc847b18bd47cbf83efebf313e))
+
+
+### Features
+
+* stableswap pool: + decimals ([ee47f92](https://github.com/sushiswap/sdk/commit/ee47f92c09839d47fd6edbd0f8871614bbafb74e))
+* stableswap pool: + tests for decimals ([fd98a84](https://github.com/sushiswap/sdk/commit/fd98a848f8a037e007218baa65a9369c641af418))
+* Tines stableSwap +totals to calculate in amounts, not shares ([eb8f1d6](https://github.com/sushiswap/sdk/commit/eb8f1d6576414daa2eee01f80a82f1ecd7f76cd1))
+* Tines v96 => v97 ([5040c68](https://github.com/sushiswap/sdk/commit/5040c68361da226751a23ad1e5591c78544bb706))
+* tines version 98->99 ([f1ffa32](https://github.com/sushiswap/sdk/commit/f1ffa32c17c83d55177adbde36dcb910ede575ba))
+* tines version 99->100 ([eaffc6d](https://github.com/sushiswap/sdk/commit/eaffc6db5b7b7e54c85affb2b99e24ed8d78da1b))
+
+
+
+
+
 # [1.0.0-canary.96](https://github.com/sushiswap/sdk/compare/@sushiswap/tines@1.0.0-canary.95...@sushiswap/tines@1.0.0-canary.96) (2022-06-16)
 
 **Note:** Version bump only for package @sushiswap/tines

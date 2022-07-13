@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.117](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.116...@sushiswap/core-sdk@1.0.0-canary.117) (2022-07-13)
+
+
+### Features
+
+* init metis ([7c3a127](https://github.com/sushiswap/sdk/commit/7c3a127eeac47d1b503a1dba4c5a65560b2209ef))
+
+
+
+
+
 # [1.0.0-canary.116](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.115...@sushiswap/core-sdk@1.0.0-canary.116) (2022-06-16)
 
 **Note:** Version bump only for package @sushiswap/core-sdk
