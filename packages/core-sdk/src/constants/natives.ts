@@ -15,6 +15,7 @@ import {
   Palm,
   Telos,
   xDai,
+  Metis,
 } from '../entities/Native'
 
 import { ChainId } from '../enums'
@@ -52,4 +53,5 @@ export const NATIVE: NativeMap = {
   [ChainId.MOONBEAM]: Glmr.onChain(ChainId.MOONBEAM),
   [ChainId.OPTIMISM]: Ether.onChain(ChainId.OPTIMISM),
   [ChainId.KAVA]: Kava.onChain(ChainId.KAVA),
+  [ChainId.METIS]: Metis.onChain(ChainId.METIS),
 }
