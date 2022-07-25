@@ -1,0 +1,346 @@
+0 silly argv {
+0 silly argv   _: [ 'publish' ],
+0 silly argv   'dist-tag': 'canary',
+0 silly argv   distTag: 'canary',
+0 silly argv   'git-reset': false,
+0 silly argv   gitReset: false,
+0 silly argv   'verify-access': false,
+0 silly argv   verifyAccess: false,
+0 silly argv   preid: 'canary',
+0 silly argv   yes: true,
+0 silly argv   y: true,
+0 silly argv   composed: 'publish',
+0 silly argv   lernaVersion: '5.2.0',
+0 silly argv   '$0': 'node_modules/lerna/cli.js',
+0 silly argv   bump: 'from-git'
+0 silly argv }
+1 notice cli v5.2.0
+2 verbose rootPath /home/feedme/sushiswap/sdk
+3 info versioning independent
+4 warn verify-access --verify-access=false and --no-verify-access are no longer needed, because the legacy preemptive access verification is now disabled by default. Requests will fail with appropriate errors when not authorized correctly.
+5 verbose session 83dac6f67e0ec7cf
+6 verbose user-agent lerna/5.2.0/node@v16.16.0+x64 (linux)
+7 verbose git-describe undefined => "@sushiswap/bentobox-sdk@1.0.0-canary.107-0-g59bcbcc"
+8 silly git-describe parsed => {"lastTagName":"@sushiswap/bentobox-sdk@1.0.0-canary.107","lastVersion":"1.0.0-canary.107","refCount":"0","sha":"59bcbcc","isDirty":false}
+9 silly getCurrentTags matching "*@*"
+10 info auto-confirmed
+11 info publish Publishing packages to npm...
+12 silly getCurrentSHA
+13 verbose getCurrentSHA 59bcbcc42a643be68560b9c44f68b2b9d960a2f6
+14 silly lifecycle No script for "prepublish" in "sdk", continuing
+15 silly lifecycle No script for "prepare" in "sdk", continuing
+16 silly lifecycle No script for "prepublishOnly" in "sdk", continuing
+17 silly lifecycle No script for "prepack" in "sdk", continuing
+18 verbose pack-directory packages/core-sdk
+19 verbose pack-directory packages/miso-sdk
+20 silly lifecycle No script for "prepublish" in "@sushiswap/core-sdk", continuing
+21 silly lifecycle No script for "prepublish" in "@sushiswap/miso-sdk", continuing
+22 silly lifecycle No script for "prepare" in "@sushiswap/core-sdk", continuing
+23 silly lifecycle No script for "prepare" in "@sushiswap/miso-sdk", continuing
+24 silly lifecycle "prepublishOnly" starting in "@sushiswap/core-sdk"
+25 info lifecycle @sushiswap/core-sdk@1.0.0-canary.126~prepublishOnly: @sushiswap/core-sdk@1.0.0-canary.126
+26 silly lifecycle "prepublishOnly" starting in "@sushiswap/miso-sdk"
+27 info lifecycle @sushiswap/miso-sdk@1.0.0-canary.96~prepublishOnly: @sushiswap/miso-sdk@1.0.0-canary.96
+28 silly lifecycle "prepublishOnly" finished in "@sushiswap/miso-sdk"
+29 silly lifecycle No script for "prepack" in "@sushiswap/miso-sdk", continuing
+30 silly lifecycle No script for "postpack" in "@sushiswap/miso-sdk", continuing
+31 verbose packed packages/miso-sdk
+32 silly lifecycle "prepublishOnly" finished in "@sushiswap/core-sdk"
+33 silly lifecycle No script for "prepack" in "@sushiswap/core-sdk", continuing
+34 silly lifecycle No script for "postpack" in "@sushiswap/core-sdk", continuing
+35 verbose packed packages/core-sdk
+36 verbose pack-directory packages/bentobox-sdk
+37 verbose pack-directory packages/limit-order-sdk
+38 verbose pack-directory packages/tines
+39 silly lifecycle No script for "prepublish" in "@sushiswap/bentobox-sdk", continuing
+40 silly lifecycle No script for "prepublish" in "@sushiswap/limit-order-sdk", continuing
+41 silly lifecycle No script for "prepublish" in "@sushiswap/tines", continuing
+42 silly lifecycle No script for "prepare" in "@sushiswap/bentobox-sdk", continuing
+43 silly lifecycle No script for "prepare" in "@sushiswap/limit-order-sdk", continuing
+44 silly lifecycle No script for "prepare" in "@sushiswap/tines", continuing
+45 silly lifecycle "prepublishOnly" starting in "@sushiswap/bentobox-sdk"
+46 info lifecycle @sushiswap/bentobox-sdk@1.0.0-canary.107~prepublishOnly: @sushiswap/bentobox-sdk@1.0.0-canary.107
+47 silly lifecycle "prepublishOnly" starting in "@sushiswap/limit-order-sdk"
+48 info lifecycle @sushiswap/limit-order-sdk@1.0.0-canary.107~prepublishOnly: @sushiswap/limit-order-sdk@1.0.0-canary.107
+49 silly lifecycle "prepublishOnly" starting in "@sushiswap/tines"
+50 info lifecycle @sushiswap/tines@1.0.0-canary.110~prepublishOnly: @sushiswap/tines@1.0.0-canary.110
+51 silly lifecycle "prepublishOnly" finished in "@sushiswap/bentobox-sdk"
+52 silly lifecycle No script for "prepack" in "@sushiswap/bentobox-sdk", continuing
+53 silly lifecycle No script for "postpack" in "@sushiswap/bentobox-sdk", continuing
+54 verbose packed packages/bentobox-sdk
+55 verbose pack-directory packages/kashi-sdk
+56 silly lifecycle No script for "prepublish" in "@sushiswap/kashi-sdk", continuing
+57 silly lifecycle No script for "prepare" in "@sushiswap/kashi-sdk", continuing
+58 silly lifecycle "prepublishOnly" starting in "@sushiswap/kashi-sdk"
+59 info lifecycle @sushiswap/kashi-sdk@1.0.0-canary.98~prepublishOnly: @sushiswap/kashi-sdk@1.0.0-canary.98
+60 silly lifecycle "prepublishOnly" finished in "@sushiswap/limit-order-sdk"
+61 silly lifecycle No script for "prepack" in "@sushiswap/limit-order-sdk", continuing
+62 silly lifecycle No script for "postpack" in "@sushiswap/limit-order-sdk", continuing
+63 verbose packed packages/limit-order-sdk
+64 silly lifecycle "prepublishOnly" finished in "@sushiswap/tines"
+65 silly lifecycle No script for "prepack" in "@sushiswap/tines", continuing
+66 silly lifecycle No script for "postpack" in "@sushiswap/tines", continuing
+67 verbose packed packages/tines
+68 verbose pack-directory packages/trident-sdk
+69 silly lifecycle No script for "prepublish" in "@sushiswap/trident-sdk", continuing
+70 silly lifecycle No script for "prepare" in "@sushiswap/trident-sdk", continuing
+71 silly lifecycle "prepublishOnly" starting in "@sushiswap/trident-sdk"
+72 info lifecycle @sushiswap/trident-sdk@1.0.0-canary.135~prepublishOnly: @sushiswap/trident-sdk@1.0.0-canary.135
+73 silly lifecycle "prepublishOnly" finished in "@sushiswap/kashi-sdk"
+74 silly lifecycle No script for "prepack" in "@sushiswap/kashi-sdk", continuing
+75 silly lifecycle No script for "postpack" in "@sushiswap/kashi-sdk", continuing
+76 verbose packed packages/kashi-sdk
+77 silly lifecycle "prepublishOnly" finished in "@sushiswap/trident-sdk"
+78 silly lifecycle No script for "prepack" in "@sushiswap/trident-sdk", continuing
+79 silly lifecycle No script for "postpack" in "@sushiswap/trident-sdk", continuing
+80 verbose packed packages/trident-sdk
+81 silly lifecycle No script for "postpack" in "sdk", continuing
+82 verbose publish @sushiswap/core-sdk
+83 verbose publish @sushiswap/miso-sdk
+84 http fetch PUT 200 https://registry.npmjs.org/@sushiswap%2fmiso-sdk 1363ms
+85 silly lifecycle No script for "publish" in "@sushiswap/miso-sdk", continuing
+86 silly lifecycle No script for "postpublish" in "@sushiswap/miso-sdk", continuing
+87 success published @sushiswap/miso-sdk 1.0.0-canary.96
+88 notice
+89 notice 📦  @sushiswap/miso-sdk@1.0.0-canary.96
+90 notice === Tarball Contents ===
+91 notice 1.1kB LICENSE
+91 notice 194B  dist/index.js
+91 notice 693B  package.json
+92 notice === Tarball Details ===
+93 notice name:          @sushiswap/miso-sdk
+93 notice version:       1.0.0-canary.96
+93 notice filename:      sushiswap-miso-sdk-1.0.0-canary.96.tgz
+93 notice package size:  1.3 kB
+93 notice unpacked size: 2.0 kB
+93 notice shasum:        da73c0584647a91ffda31ccd626fd0476aa20a8c
+93 notice integrity:     sha512-sGWEvzJqVzwIs[...]ScXfw8IQ0ea1Q==
+93 notice total files:   3
+94 notice
+95 http fetch PUT 200 https://registry.npmjs.org/@sushiswap%2fcore-sdk 2041ms
+96 silly lifecycle No script for "publish" in "@sushiswap/core-sdk", continuing
+97 silly lifecycle No script for "postpublish" in "@sushiswap/core-sdk", continuing
+98 success published @sushiswap/core-sdk 1.0.0-canary.126
+99 notice
+100 notice 📦  @sushiswap/core-sdk@1.0.0-canary.126
+101 notice === Tarball Contents ===
+102 notice 1.1kB   LICENSE
+102 notice 138.6kB dist/core-sdk.cjs.development.js
+102 notice 77.6kB  dist/core-sdk.cjs.production.min.js
+102 notice 133.0kB dist/core-sdk.esm.js
+102 notice 194B    dist/index.js
+102 notice 1.1kB   package.json
+102 notice 213.3kB dist/core-sdk.cjs.development.js.map
+102 notice 173.0kB dist/core-sdk.cjs.production.min.js.map
+102 notice 214.0kB dist/core-sdk.esm.js.map
+102 notice 1.8kB   dist/entities/AbstractCurrency.d.ts
+102 notice 1.9kB   dist/constants/addresses.d.ts
+102 notice 72B     dist/types/AddressMap.d.ts
+102 notice 377B    dist/entities/Native/Avalanche.d.ts
+102 notice 83B     dist/types/BigIntIsh.d.ts
+102 notice 373B    dist/entities/Native/Binance.d.ts
+102 notice 367B    dist/entities/Native/Celo.d.ts
+102 notice 111B    dist/constants/chain.d.ts
+102 notice 798B    dist/enums/ChainId.d.ts
+102 notice 975B    dist/enums/ChainKey.d.ts
+102 notice 130B    dist/types/ChainTokenList.d.ts
+102 notice 162B    dist/types/ChainTokenMap.d.ts
+102 notice 210B    dist/functions/computePairAddress.d.ts
+102 notice 679B    dist/functions/computePriceImpact.d.ts
+102 notice 281B    dist/functions/contract.d.ts
+102 notice 142B    dist/entities/Currency.d.ts
+102 notice 2.0kB   dist/entities/CurrencyAmount.d.ts
+102 notice 640B    dist/errors.d.ts
+102 notice 479B    dist/entities/Native/Ether.d.ts
+102 notice 371B    dist/entities/Native/Fantom.d.ts
+102 notice 1.1kB   dist/entities/Fraction.d.ts
+102 notice 367B    dist/entities/Native/Fuse.d.ts
+102 notice 367B    dist/entities/Native/Glmr.d.ts
+102 notice 373B    dist/entities/Native/Harmony.d.ts
+102 notice 367B    dist/entities/Native/Heco.d.ts
+102 notice 195B    dist/constants/index.d.ts
+102 notice 349B    dist/entities/index.d.ts
+102 notice 578B    dist/entities/Native/index.d.ts
+102 notice 256B    dist/enums/index.d.ts
+102 notice 399B    dist/functions/index.d.ts
+102 notice 270B    dist/index.d.ts
+102 notice 41B     dist/interfaces/index.d.ts
+102 notice 189B    dist/types/index.d.ts
+102 notice 367B    dist/entities/Native/Kava.d.ts
+102 notice 76B     dist/constants/legacy.d.ts
+102 notice 756B    dist/functions/math.d.ts
+102 notice 369B    dist/entities/Native/Matic.d.ts
+102 notice 369B    dist/entities/Native/Metis.d.ts
+102 notice 367B    dist/entities/Native/Movr.d.ts
+102 notice 276B    dist/entities/NativeCurrency.d.ts
+102 notice 126B    dist/types/NativeMap.d.ts
+102 notice 80B     dist/constants/natives.d.ts
+102 notice 418B    dist/constants/numbers.d.ts
+102 notice 367B    dist/entities/Native/Okex.d.ts
+102 notice 1.9kB   dist/entities/Pair.d.ts
+102 notice 367B    dist/entities/Native/Palm.d.ts
+102 notice 678B    dist/entities/Percent.d.ts
+102 notice 1.7kB   dist/entities/Price.d.ts
+102 notice 228B    dist/functions/rebase.d.ts
+102 notice 95B     dist/interfaces/Rebase.d.ts
+102 notice 98B     dist/enums/Rounding.d.ts
+102 notice 504B    dist/entities/Route.d.ts
+102 notice 2.4kB   dist/router.d.ts
+102 notice 169B    dist/constants/solidity.d.ts
+102 notice 86B     dist/enums/SolidityType.d.ts
+102 notice 125B    dist/functions/sortedInsert.d.ts
+102 notice 369B    dist/entities/Native/Telos.d.ts
+102 notice 1.2kB   dist/entities/Token.d.ts
+102 notice 107B    dist/types/TokenMap.d.ts
+102 notice 252B    dist/constants/tokens.d.ts
+102 notice 6.7kB   dist/entities/Trade.d.ts
+102 notice 80B     dist/enums/TradeType.d.ts
+102 notice 74B     dist/enums/TradeVersion.d.ts
+102 notice 75B     dist/functions/validateAndParseAddress.d.ts
+102 notice 170B    dist/functions/validateSolidityTypeInstance.d.ts
+102 notice 367B    dist/entities/Native/xDai.d.ts
+103 notice === Tarball Details ===
+104 notice name:          @sushiswap/core-sdk
+104 notice version:       1.0.0-canary.126
+104 notice filename:      sushiswap-core-sdk-1.0.0-canary.126.tgz
+104 notice package size:  226.6 kB
+104 notice unpacked size: 989.9 kB
+104 notice shasum:        307c812ec9c68168d23a51c8e8e285a665dd9ed4
+104 notice integrity:     sha512-Uus4KhU3Wi0go[...]ql9K2vtZvPTxg==
+104 notice total files:   75
+105 notice
+106 verbose publish @sushiswap/bentobox-sdk
+107 verbose publish @sushiswap/limit-order-sdk
+108 verbose publish @sushiswap/tines
+109 http fetch PUT 200 https://registry.npmjs.org/@sushiswap%2fbentobox-sdk 1320ms
+110 silly lifecycle No script for "publish" in "@sushiswap/bentobox-sdk", continuing
+111 silly lifecycle No script for "postpublish" in "@sushiswap/bentobox-sdk", continuing
+112 success published @sushiswap/bentobox-sdk 1.0.0-canary.107
+113 notice
+114 notice 📦  @sushiswap/bentobox-sdk@1.0.0-canary.107
+115 notice === Tarball Contents ===
+116 notice 1.1kB LICENSE
+116 notice 1.2kB dist/bentobox-sdk.cjs.development.js
+116 notice 676B  dist/bentobox-sdk.cjs.production.min.js
+116 notice 923B  dist/bentobox-sdk.esm.js
+116 notice 202B  dist/index.js
+116 notice 777B  package.json
+116 notice 2.2kB dist/bentobox-sdk.cjs.development.js.map
+116 notice 1.7kB dist/bentobox-sdk.cjs.production.min.js.map
+116 notice 2.2kB dist/bentobox-sdk.esm.js.map
+116 notice 232B  dist/functions/index.d.ts
+116 notice 30B   dist/index.d.ts
+117 notice === Tarball Details ===
+118 notice name:          @sushiswap/bentobox-sdk
+118 notice version:       1.0.0-canary.107
+118 notice filename:      sushiswap-bentobox-sdk-1.0.0-canary.107.tgz
+118 notice package size:  3.1 kB
+118 notice unpacked size: 11.1 kB
+118 notice shasum:        68fed044b6a079d9906d1e60504a9584fa3d177d
+118 notice integrity:     sha512-k6IfBNZJOIrEo[...]PpN+4zJaqjgRw==
+118 notice total files:   11
+119 notice
+120 verbose publish @sushiswap/kashi-sdk
+121 http fetch PUT 200 https://registry.npmjs.org/@sushiswap%2flimit-order-sdk 1435ms
+122 silly lifecycle No script for "publish" in "@sushiswap/limit-order-sdk", continuing
+123 silly lifecycle No script for "postpublish" in "@sushiswap/limit-order-sdk", continuing
+124 success published @sushiswap/limit-order-sdk 1.0.0-canary.107
+125 notice
+126 notice 📦  @sushiswap/limit-order-sdk@1.0.0-canary.107
+127 notice === Tarball Contents ===
+128 notice 1.1kB  LICENSE
+128 notice 208B   dist/index.js
+128 notice 51.5kB dist/limit-order-sdk.cjs.development.js
+128 notice 27.8kB dist/limit-order-sdk.cjs.production.min.js
+128 notice 50.6kB dist/limit-order-sdk.esm.js
+128 notice 1.1kB  package.json
+128 notice 33.7kB dist/limit-order-sdk.cjs.development.js.map
+128 notice 26.9kB dist/limit-order-sdk.cjs.production.min.js.map
+128 notice 33.6kB dist/limit-order-sdk.esm.js.map
+128 notice 517B   dist/constants.d.ts
+128 notice 2.2kB  dist/eip712.d.ts
+128 notice 143B   dist/enums.d.ts
+128 notice 140B   dist/index.d.ts
+128 notice 3.9kB  dist/limitorder.d.ts
+128 notice 437B   dist/types.d.ts
+129 notice === Tarball Details ===
+130 notice name:          @sushiswap/limit-order-sdk
+130 notice version:       1.0.0-canary.107
+130 notice filename:      sushiswap-limit-order-sdk-1.0.0-canary.107.tgz
+130 notice package size:  46.6 kB
+130 notice unpacked size: 233.9 kB
+130 notice shasum:        3270d46936d84d177dfa0356b37b3c77118ca847
+130 notice integrity:     sha512-Ey27yZCPm7dLq[...]Oq3JS7+jf6Brw==
+130 notice total files:   15
+131 notice
+132 http fetch PUT 200 https://registry.npmjs.org/@sushiswap%2ftines 1633ms
+133 silly lifecycle No script for "publish" in "@sushiswap/tines", continuing
+134 silly lifecycle No script for "postpublish" in "@sushiswap/tines", continuing
+135 success published @sushiswap/tines 1.0.0-canary.110
+136 notice
+137 notice 📦  @sushiswap/tines@1.0.0-canary.110
+138 notice === Tarball Contents ===
+139 notice 1.1kB   LICENSE
+139 notice 188B    dist/index.js
+139 notice 80.6kB  dist/tines.cjs.development.js
+139 notice 34.4kB  dist/tines.cjs.production.min.js
+139 notice 79.2kB  dist/tines.esm.js
+139 notice 996B    package.json
+139 notice 158.8kB dist/tines.cjs.development.js.map
+139 notice 123.0kB dist/tines.cjs.production.min.js.map
+139 notice 158.8kB dist/tines.esm.js.map
+139 notice 949B    dist/CLPool.d.ts
+139 notice 156B    dist/functions/computeHybridLiquidity.d.ts
+139 notice 4.0kB   dist/Graph.d.ts
+139 notice 41B     dist/constants/hybrid.d.ts
+139 notice 27B     dist/constants/index.d.ts
+139 notice 68B     dist/functions/index.d.ts
+139 notice 274B    dist/index.d.ts
+139 notice 977B    dist/MultiRouter.d.ts
+139 notice 728B    dist/deprecated/MultiRouterMath.d.ts
+139 notice 2.1kB   dist/deprecated/MultiRouterTypes.d.ts
+139 notice 1.2kB   dist/ParallelCPRPool.d.ts
+139 notice 2.8kB   dist/PrimaryPools.d.ts
+139 notice 1.2kB   dist/Redistributor.d.ts
+139 notice 1.4kB   dist/StableSwapPool.d.ts
+139 notice 586B    dist/Utils.d.ts
+140 notice === Tarball Details ===
+141 notice name:          @sushiswap/tines
+141 notice version:       1.0.0-canary.110
+141 notice filename:      sushiswap-tines-1.0.0-canary.110.tgz
+141 notice package size:  151.0 kB
+141 notice unpacked size: 653.6 kB
+141 notice shasum:        78be41d6511814bb4ada6b2ce7d17149db4bc30d
+141 notice integrity:     sha512-iaQjLXqM8aXAu[...]YEr+TcN2M6E4g==
+141 notice total files:   24
+142 notice
+143 verbose publish @sushiswap/trident-sdk
+144 silly FetchError: request to https://registry.npmjs.org/@sushiswap%2fkashi-sdk failed, reason: read ETIMEDOUT
+144 silly     at ClientRequest.<anonymous> (/home/feedme/sushiswap/sdk/node_modules/minipass-fetch/lib/index.js:110:14)
+144 silly     at ClientRequest.emit (node:events:527:28)
+144 silly     at TLSSocket.socketErrorListener (node:_http_client:454:9)
+144 silly     at TLSSocket.emit (node:events:539:35)
+144 silly     at emitErrorNT (node:internal/streams/destroy:157:8)
+144 silly     at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+144 silly     at processTicksAndRejections (node:internal/process/task_queues:83:21)
+144 silly  FetchError: request to https://registry.npmjs.org/@sushiswap%2fkashi-sdk failed, reason: read ETIMEDOUT
+144 silly     at ClientRequest.<anonymous> (/home/feedme/sushiswap/sdk/node_modules/minipass-fetch/lib/index.js:110:14)
+144 silly     at ClientRequest.emit (node:events:527:28)
+144 silly     at TLSSocket.socketErrorListener (node:_http_client:454:9)
+144 silly     at TLSSocket.emit (node:events:539:35)
+144 silly     at emitErrorNT (node:internal/streams/destroy:157:8)
+144 silly     at emitErrorCloseNT (node:internal/streams/destroy:122:3)
+144 silly     at processTicksAndRejections (node:internal/process/task_queues:83:21) {
+144 silly   code: 'ETIMEDOUT',
+144 silly   errno: 'ETIMEDOUT',
+144 silly   syscall: 'read',
+144 silly   type: 'system'
+144 silly }
+145 error ETIMEDOUT request to https://registry.npmjs.org/@sushiswap%2fkashi-sdk failed, reason: read ETIMEDOUT
+146 error FetchError: request to https://registry.npmjs.org/@sushiswap%2fkashi-sdk failed, reason: read ETIMEDOUT
+146 error     at ClientRequest.<anonymous> (/home/feedme/sushiswap/sdk/node_modules/minipass-fetch/lib/index.js:110:14)
+146 error     at ClientRequest.emit (node:events:527:28)
+146 error     at TLSSocket.socketErrorListener (node:_http_client:454:9)
+146 error     at TLSSocket.emit (node:events:539:35)
+146 error     at emitErrorNT (node:internal/streams/destroy:157:8)
+146 error     at emitErrorCloseNT (node:internal/streams/destroy:122:3)
