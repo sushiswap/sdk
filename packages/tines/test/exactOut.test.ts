@@ -1,13 +1,13 @@
 import {
-  closeValues, 
-  ConstantProductRPool, 
-  findMultiRouteExactIn, 
-  findMultiRouteExactOut, 
-  getBigNumber, 
-  RouteStatus, 
-  RPool, 
-  RToken 
-} from "../src"
+  closeValues,
+  ConstantProductRPool,
+  findMultiRouteExactIn,
+  findMultiRouteExactOut,
+  getBigNumber,
+  RouteStatus,
+  RPool,
+  RToken,
+} from '../src'
 
 const gasPrice = 1 * 200 * 1e-9
 
@@ -35,6 +35,7 @@ const price = [1, 1, 1, 1, 1]
 const tokens = price.map((_, i) => ({
   name: '' + (i + 1),
   address: 'token_addres ' + (i + 1),
+  symbol: '' + (i + 1),
 }))
 
 //const testPool0_1 = getPool(tokens, 0, 1, price, 1_500_0)
@@ -46,7 +47,7 @@ const tokens = price.map((_, i) => ({
 // const testPools = [testPool0_1, testPool0_2, testPool1_3, testPool2_3, testPool1_2]
 
 function checkExactOut(
-  tokensFrom: RToken, 
+  tokensFrom: RToken,
   tokensTo: RToken,
   amountIn: number,
   poolList: RPool[],
@@ -71,7 +72,6 @@ function checkExactOut(
 }
 
 describe('ExactOut', () => {
-
   it('1 CP pool direction=true', () => {
     const pool = getPool(tokens, 0, 1, price, 1_500_0)
     checkExactOut(tokens[0], tokens[1], 10000, [pool], tokens[1], gasPrice)
