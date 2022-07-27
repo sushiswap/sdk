@@ -1,7 +1,7 @@
 {
   "name": "@sushiswap/tines",
   "version": "1.0.0-canary.112",
-  "license": "MIT",
+  "license": "UNLICENSED",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
