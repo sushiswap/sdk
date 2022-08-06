@@ -27,19 +27,7 @@ jobs:
         with:
           node-version: "16"
 
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn config get cacheFolder)"
-
-      - name: ⚡ Cache yarn dependencies
-        uses: actions/cache@v3
-        id: yarn-cache
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: yarn-cache-folder-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            yarn-cache-folder-
-      - run: yarn install --prefer-offline
+      - run: yarn install
         id: install
 
       - run: npm i -g lerna
