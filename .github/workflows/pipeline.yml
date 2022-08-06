@@ -46,7 +46,7 @@ jobs:
         id: lerna
 
       - run: lerna bootstrap
-        id: lerna
+        id: bootstrap
 
       - run: lerna exec npm pack
         id: pack
