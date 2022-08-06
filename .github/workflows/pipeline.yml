@@ -36,10 +36,10 @@ jobs:
       - run: lerna bootstrap
         id: bootstrap
 
-      - run: lerna exec npm i
+      - run: lerna exec yarn install
         id: setup
         
-      - run: lerna exec npm run build
+      - run: yarn nx run-many --target=build
         id: build
         
       - run: lerna exec npm pack
