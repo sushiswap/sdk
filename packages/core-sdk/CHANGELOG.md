@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.131](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.130...@sushiswap/core-sdk@1.0.0-canary.131) (2022-08-09)
+
+
+### Bug Fixes
+
+* arbitrum nova is using ether ([daba424](https://github.com/sushiswap/sdk/commit/daba424df736e77bbef63c52a36fb1338591fc2f))
+
+
+
+
+
 # [1.0.0-canary.130](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.129...@sushiswap/core-sdk@1.0.0-canary.130) (2022-08-09)
 
 
