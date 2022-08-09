@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.130](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.129...@sushiswap/core-sdk@1.0.0-canary.130) (2022-08-09)
+
+
+### Features
+
+* factory & router address for arbitrum nova ([9764c0a](https://github.com/sushiswap/sdk/commit/9764c0aa64dc0ca3c35c46063ff628f197890e99))
+
+
+
+
+
 # [1.0.0-canary.129](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.128...@sushiswap/core-sdk@1.0.0-canary.129) (2022-08-09)
 
 
