@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.129](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.128...@sushiswap/core-sdk@1.0.0-canary.129) (2022-08-09)
+
+
+### Features
+
+* init arbitrum nova ([0d70ca7](https://github.com/sushiswap/sdk/commit/0d70ca7c57156bd83a3a1290c9cd5982ea465a61))
+
+
+
+
+
 # [1.0.0-canary.128](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.127...@sushiswap/core-sdk@1.0.0-canary.128) (2022-07-26)
 
 **Note:** Version bump only for package @sushiswap/core-sdk
