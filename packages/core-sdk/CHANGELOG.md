@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.132](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.131...@sushiswap/core-sdk@1.0.0-canary.132) (2022-08-09)
+
+
+### Bug Fixes
+
+* update arbitrum nova usdt ([f65022f](https://github.com/sushiswap/sdk/commit/f65022f358ec32f03840a6253eb79864d084a6e7))
+
+
+
+
+
 # [1.0.0-canary.131](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.130...@sushiswap/core-sdk@1.0.0-canary.131) (2022-08-09)
 
 
