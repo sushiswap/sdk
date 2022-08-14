@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.104](https://github.com/sushiswap/sdk/compare/@sushiswap/kashi-sdk@1.0.0-canary.103...@sushiswap/kashi-sdk@1.0.0-canary.104) (2022-08-09)
+
+**Note:** Version bump only for package @sushiswap/kashi-sdk
+
+
+
+
+
+# [1.0.0-canary.103](https://github.com/sushiswap/sdk/compare/@sushiswap/kashi-sdk@1.0.0-canary.102...@sushiswap/kashi-sdk@1.0.0-canary.103) (2022-08-09)
+
+**Note:** Version bump only for package @sushiswap/kashi-sdk
+
+
+
+
+
+# [1.0.0-canary.102](https://github.com/sushiswap/sdk/compare/@sushiswap/kashi-sdk@1.0.0-canary.101...@sushiswap/kashi-sdk@1.0.0-canary.102) (2022-08-09)
+
+**Note:** Version bump only for package @sushiswap/kashi-sdk
+
+
+
+
+
+# [1.0.0-canary.101](https://github.com/sushiswap/sdk/compare/@sushiswap/kashi-sdk@1.0.0-canary.100...@sushiswap/kashi-sdk@1.0.0-canary.101) (2022-08-09)
+
+**Note:** Version bump only for package @sushiswap/kashi-sdk
+
+
+
+
+
 # [1.0.0-canary.100](https://github.com/sushiswap/sdk/compare/@sushiswap/kashi-sdk@1.0.0-canary.99...@sushiswap/kashi-sdk@1.0.0-canary.100) (2022-07-26)
 
 **Note:** Version bump only for package @sushiswap/kashi-sdk

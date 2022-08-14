@@ -3,6 +3,50 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.132](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.131...@sushiswap/core-sdk@1.0.0-canary.132) (2022-08-09)
+
+
+### Bug Fixes
+
+* update arbitrum nova usdt ([f65022f](https://github.com/sushiswap/sdk/commit/f65022f358ec32f03840a6253eb79864d084a6e7))
+
+
+
+
+
+# [1.0.0-canary.131](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.130...@sushiswap/core-sdk@1.0.0-canary.131) (2022-08-09)
+
+
+### Bug Fixes
+
+* arbitrum nova is using ether ([daba424](https://github.com/sushiswap/sdk/commit/daba424df736e77bbef63c52a36fb1338591fc2f))
+
+
+
+
+
+# [1.0.0-canary.130](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.129...@sushiswap/core-sdk@1.0.0-canary.130) (2022-08-09)
+
+
+### Features
+
+* factory & router address for arbitrum nova ([9764c0a](https://github.com/sushiswap/sdk/commit/9764c0aa64dc0ca3c35c46063ff628f197890e99))
+
+
+
+
+
+# [1.0.0-canary.129](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.128...@sushiswap/core-sdk@1.0.0-canary.129) (2022-08-09)
+
+
+### Features
+
+* init arbitrum nova ([0d70ca7](https://github.com/sushiswap/sdk/commit/0d70ca7c57156bd83a3a1290c9cd5982ea465a61))
+
+
+
+
+
 # [1.0.0-canary.128](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.127...@sushiswap/core-sdk@1.0.0-canary.128) (2022-07-26)
 
 **Note:** Version bump only for package @sushiswap/core-sdk
