@@ -494,3 +494,24 @@ export const MULTISIG_ADDRESS: AddressMap = {
   // [ChainId.TELOS]: '',
   [ChainId.FUSE]: '0x33b6beb37837459Ee84a1Ffed2C6a4ca22e5F316',
 }
+
+/**
+* @export SUSHIGUARD_ROUTERV01_ADDRESS
+* @since 2022.08.15
+*/
+export const SUSHIGUARD_ROUTERV01_ADDRESS: AddressMap = {
+    [ChainId.ETHEREUM]: '0x58a9DF4121097760C3B6102e7BeECe1648eC828B',
+ /*   [ChainId.GÖRLI]: '<%_ROUTER_ADDRESS_000>',
+    [ChainId.ARBITRUM]: '<%_ROUTER_ADDRESS_000>',
+    [ChainId.OPTIMISM]: '<%_ROUTER_ADDRESS_000>',
+    [ChainId.AVALANCHE]: '<%_ROUTER_ADDRESS_000>',
+    [ChainId.MATIC]: '<%_ROUTER_ADDRESS_000>',
+    [ChainId.XDAI]: '<%_ROUTER_ADDRESS_000>',
+    [ChainId.BSC]: '<%_ROUTER_ADDRESS_000>',
+    [ChainId.HECO]: '<%_ROUTER_ADDRESS_000>',
+    [ChainId.CELO]: '<%_ROUTER_ADDRESS_000>',
+    [ChainId.MOONBEAM]: '<%_ROUTER_ADDRESS_000>',
+    [ChainId.MOONRIVER]: '<%_ROUTER_ADDRESS_000>',
+    [ChainId.FANTOM]: '<%_ROUTER_ADDRESS_000>', */
+    [ChainId.ANVIL]: '0x58a9DF4121097760C3B6102e7BeECe1648eC828B',
+};
