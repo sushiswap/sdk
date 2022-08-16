@@ -56,7 +56,3 @@ jobs:
             LICENSE
             packages/**/*.tgz
         id: 'automatic_releases'
-
-      - uses: andresz1/size-limit-action@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
