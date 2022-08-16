@@ -4,19 +4,16 @@
   "workspaces": [
     "packages/*"
   ],
-  "scripts": {
-    "test": "yarn workspaces foreach run test",
-    "build": "yarn workspaces foreach run build",
-    "watch": "yarn workspaces foreach run watch"
-  },
+  "scripts": {},
   "devDependencies": {
     "@sushiswap/prettier-config": "^0.1.0",
     "@types/node": "^16.9.1",
     "lerna": "^5.2.0",
-    "prettier": "^2.4.0"
+    "prettier": "^2.4.0",
+    "nx": "14.5.4"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
-  "packageManager": "yarn@3.2.0"
+  "packageManager": "yarn@^1"
 }

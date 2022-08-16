@@ -24,15 +24,15 @@
     "prepublishOnly": "npx tsdx build"
   },
   "dependencies": {
-    "@ethersproject/address": "^5.4.0",
-    "@ethersproject/bignumber": "^5.4.0",
-    "@ethersproject/providers": "^5.4.0",
-    "@ethersproject/solidity": "^5.4.0",
-    "big.js": "^6.1.1",
-    "decimal.js-light": "^2.5.0",
-    "jsbi": "^4.1.0",
-    "tiny-invariant": "^1.1.0",
-    "tiny-warning": "^1.0.0",
+    "@ethersproject/address": "^5.6.1",
+    "@ethersproject/bignumber": "^5.6.2",
+    "@ethersproject/providers": "^5.6.8",
+    "@ethersproject/solidity": "^5.6.1",
+    "big.js": "^6.2.1",
+    "decimal.js-light": "^2.5.1",
+    "jsbi": "^4.3.0",
+    "tiny-invariant": "^1.2.0",
+    "tiny-warning": "^1.0.3",
     "toformat": "^2.0.0"
   },
   "devDependencies": {

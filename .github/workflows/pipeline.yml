@@ -1,0 +1,58 @@
+name: pipeline
+
+on:
+  pull_request:
+    branches:
+      - 'release-*'
+      - 'master'
+      - 'canary'
+    tags-ignore:
+      - '*'
+  workflow_dispatch: {}
+
+concurrency:
+  group: ci-tests-${{ github.ref }}-1
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - run: yarn install
+        id: install
+
+      - run: npm i -g lerna
+        id: lerna
+
+      - run: lerna bootstrap
+        id: bootstrap
+
+      - run: lerna exec yarn install
+        id: setup
+        
+      - run: yarn nx run-many --target=build
+        id: build
+        
+      - run: lerna exec npm pack
+        id: pack
+
+      - run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
+      - uses: 'marvinpinto/action-automatic-releases@latest'
+        with:
+          repo_token: '${{ secrets.GITHUB_TOKEN }}'
+          automatic_release_tag: 'latest'
+          prerelease: true
+          files: |
+            LICENSE
+            packages/**/*.tgz
+        id: 'automatic_releases'
