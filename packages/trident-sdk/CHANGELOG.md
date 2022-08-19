@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.142](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.141...@sushiswap/trident-sdk@1.0.0-canary.142) (2022-08-19)
+
+
+### Bug Fixes
+
+* remove bad sort ([cf0a385](https://github.com/sushiswap/sdk/commit/cf0a385cf2fa0424dee91352f9471fc18941c1ba))
+
+
+
+
+
 # [1.0.0-canary.141](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.140...@sushiswap/trident-sdk@1.0.0-canary.141) (2022-08-09)
 
 **Note:** Version bump only for package @sushiswap/trident-sdk
