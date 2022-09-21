@@ -55,4 +55,5 @@ export const NATIVE: NativeMap = {
   [ChainId.KAVA]: Kava.onChain(ChainId.KAVA),
   [ChainId.METIS]: Metis.onChain(ChainId.METIS),
   [ChainId.ARBITRUM_NOVA]: Ether.onChain(ChainId.ARBITRUM_NOVA),
+  [ChainId.BOBA_AVAX]: Ether.onChain(ChainId.BOBA_AVAX),
 }
