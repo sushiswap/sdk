@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.138](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.137...@sushiswap/core-sdk@1.0.0-canary.138) (2022-09-21)
+
+
+### Bug Fixes
+
+* boba avax native ([39caef0](https://github.com/sushiswap/sdk/commit/39caef0fb7916caec4056bc73c6bf27915692007))
+
+
+
+
+
 # [1.0.0-canary.137](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.136...@sushiswap/core-sdk@1.0.0-canary.137) (2022-09-21)
 
 **Note:** Version bump only for package @sushiswap/core-sdk
