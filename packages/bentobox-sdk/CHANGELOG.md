@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.115](https://github.com/sushiswap/sdk/compare/@sushiswap/bentobox-sdk@1.0.0-canary.114...@sushiswap/bentobox-sdk@1.0.0-canary.115) (2022-09-21)
+
+**Note:** Version bump only for package @sushiswap/bentobox-sdk
+
+
+
+
+
 # [1.0.0-canary.114](https://github.com/sushiswap/sdk/compare/@sushiswap/bentobox-sdk@1.0.0-canary.113...@sushiswap/bentobox-sdk@1.0.0-canary.114) (2022-08-19)
 
 **Note:** Version bump only for package @sushiswap/bentobox-sdk
