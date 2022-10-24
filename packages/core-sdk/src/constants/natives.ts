@@ -1,5 +1,6 @@
 import {
   Avalanche,
+  Aurora,
   Binance,
   Celo,
   Ether,
@@ -55,4 +56,5 @@ export const NATIVE: NativeMap = {
   [ChainId.KAVA]: Kava.onChain(ChainId.KAVA),
   [ChainId.METIS]: Metis.onChain(ChainId.METIS),
   [ChainId.ARBITRUM_NOVA]: Ether.onChain(ChainId.ARBITRUM_NOVA),
+  [ChainId.AURORA]: Aurora.onChain(ChainId.AURORA),
 }

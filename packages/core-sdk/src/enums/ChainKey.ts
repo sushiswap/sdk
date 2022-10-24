@@ -33,4 +33,5 @@ export enum ChainKey {
   KAVA = 'kava',
   METIS = 'metis',
   ARBITRUM_NOVA = 'arbitrum-nova',
+  AURORA = 'aurora',
 }
