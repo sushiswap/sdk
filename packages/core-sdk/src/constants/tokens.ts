@@ -169,6 +169,7 @@ export const WNATIVE: TokenMap = {
   [ChainId.METIS]: new Token(ChainId.METIS, WNATIVE_ADDRESS[ChainId.METIS], 18, 'WMETIS', 'Wrapped Metis'),
   [ChainId.ARBITRUM_NOVA]: WETH9[ChainId.ARBITRUM_NOVA],
   [ChainId.AURORA]: WETH9[ChainId.AURORA],
+  [ChainId.BOBA_AVAX]: new Token(ChainId.BOBA_AVAX, WNATIVE_ADDRESS[ChainId.BOBA_AVAX], 18, 'WBOBA', 'Wrapped Boba'),
 }
 
 export const SUSHI: ChainTokenMap = {

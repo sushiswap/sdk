@@ -3,6 +3,60 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.138](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.137...@sushiswap/core-sdk@1.0.0-canary.138) (2022-09-21)
+
+
+### Bug Fixes
+
+* boba avax native ([39caef0](https://github.com/sushiswap/sdk/commit/39caef0fb7916caec4056bc73c6bf27915692007))
+
+
+
+
+
+# [1.0.0-canary.137](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.136...@sushiswap/core-sdk@1.0.0-canary.137) (2022-09-21)
+
+**Note:** Version bump only for package @sushiswap/core-sdk
+
+
+
+
+
+# [1.0.0-canary.136](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.135...@sushiswap/core-sdk@1.0.0-canary.136) (2022-09-21)
+
+**Note:** Version bump only for package @sushiswap/core-sdk
+
+
+
+
+
+# [1.0.0-canary.135](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.134...@sushiswap/core-sdk@1.0.0-canary.135) (2022-09-21)
+
+**Note:** Version bump only for package @sushiswap/core-sdk
+
+
+
+
+
+# [1.0.0-canary.134](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.133...@sushiswap/core-sdk@1.0.0-canary.134) (2022-09-21)
+
+
+### Features
+
+* init boba avax ([da77c03](https://github.com/sushiswap/sdk/commit/da77c038e7ad78d21d19803d4b73e6ab40f938f2))
+
+
+
+
+
+# [1.0.0-canary.133](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.132...@sushiswap/core-sdk@1.0.0-canary.133) (2022-08-19)
+
+**Note:** Version bump only for package @sushiswap/core-sdk
+
+
+
+
+
 # [1.0.0-canary.132](https://github.com/sushiswap/sdk/compare/@sushiswap/core-sdk@1.0.0-canary.131...@sushiswap/core-sdk@1.0.0-canary.132) (2022-08-09)
 
 

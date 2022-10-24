@@ -3,6 +3,57 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-canary.147](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.146...@sushiswap/trident-sdk@1.0.0-canary.147) (2022-09-21)
+
+**Note:** Version bump only for package @sushiswap/trident-sdk
+
+
+
+
+
+# [1.0.0-canary.146](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.145...@sushiswap/trident-sdk@1.0.0-canary.146) (2022-09-21)
+
+**Note:** Version bump only for package @sushiswap/trident-sdk
+
+
+
+
+
+# [1.0.0-canary.145](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.144...@sushiswap/trident-sdk@1.0.0-canary.145) (2022-09-21)
+
+**Note:** Version bump only for package @sushiswap/trident-sdk
+
+
+
+
+
+# [1.0.0-canary.144](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.143...@sushiswap/trident-sdk@1.0.0-canary.144) (2022-09-21)
+
+**Note:** Version bump only for package @sushiswap/trident-sdk
+
+
+
+
+
+# [1.0.0-canary.143](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.142...@sushiswap/trident-sdk@1.0.0-canary.143) (2022-09-21)
+
+**Note:** Version bump only for package @sushiswap/trident-sdk
+
+
+
+
+
+# [1.0.0-canary.142](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.141...@sushiswap/trident-sdk@1.0.0-canary.142) (2022-08-19)
+
+
+### Bug Fixes
+
+* remove bad sort ([cf0a385](https://github.com/sushiswap/sdk/commit/cf0a385cf2fa0424dee91352f9471fc18941c1ba))
+
+
+
+
+
 # [1.0.0-canary.141](https://github.com/sushiswap/sdk/compare/@sushiswap/trident-sdk@1.0.0-canary.140...@sushiswap/trident-sdk@1.0.0-canary.141) (2022-08-09)
 
 **Note:** Version bump only for package @sushiswap/trident-sdk
