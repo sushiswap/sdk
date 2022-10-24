@@ -1,7 +1,7 @@
 dist
 node_modules
 package-lock.json
-
+.idea
 .yarn/*
 !.yarn/patches
 !.yarn/releases

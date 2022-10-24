@@ -26,6 +26,7 @@ export const USDC: TokenMap = {
   [ChainId.KAVA]: new Token(ChainId.KAVA, USDC_ADDRESS[ChainId.KAVA], 6, 'USDC', 'USD Coin'),
   [ChainId.METIS]: new Token(ChainId.METIS, USDC_ADDRESS[ChainId.METIS], 6, 'USDC', 'USD Coin'),
   [ChainId.ARBITRUM_NOVA]: new Token(ChainId.ARBITRUM_NOVA, USDC_ADDRESS[ChainId.ARBITRUM_NOVA], 6, 'USDC', 'USD Coin'),
+  [ChainId.AURORA]: new Token(ChainId.AURORA, USDC_ADDRESS[ChainId.AURORA], 6, 'USDC', 'USD Coin'),
 }
 
 export const USD: TokenMap = {
@@ -76,6 +77,7 @@ export const WETH9: TokenMap = {
     'WETH',
     'Wrapped Ether'
   ),
+  [ChainId.AURORA]: new Token(ChainId.AURORA, WETH9_ADDRESS[ChainId.AURORA], 18, 'WETH', 'Wrapped Ether'),
 }
 
 export const WNATIVE: TokenMap = {
@@ -166,6 +168,7 @@ export const WNATIVE: TokenMap = {
   [ChainId.KAVA]: new Token(ChainId.KAVA, WNATIVE_ADDRESS[ChainId.KAVA], 18, 'WKAVA', 'Wrapped Kava'),
   [ChainId.METIS]: new Token(ChainId.METIS, WNATIVE_ADDRESS[ChainId.METIS], 18, 'WMETIS', 'Wrapped Metis'),
   [ChainId.ARBITRUM_NOVA]: WETH9[ChainId.ARBITRUM_NOVA],
+  [ChainId.AURORA]: WETH9[ChainId.AURORA],
   [ChainId.BOBA_AVAX]: new Token(ChainId.BOBA_AVAX, WNATIVE_ADDRESS[ChainId.BOBA_AVAX], 18, 'WBOBA', 'Wrapped Boba'),
 }
 
@@ -191,4 +194,5 @@ export const SUSHI: ChainTokenMap = {
   [ChainId.MOONBEAM]: new Token(ChainId.MOONBEAM, SUSHI_ADDRESS[ChainId.MOONBEAM], 18, 'SUSHI', 'SushiToken'),
   [ChainId.KAVA]: new Token(ChainId.KAVA, SUSHI_ADDRESS[ChainId.KAVA], 18, 'SUSHI', 'SushiToken'),
   [ChainId.METIS]: new Token(ChainId.METIS, SUSHI_ADDRESS[ChainId.METIS], 18, 'SUSHI', 'SushiToken'),
+  [ChainId.AURORA]: new Token(ChainId.AURORA, '0xFa94348467f64D5A457F75F8bc40495D33c65aBB', 18, 'SUSHI', 'SushiToken'),
 }
